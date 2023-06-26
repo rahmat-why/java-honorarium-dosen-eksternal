@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportSlipGaji" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="920abf0d-f6a1-4938-9ee8-3f540c7f7cde">
+	<parameter name="PERIODE" class="java.lang.String"/>
+	<parameter name="NAMA" class="java.lang.String"/>
+	<parameter name="MATA KULIAH" class="java.lang.String"/>
+	<parameter name="PRODI" class="java.lang.String"/>
+	<parameter name="JUMLAHSKS" class="java.lang.String"/>
+	<parameter name="kompensasi_mengajar" class="java.lang.String"/>
+	<parameter name="transport_mengajar" class="java.lang.String"/>
+	<parameter name="insentif_kehadiran" class="java.lang.String"/>
+	<parameter name="tunjangan_tax" class="java.lang.String"/>
+	<parameter name="pph21" class="java.lang.String"/>
+	<parameter name="dibayarkan" class="java.lang.String"/>
+	<parameter name="total_pendapatan" class="java.lang.String"/>
+	<parameter name="INSENTIFKEHADIRANPERSKS" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="73" splitType="Stretch">
+			<staticText>
+				<reportElement x="210" y="0" width="150" height="20" uuid="7ea9b79b-08b2-4dd6-8e87-97aa0f3ff56f"/>
+				<textElement textAlignment="Center">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POLITEKNIK ASTRA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="30" width="220" height="20" uuid="64bcc058-3398-4bcc-a2dd-da07eae60d78"/>
+				<textElement textAlignment="Center">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PERIODE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="119" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="6" width="80" height="24" uuid="9be3bba5-4e01-4a44-a2aa-e4684cd5f887"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="150" y="6" width="100" height="24" uuid="b727dc6f-8cd3-4f7c-b54f-97001f1bfcff"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NAMA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="30" width="80" height="24" uuid="0e3b5b05-a82d-4f2d-8a45-a413b354b821"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mata Kuliah]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="150" y="30" width="220" height="25" uuid="74081d3f-64cc-488f-a23d-5ec6738c7cd0"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MATA KULIAH}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="54" width="130" height="24" uuid="0c843fe7-5042-4adc-82dc-97ebdcc7a9da"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Program Studi]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="150" y="56" width="226" height="22" uuid="8f2c0a3b-27d9-4cd1-9e49-dc03ea1d1985"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PRODI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-1" y="75" width="130" height="24" uuid="7b04d968-cfc1-4184-a97a-190878da870d"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jumlah SKS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="149" y="78" width="149" height="21" uuid="b9bad31b-e5c3-432b-9476-32a016874c22"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{JUMLAHSKS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="78" width="194" height="19" uuid="1f305a96-19eb-45f8-8beb-5566b1115313"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{INSENTIFKEHADIRANPERSKS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="228" y="78" width="100" height="18" uuid="406eb7b8-de89-4b4d-aee4-25b40596789b"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[/sks]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="373" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="0" width="130" height="20" uuid="4c9815be-9b40-4465-87d3-f3ea6e961722"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KETERANGAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="123" y="-2" width="147" height="20" uuid="3e12adbe-fadf-4366-abc1-856cd794deee"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PENDAPATAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="-2" width="112" height="20" uuid="36642512-924e-46f6-af60-7334714f196c"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POTONGAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="40" width="129" height="20" uuid="e8ead3f6-4725-4f11-8c44-fdee0eacb003"/>
+				<textElement textAlignment="Left">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PENDAPATAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="60" width="130" height="20" uuid="f3af38ee-9766-4d12-bb91-4967f13f4486"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Kompensasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="80" width="130" height="20" uuid="a6de38e7-c3e4-42e8-839b-1f5db171630b"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Transport]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="100" width="130" height="20" uuid="6866b157-8ac9-42ce-bb8c-1ce66a9448d6"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Insentif]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="120" width="130" height="20" uuid="dc0fd2a4-15cc-40db-8664-5e93212c6b60"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Membuat Soal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="140" width="130" height="20" uuid="78769868-10d7-4665-a5db-9e7757029e52"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Mengoreksi Jawaban]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="160" width="130" height="20" uuid="a386744d-b2c1-41aa-98c0-701d80cd9648"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Tunjuangan TAX]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="200" width="131" height="20" uuid="f3064529-c04a-4ddb-91fb-d355430a0cfc"/>
+				<textElement textAlignment="Left">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POTONGAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="220" width="130" height="20" uuid="46ea3941-88fa-4078-b03b-a260fde0dcc8"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[PPh ps 21]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="133" y="60" width="134" height="22" uuid="14310e7b-015a-45ef-84b8-5b50f96d9611"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{kompensasi_mengajar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="133" y="78" width="134" height="25" uuid="b71addc2-6754-421b-b6d7-ac97294fc1b1"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{transport_mengajar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="133" y="102" width="134" height="20" uuid="37d9ee08-899e-40b9-8d6d-9a290b0d25c3"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{insentif_kehadiran}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="161" width="180" height="20" uuid="79e30d46-385f-49eb-b5a8-cdf8bd15727b"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tunjangan_tax}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="282" y="218" width="111" height="20" uuid="1d0fb5d8-a7cf-42fd-83b0-6d295f6eb932"/>
+				<textElement textAlignment="Center">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pph21}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="164" y="340" width="100" height="20" uuid="a64e80d9-93f3-41e3-9edd-8cb92678d4b9"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIBAYARKAN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="287" y="340" width="100" height="20" uuid="d9bb8498-ebd9-451e-8fdb-fcd8195279b8"/>
+				<textElement textAlignment="Center">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dibayarkan}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="275" y="-7" width="1" height="380" uuid="6b585475-2b16-464b-a840-f67e44f90e4b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="395" y="-7" width="1" height="380" uuid="e7ece1e5-d37a-45c1-90b0-7c970464ee43">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="-7" width="1" height="380" uuid="a7f83185-4525-414c-823d-eb9c320c038a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="1" y="267" width="395" height="1" uuid="911d7597-5137-4a46-8a00-9fd013994c67">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="1" y="22" width="395" height="1" uuid="9c576e03-fbf0-4a96-b444-a2e1102e3901">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="1" y="-8" width="395" height="1" uuid="7e0dd299-c0b4-4318-8232-80b2fb95030d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="139" y="320" width="257" height="1" uuid="41af7408-d32e-437a-bcb9-ff72c345ea22"/>
+			</line>
+			<textField>
+				<reportElement x="282" y="286" width="111" height="20" uuid="415b67ad-00f8-4eb4-ac9e-e85cdcc66e30"/>
+				<textElement textAlignment="Center">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pph21}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="285" width="109" height="20" uuid="05b47b8b-53ec-4ecb-902b-ce35d6fa80c4"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total_pendapatan}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="372" width="395" height="1" uuid="e6f9542d-2821-441f-9a0b-997f932c08d0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="94" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="74" width="150" height="20" uuid="90c3ddcc-d2f8-4a86-bb51-64f1365e8645"/>
+				<textElement textAlignment="Left">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Arsip Polman Astra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="10" width="100" height="20" uuid="eec8b87e-4092-4b39-b04b-ed34a75d2ee7"/>
+				<textElement textAlignment="Left">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(Tanda Tangan)]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
