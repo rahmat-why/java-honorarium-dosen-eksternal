@@ -48,7 +48,7 @@ public class JenisDosen extends JFrame{
         btnDelete.setEnabled(false);
 
         addColumn();
-        loadData();
+        loadData(null);
 
         txtNamaJenis.addKeyListener(new KeyAdapter() {
             @Override
@@ -150,29 +150,34 @@ public class JenisDosen extends JFrame{
                     float NPWP = Float.parseFloat(persentaseNPWPText);
                     float NonNPWP = Float.parseFloat(persentaseNonNPWPText);
 
-                    String procedureCall = "{CALL dbo.sp_CreateJenisDosen(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
-                    connection.pstat = connection.conn.prepareCall(procedureCall);
-                    connection.pstat.setString(1, namaJenis);
-                    connection.pstat.setInt(2, Golongan1);
-                    connection.pstat.setInt(3, Golongan2);
-                    connection.pstat.setInt(4, Golongan3);
-                    connection.pstat.setInt(5, Kompensasi);
-                    connection.pstat.setInt(6, Transport);
-                    connection.pstat.setFloat(7, NPWP);
-                    connection.pstat.setFloat(8, NonNPWP);
-                    connection.pstat.setString(9, Referensi);
+                    // Display confirmation dialog
+                    int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data jenis dosen?",
+                            "Konfirmasi Simpan Data", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        String procedureCall = "{CALL dbo.sp_CreateJenisDosen(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+                        connection.pstat = connection.conn.prepareCall(procedureCall);
+                        connection.pstat.setString(1, namaJenis);
+                        connection.pstat.setInt(2, Golongan1);
+                        connection.pstat.setInt(3, Golongan2);
+                        connection.pstat.setInt(4, Golongan3);
+                        connection.pstat.setInt(5, Kompensasi);
+                        connection.pstat.setInt(6, Transport);
+                        connection.pstat.setFloat(7, NPWP);
+                        connection.pstat.setFloat(8, NonNPWP);
+                        connection.pstat.setString(9, Referensi);
 
-                    connection.pstat.execute();
-                    connection.pstat.close();
+                        connection.pstat.execute();
+                        connection.pstat.close();
 
-                    loadData();
-                    clear();
+                        loadData(null);
+                        clear();
 
-                    btnSave.setEnabled(true);
-                    btnUpdate.setEnabled(false);
-                    btnDelete.setEnabled(false);
+                        btnSave.setEnabled(true);
+                        btnUpdate.setEnabled(false);
+                        btnDelete.setEnabled(false);
 
-                    JOptionPane.showMessageDialog(null, "Data Jenis Dosen berhasil disimpan!");
+                        JOptionPane.showMessageDialog(null, "Data Jenis Dosen berhasil disimpan!");
+                    }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data jenis dosen!");
@@ -251,68 +256,80 @@ public class JenisDosen extends JFrame{
                     float NPWP = Float.parseFloat(persentaseNPWPText);
                     float NonNPWP = Float.parseFloat(persentaseNonNPWPText);
 
-                    String procedureCall = "{CALL dbo.sp_UpdateJenisDosen(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
-                    connection.pstat = connection.conn.prepareCall(procedureCall);
-                    connection.pstat.setString(1, id);
-                    connection.pstat.setString(2, namaJenis);
-                    connection.pstat.setInt(3, Golongan1);
-                    connection.pstat.setInt(4, Golongan2);
-                    connection.pstat.setInt(5, Golongan3);
-                    connection.pstat.setInt(6, Kompensasi);
-                    connection.pstat.setInt(7, Transport);
-                    connection.pstat.setFloat(8, NPWP);
-                    connection.pstat.setFloat(9, NonNPWP);
-                    connection.pstat.setString(10, Referensi);
+                    // Display confirmation dialog
+                    int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data jenis dosen?",
+                            "Konfirmasi Perbarui Data", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        String procedureCall = "{CALL dbo.sp_UpdateJenisDosen(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+                        connection.pstat = connection.conn.prepareCall(procedureCall);
+                        connection.pstat.setString(1, id);
+                        connection.pstat.setString(2, namaJenis);
+                        connection.pstat.setInt(3, Golongan1);
+                        connection.pstat.setInt(4, Golongan2);
+                        connection.pstat.setInt(5, Golongan3);
+                        connection.pstat.setInt(6, Kompensasi);
+                        connection.pstat.setInt(7, Transport);
+                        connection.pstat.setFloat(8, NPWP);
+                        connection.pstat.setFloat(9, NonNPWP);
+                        connection.pstat.setString(10, Referensi);
 
-                    connection.pstat.execute();
-                    connection.pstat.close();
+                        connection.pstat.execute();
+                        connection.pstat.close();
 
-                    loadData();
+                        loadData(null);
+                        clear();
 
-                    JOptionPane.showMessageDialog(null, "Data Jenis Dosen berhasil diupdate!");
-
+                        JOptionPane.showMessageDialog(null, "Data Jenis Dosen berhasil diperbarui!");
+                    }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam perbarui data jenis dosen!");
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Pastikan input angka pada field yang memerlukan nilai numerik!");
                 }
+                btnSave.setEnabled(true);
+                btnDelete.setEnabled(false);
+                btnUpdate.setEnabled(false);
             }
         });
-
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     String id;
                     id = txtID.getText();
-                    // Prepare the stored procedure call
-                    String procedureCall = "{CALL dbo.sp_DeleteJenisDosen(?)}";
-                    connection.pstat = connection.conn.prepareCall(procedureCall);
-                    connection.pstat.setString(1, id);
 
-                    // Execute the stored procedure
-                    connection.pstat.execute();
+                    int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        // Prepare the stored procedure call
+                        String procedureCall = "{CALL dbo.sp_DeleteJenisDosen(?)}";
+                        connection.pstat = connection.conn.prepareCall(procedureCall);
+                        connection.pstat.setString(1, id);
 
-                    // Close the statement and connection
-                    connection.pstat.close();
+                        // Execute the stored procedure
+                        connection.pstat.execute();
 
-                    loadData();
-                    clear();
+                        // Close the statement and connection
+                        connection.pstat.close();
 
-                    btnDelete.setEnabled(true);
-                    btnSave.setEnabled(false);
-                    btnUpdate.setEnabled(false);
+                        loadData(null);
+                        clear();
 
-                    JOptionPane.showMessageDialog(null, "Success delete!");
+                        btnDelete.setEnabled(true);
+                        btnSave.setEnabled(false);
+                        btnUpdate.setEnabled(false);
+
+                        JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Penghapusan data dibatalkan.");
+                    }
                 } catch (Exception exc) {
-                    System.out.println("Error: "+exc.toString());
+                    System.out.println("Error: " + exc.toString());
 
                     JOptionPane.showMessageDialog(null, "Terjadi kesalahan!");
                 }
             }
         });
-
         txtPersentaseNPWP.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -354,6 +371,13 @@ public class JenisDosen extends JFrame{
                 btnDelete.setEnabled(false);
             }
         });
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                loadData(txtSearch.getText());
+            }
+        });
     }
     public void generateId() {
         try {
@@ -374,14 +398,16 @@ public class JenisDosen extends JFrame{
             e.printStackTrace();
         }
     }
-    public void loadData() {
+    public void loadData(String nama_jenis) {
         tableModel.getDataVector().removeAllElements();
         tableModel.fireTableDataChanged();
 
         try {
-            String query = "select * from jenis_dosen";
-            connection.stat = connection.conn.createStatement();
-            connection.result = connection.stat.executeQuery(query);
+            String functionCall = "SELECT * FROM dbo.getListJenisDosen(?)";
+            connection.pstat = connection.conn.prepareStatement(functionCall);
+            connection.pstat.setString(1, nama_jenis);
+
+            connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
                 Object[] obj = new Object[10]; // Menyesuaikan jumlah kolom dengan tabel tblPenyewa

@@ -68,7 +68,7 @@ public Dosen() {
 
 
     addColumn();
-    loadData();
+    loadData(null);
     showJenisDosen();
 
 
@@ -231,49 +231,52 @@ public Dosen() {
                         namaBank.isEmpty() || cabangBank.isEmpty() || noRekening.isEmpty() ||
                         npwp.isEmpty() || asalPerusahaan.isEmpty() || status.isEmpty() ||
                         atasNama.isEmpty() || kota.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Harap lengkapi semua data sebelum menyimpan!", "Error", JOptionPane.ERROR_MESSAGE);
                     return; // Stop further execution
                 }
+
                 // Validasi format email
                 if (!isValidEmailFormat(email)) {
                     JOptionPane.showMessageDialog(null, "Format email tidak valid!", "Error", JOptionPane.ERROR_MESSAGE);
                     return; // Stop further execution
                 }
 
+                int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    String procedureCall = "{CALL sp_CreateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+                    connection.pstat = connection.conn.prepareCall(procedureCall);
+                    connection.pstat.setString(1, namaDosen);
+                    connection.pstat.setString(2, email);
+                    connection.pstat.setString(3, jnID);
+                    connection.pstat.setString(4, namaBank);
+                    connection.pstat.setString(5, cabangBank);
+                    connection.pstat.setString(6, noRekening);
+                    connection.pstat.setString(7, npwp);
+                    connection.pstat.setString(8, tanggalKampus);
+                    connection.pstat.setString(9, tanggalIndustri);
+                    connection.pstat.setString(10, asalPerusahaan);
+                    connection.pstat.setString(11, status);
+                    connection.pstat.setString(12, atasNama);
+                    connection.pstat.setString(13, kota);
+                    connection.pstat.execute();
 
-                String procedureCall = "{CALL sp_CreateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-                connection.pstat = connection.conn.prepareCall(procedureCall);
-                connection.pstat.setString(1, namaDosen);
-                connection.pstat.setString(2, email);
-                connection.pstat.setString(3, jnID);
-                connection.pstat.setString(4, namaBank);
-                connection.pstat.setString(5, cabangBank);
-                connection.pstat.setString(6, noRekening);
-                connection.pstat.setString(7, npwp);
-                connection.pstat.setString(8, tanggalKampus);
-                connection.pstat.setString(9, tanggalIndustri);
-                connection.pstat.setString(10, asalPerusahaan);
-                connection.pstat.setString(11, status);
-                connection.pstat.setString(12, atasNama);
-                connection.pstat.setString(13, kota);
-                connection.pstat.execute();
+                    connection.pstat.close();
 
-                connection.pstat.close();
+                    btnSave.setEnabled(true);
+                    btnUpdate.setEnabled(false);
+                    btnDelete.setEnabled(false);
 
-                btnSave.setEnabled(true);
-                btnUpdate.setEnabled(false);
-                btnDelete.setEnabled(false);
-
-                JOptionPane.showMessageDialog(null, "Data Dosen berhasil disimpan!");
-
-                loadData();
+                    JOptionPane.showMessageDialog(null, "Data berhasil disimpan!");
+                    loadData(null);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Penyimpanan data dibatalkan.");
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data Dosen!");
             }
         }
     });
-
     tblDosen.addMouseListener(new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -371,34 +374,39 @@ public Dosen() {
                     return; // Stop further execution
                 }
 
-                String procedureCall = "{CALL sp_UpdateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-                connection.pstat = connection.conn.prepareCall(procedureCall);
-                connection.pstat.setString(1, idDosen);
-                connection.pstat.setString(2, namaDosen);
-                connection.pstat.setString(3, email);
-                connection.pstat.setString(4, jnID);
-                connection.pstat.setString(5, namaBank); // Atur nilai untuk parameter nomor 4 (pny_telp)
-                connection.pstat.setString(6, cabangBank);
-                connection.pstat.setString(7, noRekening);
-                connection.pstat.setString(8, npwp);
-                connection.pstat.setString(9, tanggalKampus);
-                connection.pstat.setString(10, tanggalIndustri);
-                connection.pstat.setString(11, asalPerusahaan);
-                connection.pstat.setString(12, status);
-                connection.pstat.setString(13, atasNama);
-                connection.pstat.setString(14, kota);
+                int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    String procedureCall = "{CALL sp_UpdateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+                    connection.pstat = connection.conn.prepareCall(procedureCall);
+                    connection.pstat.setString(1, idDosen);
+                    connection.pstat.setString(2, namaDosen);
+                    connection.pstat.setString(3, email);
+                    connection.pstat.setString(4, jnID);
+                    connection.pstat.setString(5, namaBank); // Atur nilai untuk parameter nomor 4 (pny_telp)
+                    connection.pstat.setString(6, cabangBank);
+                    connection.pstat.setString(7, noRekening);
+                    connection.pstat.setString(8, npwp);
+                    connection.pstat.setString(9, tanggalKampus);
+                    connection.pstat.setString(10, tanggalIndustri);
+                    connection.pstat.setString(11, asalPerusahaan);
+                    connection.pstat.setString(12, status);
+                    connection.pstat.setString(13, atasNama);
+                    connection.pstat.setString(14, kota);
 
-                connection.pstat.executeUpdate();
-                connection.pstat.close();
+                    connection.pstat.executeUpdate();
+                    connection.pstat.close();
 
-                loadData();
-                clear();
+                    loadData(null);
+                    clear();
 
-                btnSave.setEnabled(true);
-                btnDelete.setEnabled(false);
-                btnUpdate.setEnabled(false);
+                    btnSave.setEnabled(true);
+                    btnDelete.setEnabled(false);
+                    btnUpdate.setEnabled(false);
 
-                JOptionPane.showMessageDialog(null, "Data dosen berhasil diUpdate!");
+                    JOptionPane.showMessageDialog(null, "Data dosen berhasil diperbarui!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Pembaruan data dibatalkan.");
+                }
 
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -413,25 +421,30 @@ public Dosen() {
                 String id;
                 id = txtIDDosen.getText();
                 // Prepare the stored procedure call
-                String procedureCall = "{CALL dbo.sp_DeleteDosen(?)}";
-                connection.pstat = connection.conn.prepareCall(procedureCall);
-                connection.pstat.setString(1, id);
+                int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // Prepare the stored procedure call
+                    String procedureCall = "{CALL dbo.sp_DeleteDosen(?)}";
+                    connection.pstat = connection.conn.prepareCall(procedureCall);
+                    connection.pstat.setString(1, id);
 
-                // Execute the stored procedure
-                connection.pstat.execute();
+                    // Execute the stored procedure
+                    connection.pstat.execute();
 
-                // Close the statement and connection
-                connection.pstat.close();
+                    // Close the statement and connection
+                    connection.pstat.close();
 
-                loadData();
-                clear();
+                    loadData(null);
+                    clear();
 
-                btnDelete.setEnabled(true);
-                btnSave.setEnabled(false);
-                btnUpdate.setEnabled(false);
+                    btnDelete.setEnabled(true);
+                    btnSave.setEnabled(false);
+                    btnUpdate.setEnabled(false);
 
-
-                JOptionPane.showMessageDialog(null, "Success delete!");
+                    JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Penghapusan data dibatalkan.");
+                }
             } catch (Exception exc) {
                 System.out.println("Error: "+exc.toString());
 
@@ -439,7 +452,14 @@ public Dosen() {
             }
         }
     });
-    }
+    txtSearch.addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            super.keyTyped(e);
+            loadData(txtSearch.getText());
+        }
+    });
+}
     private boolean isValidEmailFormat(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email.matches(emailRegex);
@@ -450,13 +470,15 @@ public Dosen() {
     private boolean isValidLettersOnly(String input) {
         return input.matches("[a-zA-Z\\s]*");
     }
-    public void loadData() {
+    public void loadData(String nama_dosen) {
         tableModel.getDataVector().removeAllElements();
         tableModel.fireTableDataChanged();
         try {
-            String query = "SELECT * FROM dosen";
-            connection.stat = connection.conn.createStatement();
-            connection.result = connection.stat.executeQuery(query);
+            String functionCall = "SELECT * FROM dbo.getListDosen(?)";
+            connection.pstat = connection.conn.prepareStatement(functionCall);
+            connection.pstat.setString(1, nama_dosen);
+
+            connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
                 Object[] obj = new Object[14]; // Menyesuaikan jumlah kolom dengan tabel tblPenyewa

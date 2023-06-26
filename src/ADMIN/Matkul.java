@@ -38,7 +38,8 @@ public class Matkul  extends JFrame {
         btnDelete.setEnabled(false);
 
         addColumn();
-        loadData();
+        loadData(null);
+        //showByNama();
         //generateId();
         btnSave.addActionListener(new ActionListener() {
             @Override
@@ -55,22 +56,27 @@ public class Matkul  extends JFrame {
 
                     int SKS = Integer.parseInt(SKS_text);
 
-                    String procedureCall = "{CALL dbo.sp_CreateMatkul(?, ?)}";
-                    connection.pstat = connection.conn.prepareCall(procedureCall);
-                    connection.pstat.setString(1, Nama_Matkul);
-                    connection.pstat.setInt(2, SKS);
+                    int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        String procedureCall = "{CALL dbo.sp_CreateMatkul(?, ?)}";
+                        connection.pstat = connection.conn.prepareCall(procedureCall);
+                        connection.pstat.setString(1, Nama_Matkul);
+                        connection.pstat.setInt(2, SKS);
 
-                    connection.pstat.execute();
-                    connection.pstat.close();
+                        connection.pstat.execute();
+                        connection.pstat.close();
 
-                    loadData();
-                    clear();
+                        loadData(null);
+                        clear();
 
-                    btnSave.setEnabled(false);
-                    btnUpdate.setEnabled(false);
-                    btnDelete.setEnabled(false);
+                        btnSave.setEnabled(false);
+                        btnUpdate.setEnabled(false);
+                        btnDelete.setEnabled(false);
 
-                    JOptionPane.showMessageDialog(null, "Data Mata Kuliah berhasil disimpan!");
+                        JOptionPane.showMessageDialog(null, "Data Mata Kuliah berhasil disimpan!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Penyimpanan data dibatalkan.");
+                    }
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -128,24 +134,30 @@ public class Matkul  extends JFrame {
                 try {
                     String id;
                     id = txtID.getText();
-                    // Prepare the stored procedure call
-                    String procedureCall = "{CALL dbo.sp_DeleteMatkul(?)}";
-                    connection.pstat = connection.conn.prepareCall(procedureCall);
-                    connection.pstat.setString(1, id);
 
-                    // Execute the stored procedure
-                    connection.pstat.execute();
-                    // Close the statement and connection
-                    connection.pstat.close();
+                    int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        // Prepare the stored procedure call
+                        String procedureCall = "{CALL dbo.sp_DeleteMatkul(?)}";
+                        connection.pstat = connection.conn.prepareCall(procedureCall);
+                        connection.pstat.setString(1, id);
 
-                    loadData();
-                    clear();
+                        // Execute the stored procedure
+                        connection.pstat.execute();
+                        // Close the statement and connection
+                        connection.pstat.close();
 
-                    btnSave.setEnabled(false);
-                    btnUpdate.setEnabled(false);
-                    btnDelete.setEnabled(false);
+                        loadData(null);
+                        clear();
 
-                    JOptionPane.showMessageDialog(null, "Success delete!");
+                        btnSave.setEnabled(false);
+                        btnUpdate.setEnabled(false);
+                        btnDelete.setEnabled(false);
+
+                        JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Penghapusan data dibatalkan.");
+                    }
                 } catch (Exception exc) {
                     System.out.println("Error: " + exc.toString());
                     JOptionPane.showMessageDialog(null, "Terjadi kesalahan!");
@@ -165,23 +177,28 @@ public class Matkul  extends JFrame {
                         return; // Stop the data updating process if any field is empty
                     }
 
-                    String procedureCall = "{CALL sp_UpdateMatkul(?, ?, ?)}";
-                    connection.pstat = connection.conn.prepareCall(procedureCall);
-                    connection.pstat.setString(1, id);
-                    connection.pstat.setString(2, nama_matkul);
-                    connection.pstat.setString(3, sks);
+                    int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        String procedureCall = "{CALL sp_UpdateMatkul(?, ?, ?)}";
+                        connection.pstat = connection.conn.prepareCall(procedureCall);
+                        connection.pstat.setString(1, id);
+                        connection.pstat.setString(2, nama_matkul);
+                        connection.pstat.setString(3, sks);
 
-                    connection.pstat.execute();
-                    connection.pstat.close();
+                        connection.pstat.execute();
+                        connection.pstat.close();
 
-                    loadData();
-                    clear();
+                        loadData(null);
+                        clear();
 
-                    btnSave.setEnabled(true);
-                    btnUpdate.setEnabled(false);
-                    btnDelete.setEnabled(false);
+                        btnSave.setEnabled(true);
+                        btnUpdate.setEnabled(false);
+                        btnDelete.setEnabled(false);
 
-                    JOptionPane.showMessageDialog(null, "Data Mata Kuliah berhasil diUpdate!");
+                        JOptionPane.showMessageDialog(null, "Data Mata Kuliah berhasil diperbarui!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Pembaruan data dibatalkan.");
+                    }
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -189,8 +206,6 @@ public class Matkul  extends JFrame {
                 }
             }
         });
-
-
         btnClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -201,6 +216,13 @@ public class Matkul  extends JFrame {
                 btnDelete.setEnabled(false);
             }
         });
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                loadData(txtSearch.getText());
+            }
+        });
     }
     public void clear() {
         txtID.setText("Otomatis");
@@ -208,30 +230,6 @@ public class Matkul  extends JFrame {
         txtSKS.setText("");
     }
 
-    public void loadData() {
-        tableModel.getDataVector().removeAllElements();
-        tableModel.fireTableDataChanged();
-
-        try {
-            String query = "select * from matkul";
-            connection.stat = connection.conn.createStatement();
-            connection.result = connection.stat.executeQuery(query);
-
-            while (connection.result.next()) {
-                Object[] obj = new Object[3]; // Menyesuaikan jumlah kolom dengan tabel tblPenyewa
-                obj[0] = connection.result.getString("id_matkul");
-                obj[1] = connection.result.getString("nama_matkul");
-                obj[2] = connection.result.getInt("sks");
-
-                tableModel.addRow(obj);
-            }
-
-            connection.stat.close();
-            connection.result.close();
-        } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
-        }
-    }
     public void addColumn(){
         tableModel.addColumn("ID Matkul");
         tableModel.addColumn("Nama Matkul");
@@ -239,7 +237,7 @@ public class Matkul  extends JFrame {
     }
     public void generateId() {
         try {
-            String query = "SELECT dbo. GenerateMatkulID() AS newId";
+            String query = "SELECT dbo.GenerateMatkulID() AS newId";
             connection.stat = connection.conn.createStatement();
             connection.result = connection.stat.executeQuery(query);
 
@@ -254,6 +252,31 @@ public class Matkul  extends JFrame {
         } catch (SQLException e) {
             // Handle any errors that occur during the execution
             e.printStackTrace();
+        }
+    }
+    public void loadData(String nama_matkul){
+        tableModel.getDataVector().removeAllElements();
+        tableModel.fireTableDataChanged();
+        try{
+            String functionCall = "SELECT * FROM dbo.getListMatkul(?)";
+            connection.pstat = connection.conn.prepareStatement(functionCall);
+            connection.pstat.setString(1, nama_matkul);
+
+            connection.result = connection.pstat.executeQuery();
+
+            while (connection.result.next()) {
+                Object[] obj = new Object[3]; // Menyesuaikan jumlah kolom dengan tabel tblMatkul
+                obj[0] = connection.result.getString("id_matkul");
+                obj[1] = connection.result.getString("nama_matkul");
+                obj[2] = connection.result.getInt("sks");
+
+                tableModel.addRow(obj);
+            }
+
+            connection.pstat.close();
+            connection.result.close();
+        }catch (Exception e){
+            System.out.println("Terjadi error saat load data Matkul :" + e);
         }
     }
     public static void main(String[]args){
