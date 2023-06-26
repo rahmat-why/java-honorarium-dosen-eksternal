@@ -12,6 +12,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -102,7 +103,7 @@ public class ReportSlipGaji extends JFrame{
                     parameter.put("total_pendapatan", labelTotalPendapatan.getText());
                     parameter.put("dibayarkan", labelTotalDibayarkan.getText());
 
-                    JasperDesign jd = JRXmlLoader.load("C:\\Users\\KELOMPOK 5\\Documents\\KULIAH SMT 2\\PROJECT\\java-honorarium-dosen-eksternal\\src\\REPORT\\reportSlipGaji.jrxml");
+                    JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream("reportSlipGaji.jrxml"));
                     JasperReport jr = JasperCompileManager.compileReport(jd);
                     JasperPrint jp = JasperFillManager.fillReport(jr, parameter, new JREmptyDataSource());
                     JasperViewer viewer = new JasperViewer(jp, false);

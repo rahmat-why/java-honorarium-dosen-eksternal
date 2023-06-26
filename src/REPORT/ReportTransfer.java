@@ -98,7 +98,7 @@ public class ReportTransfer extends JFrame{
                     parameter.put("MENGETAHUI", "Agung Kurniawan");
 
                     JRDataSource dataSource = new JRTableModelDataSource(tableReportTransfer.getModel());
-                    JasperDesign jd = JRXmlLoader.load("C:\\Users\\KELOMPOK 5\\Documents\\KULIAH SMT 2\\PROJECT\\java-honorarium-dosen-eksternal\\src\\REPORT\\reportTransfer.jrxml");
+                    JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream("reportTransfer.jrxml"));
                     JasperReport jr = JasperCompileManager.compileReport(jd);
                     JasperPrint jp = JasperFillManager.fillReport(jr, parameter, dataSource);
                     JasperViewer viewer = new JasperViewer(jp, false);
