@@ -4,7 +4,6 @@ import COMPONENT.ComboboxOption;
 import Connection.DBConnect;
 import com.toedter.calendar.JDateChooser;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
@@ -12,18 +11,16 @@ import net.sf.jasperreports.view.JasperViewer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class ReportSlipGaji extends JFrame{
-    private JPanel JPReportProdi;
+    private JPanel JPanel;
     private JButton btnCetak;
     private JPanel JPTanggalAkhir;
     private JPanel JPTanggalAwal;
@@ -41,14 +38,14 @@ public class ReportSlipGaji extends JFrame{
     private JLabel labelPph21;
     private JLabel labelTotalPph21;
     private JLabel labelTotalPendapatan;
-    private JPanel JPReportSlipGaji;
+    public JPanel panelReportSlipGaji;
     private JLabel labelTotalDibayarkan;
     private DBConnect connection = new DBConnect();
 
     public ReportSlipGaji() {
         setSize(500, 500);
         setTitle("Form Laporan Prodi");
-        setContentPane(JPReportSlipGaji);
+        setContentPane(panelReportSlipGaji);
         setLocationRelativeTo(null);
 
         JDateChooser tanggalAwal = new JDateChooser();

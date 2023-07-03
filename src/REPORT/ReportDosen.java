@@ -23,23 +23,20 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class ReportDosen extends JFrame{
-    private JPanel JPReportProdi;
+    private JPanel JPanel;
     private JTable tableReportDosen;
     private JButton btnCetak;
     private JPanel JPTanggalAkhir;
     private JPanel JPTanggalAwal;
     private JButton btnFilter;
     private JComboBox cbJenisDosen;
+    public JPanel panelReportDosen;
 
     DefaultTableModel tableModel;
 
     private DBConnect connection;
 
     public ReportDosen() {
-        setSize(500, 500);
-        setTitle("Form Laporan Prodi");
-        setContentPane(JPReportProdi);
-        setLocationRelativeTo(null);
 
         connection = new DBConnect();
 
@@ -210,4 +207,5 @@ public class ReportDosen extends JFrame{
             return (year - 1) + "/" + year; // Contoh: 2022/2023
         }
     }
+
 }

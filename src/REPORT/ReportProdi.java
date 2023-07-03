@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class ReportProdi extends JFrame{
-    private JPanel JPReportProdi;
+    public JPanel panelReportProdi;
     private JTable tableReportProdi;
     private JButton btnCetak;
     private JButton btnFilter;
@@ -38,7 +38,7 @@ public class ReportProdi extends JFrame{
     public ReportProdi() {
         setSize(500, 500);
         setTitle("Form Laporan Prodi");
-        setContentPane(JPReportProdi);
+        setContentPane(panelReportProdi);
         setLocationRelativeTo(null);
 
         connection = new DBConnect();

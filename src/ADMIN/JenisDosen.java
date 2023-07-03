@@ -27,6 +27,7 @@ public class JenisDosen extends JFrame{
     private JTextField txtPersentaseNonNPWP;
     private JTextField txtID;
     private JComboBox cbReferensiDosen;
+    //private JComboBox cbIDGolongan;
 
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
@@ -34,10 +35,6 @@ public class JenisDosen extends JFrame{
 
     public JenisDosen() {
         connection = new DBConnect();
-        setSize(500, 500);
-        setTitle("Form Jenis Dosen");
-        setContentPane(JPJenis);
-        setLocationRelativeTo(null);
 
         tampilReferensiDosen();
         tableModel = new DefaultTableModel();
@@ -49,7 +46,7 @@ public class JenisDosen extends JFrame{
 
         addColumn();
         loadData(null);
-
+//        showGolongan();
         txtNamaJenis.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -62,69 +59,33 @@ public class JenisDosen extends JFrame{
                 }
             }
         });
-        txtKehadiranGol1.addKeyListener(new KeyAdapter() {
+        txtKompensasi.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 char c = e.getKeyChar();
-                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtKehadiranGol1.getText().length() >= 25 ) {
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtKompensasi.getText().length() >= 25 ) {
                     e.consume();
-                    JOptionPane.showMessageDialog(null, "Intensif Kehadiran hanya boleh diisi dengan angka!");
+                    JOptionPane.showMessageDialog(null, "Kompensasi mengajar hanya boleh diisi dengan angka!");
                 }
             }
         });
-            txtKehadiranGol2.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                    super.keyTyped(e);
-                    char c = e.getKeyChar();
-                    if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtKehadiranGol2.getText().length() >= 25 ) {
-                        e.consume();
-                        JOptionPane.showMessageDialog(null, "Intensif Kehadiran hanya boleh diisi dengan angka!");
-                    }
+        txtTransport.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtTransport.getText().length() >= 25 ) {
+                    e.consume();
+                    JOptionPane.showMessageDialog(null, "Transport Mengajar hanya boleh diisi dengan angka!");
                 }
-            });
-            txtKehadiranGol3.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                    super.keyTyped(e);
-                    char c = e.getKeyChar();
-                    if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtKehadiranGol3.getText().length() >= 25 ) {
-                        e.consume();
-                        JOptionPane.showMessageDialog(null, "Intensif Kehadiran hanya boleh diisi dengan angka!");
-                    }
-                }
-            });
-            txtKompensasi.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                    super.keyTyped(e);
-                    char c = e.getKeyChar();
-                    if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtKehadiranGol3.getText().length() >= 25 ) {
-                        e.consume();
-                        JOptionPane.showMessageDialog(null, "Kompensasi mengajar hanya boleh diisi dengan angka!");
-                    }
-                }
-            });
-            txtTransport.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                    super.keyTyped(e);
-                    char c = e.getKeyChar();
-                    if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtKehadiranGol3.getText().length() >= 25 ) {
-                        e.consume();
-                        JOptionPane.showMessageDialog(null, "Transport Mengajar hanya boleh diisi dengan angka!");
-                    }
-                }
-            });
+            }
+        });
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     String namaJenis = txtNamaJenis.getText();
-                    String kehadiranGol1Text = txtKehadiranGol1.getText();
-                    String kehadiranGol2Text = txtKehadiranGol2.getText();
-                    String kehadiranGol3Text = txtKehadiranGol3.getText();
                     String kompensasiText = txtKompensasi.getText();
                     String transportText = txtTransport.getText();
                     String persentaseNPWPText = txtPersentaseNPWP.getText();
@@ -134,17 +95,13 @@ public class JenisDosen extends JFrame{
                     String Referensi = selectedOption.getValue().toString();
 
                     // Check if any field is empty
-                    if (namaJenis.isEmpty() || kehadiranGol1Text.isEmpty() || kehadiranGol2Text.isEmpty()
-                            || kehadiranGol3Text.isEmpty() || kompensasiText.isEmpty() || transportText.isEmpty()
+                    if (namaJenis.isEmpty() || kompensasiText.isEmpty() || transportText.isEmpty()
                             || persentaseNPWPText.isEmpty() || persentaseNonNPWPText.isEmpty() || Referensi.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
                         return; // Stop the data saving process if any field is empty
                     }
 
                     // Parse the numeric fields to their respective data types
-                    int Golongan1 = Integer.parseInt(kehadiranGol1Text);
-                    int Golongan2 = Integer.parseInt(kehadiranGol2Text);
-                    int Golongan3 = Integer.parseInt(kehadiranGol3Text);
                     int Kompensasi = Integer.parseInt(kompensasiText);
                     int Transport = Integer.parseInt(transportText);
                     float NPWP = Float.parseFloat(persentaseNPWPText);
@@ -154,17 +111,14 @@ public class JenisDosen extends JFrame{
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data jenis dosen?",
                             "Konfirmasi Simpan Data", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        String procedureCall = "{CALL dbo.sp_CreateJenisDosen(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+                        String procedureCall = "{CALL dbo.sp_CreateJenisDosen(?, ?, ?, ?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
                         connection.pstat.setString(1, namaJenis);
-                        connection.pstat.setInt(2, Golongan1);
-                        connection.pstat.setInt(3, Golongan2);
-                        connection.pstat.setInt(4, Golongan3);
-                        connection.pstat.setInt(5, Kompensasi);
-                        connection.pstat.setInt(6, Transport);
-                        connection.pstat.setFloat(7, NPWP);
-                        connection.pstat.setFloat(8, NonNPWP);
-                        connection.pstat.setString(9, Referensi);
+                        connection.pstat.setInt(2, Kompensasi);
+                        connection.pstat.setInt(3, Transport);
+                        connection.pstat.setFloat(4, NPWP);
+                        connection.pstat.setFloat(5, NonNPWP);
+                        connection.pstat.setString(6, Referensi);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -187,8 +141,6 @@ public class JenisDosen extends JFrame{
             }
         });
         tblJenisDosen.addMouseListener(new MouseAdapter() {
-        });
-        tblJenisDosen.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -198,15 +150,12 @@ public class JenisDosen extends JFrame{
                 }
                 txtID.setText((String) tableModel.getValueAt(i, 0));
                 txtNamaJenis.setText((String) tableModel.getValueAt(i, 1));
-                txtKehadiranGol1.setText(String.valueOf((int) tableModel.getValueAt(i, 2)));
-                txtKehadiranGol2.setText(String.valueOf((int) tableModel.getValueAt(i, 3)));
-                txtKehadiranGol3.setText(String.valueOf((int) tableModel.getValueAt(i, 4)));
-                txtKompensasi.setText(String.valueOf((int) tableModel.getValueAt(i, 5)));
-                txtTransport.setText(String.valueOf((int) tableModel.getValueAt(i, 6)));
-                txtPersentaseNPWP.setText(String.valueOf((float) tableModel.getValueAt(i, 7)));
-                txtPersentaseNonNPWP.setText(String.valueOf((float) tableModel.getValueAt(i, 8)));
+                txtKompensasi.setText(String.valueOf((int) tableModel.getValueAt(i, 2)));
+                txtTransport.setText(String.valueOf((int) tableModel.getValueAt(i, 3)));
+                txtPersentaseNPWP.setText(String.valueOf((float) tableModel.getValueAt(i, 4)));
+                txtPersentaseNonNPWP.setText(String.valueOf((float) tableModel.getValueAt(i, 5)));
 
-                String Referensi = (String) tableModel.getValueAt(i, 9);
+                String Referensi = (String) tableModel.getValueAt(i, 6);
                 for (int x = 0; x < cbReferensiDosen.getItemCount(); x++) {
                     Object item = cbReferensiDosen.getItemAt(x);
                     String jenisCb = ((ComboboxOption) item).getValue();
@@ -228,9 +177,6 @@ public class JenisDosen extends JFrame{
                 try {
                     String id = txtID.getText();
                     String namaJenis = txtNamaJenis.getText();
-                    String kehadiranGol1Text = txtKehadiranGol1.getText();
-                    String kehadiranGol2Text = txtKehadiranGol2.getText();
-                    String kehadiranGol3Text = txtKehadiranGol3.getText();
                     String kompensasiText = txtKompensasi.getText();
                     String transportText = txtTransport.getText();
                     String persentaseNPWPText = txtPersentaseNPWP.getText();
@@ -240,17 +186,13 @@ public class JenisDosen extends JFrame{
                     String Referensi = selectedOption.getValue().toString();
 
                     // Check if any field is empty
-                    if (id.isEmpty() || namaJenis.isEmpty() || kehadiranGol1Text.isEmpty() || kehadiranGol2Text.isEmpty()
-                            || kehadiranGol3Text.isEmpty() || kompensasiText.isEmpty() || transportText.isEmpty()
+                    if (id.isEmpty() || namaJenis.isEmpty() || kompensasiText.isEmpty() || transportText.isEmpty()
                             || persentaseNPWPText.isEmpty() || persentaseNonNPWPText.isEmpty() || Referensi.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
                         return; // Stop the data updating process if any field is empty
                     }
 
                     // Parse the numeric fields to their respective data types
-                    int Golongan1 = Integer.parseInt(kehadiranGol1Text);
-                    int Golongan2 = Integer.parseInt(kehadiranGol2Text);
-                    int Golongan3 = Integer.parseInt(kehadiranGol3Text);
                     int Kompensasi = Integer.parseInt(kompensasiText);
                     int Transport = Integer.parseInt(transportText);
                     float NPWP = Float.parseFloat(persentaseNPWPText);
@@ -260,18 +202,15 @@ public class JenisDosen extends JFrame{
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data jenis dosen?",
                             "Konfirmasi Perbarui Data", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        String procedureCall = "{CALL dbo.sp_UpdateJenisDosen(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+                        String procedureCall = "{CALL dbo.sp_UpdateJenisDosen(?, ?, ?, ?, ?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
                         connection.pstat.setString(1, id);
                         connection.pstat.setString(2, namaJenis);
-                        connection.pstat.setInt(3, Golongan1);
-                        connection.pstat.setInt(4, Golongan2);
-                        connection.pstat.setInt(5, Golongan3);
-                        connection.pstat.setInt(6, Kompensasi);
-                        connection.pstat.setInt(7, Transport);
-                        connection.pstat.setFloat(8, NPWP);
-                        connection.pstat.setFloat(9, NonNPWP);
-                        connection.pstat.setString(10, Referensi);
+                        connection.pstat.setInt(3, Kompensasi);
+                        connection.pstat.setInt(4, Transport);
+                        connection.pstat.setFloat(5, NPWP);
+                        connection.pstat.setFloat(6, NonNPWP);
+                        connection.pstat.setString(7, Referensi);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -401,7 +340,6 @@ public class JenisDosen extends JFrame{
     public void loadData(String nama_jenis) {
         tableModel.getDataVector().removeAllElements();
         tableModel.fireTableDataChanged();
-
         try {
             String functionCall = "SELECT * FROM dbo.getListJenisDosen(?)";
             connection.pstat = connection.conn.prepareStatement(functionCall);
@@ -410,17 +348,14 @@ public class JenisDosen extends JFrame{
             connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                Object[] obj = new Object[10]; // Menyesuaikan jumlah kolom dengan tabel tblPenyewa
+                Object[] obj = new Object[7]; // Menyesuaikan jumlah kolom dengan tabel tblPenyewa
                 obj[0] = connection.result.getString("id_jenis_dosen");
                 obj[1] = connection.result.getString("nama_jenis");
-                obj[2] = connection.result.getInt("insentif_kehadiran_golongan1");
-                obj[3] = connection.result.getInt("insentif_kehadiran_golongan2");
-                obj[4] = connection.result.getInt("insentif_kehadiran_golongan3");
-                obj[5] = connection.result.getInt("kompensasi_mengajar");
-                obj[6] = connection.result.getInt("transport_mengajar");
-                obj[7] = connection.result.getFloat("persentase_pph21_npwp");
-                obj[8] = connection.result.getFloat("persentase_pph21_nonnpwp");
-                obj[9] = connection.result.getString("referensi_dosen");
+                obj[2] = connection.result.getInt("kompensasi_mengajar");
+                obj[3] = connection.result.getInt("transport_mengajar");
+                obj[4] = connection.result.getFloat("persentase_pph21_npwp");
+                obj[5] = connection.result.getFloat("persentase_pph21_nonnpwp");
+                obj[6] = connection.result.getString("referensi_dosen");
 
                 tableModel.addRow(obj);
             }
@@ -434,9 +369,6 @@ public class JenisDosen extends JFrame{
     public void clear() {
         txtID.setText("Otomatis");
         txtNamaJenis.setText("");
-        txtKehadiranGol1.setText("");
-        txtKehadiranGol2.setText("");
-        txtKehadiranGol3.setText("");
         txtKompensasi.setText("");
         txtTransport.setText("");
         txtPersentaseNPWP.setText("");
@@ -445,9 +377,6 @@ public class JenisDosen extends JFrame{
     public void addColumn(){
         tableModel.addColumn("ID Jenis");
         tableModel.addColumn("Nama Jenis");
-        tableModel.addColumn("Intensif Kehadiran Gol 1");
-        tableModel.addColumn("Intensif Kehadiran Gol 2");
-        tableModel.addColumn("Intensif Kehadiran Gol 3");
         tableModel.addColumn("Kompensasi Mengajar");
         tableModel.addColumn("Transport Mengajar");
         tableModel.addColumn("Persentase PPH21 NPWP");
@@ -457,8 +386,5 @@ public class JenisDosen extends JFrame{
     public void tampilReferensiDosen(){
         cbReferensiDosen.addItem(new ComboboxOption("UMUM", "UMUM"));
         cbReferensiDosen.addItem(new ComboboxOption("INDUSTRI", "INDUSTRI"));
-    }
-    public static void main(String[]args){
-        new JenisDosen().setVisible(true);
     }
 }

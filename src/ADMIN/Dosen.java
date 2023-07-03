@@ -51,14 +51,12 @@ public class Dosen extends JFrame {
     DBConnect connection = new DBConnect();
 
     public Dosen() {
-
         connection = new DBConnect();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+
         JDateChooser datechooser = new JDateChooser();
         JDateChooser dateChooser = new JDateChooser();
-        setSize(500, 500);
-        setTitle("Form Dosen");
-        setContentPane(JPDosen);
-        setLocationRelativeTo(null);
 
         JPTanggalKampus.add(datechooser);
         JPTanggalIndustri.add(dateChooser);
@@ -646,7 +644,7 @@ public class Dosen extends JFrame {
             System.out.println("Error: " + exc.toString());
         }
     }
-    public static void main(String[]args){
-        new Dosen().setVisible(true);
-    }
+//    public static void main(String[]args){
+//        new Dosen().setVisible(true);
+//    }
 }

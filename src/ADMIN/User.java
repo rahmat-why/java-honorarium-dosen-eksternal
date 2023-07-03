@@ -21,15 +21,12 @@ public class User extends JFrame {
     private JPasswordField txtPassword;
     private JComboBox cmbRole;
     private JTextField txtIDUser;
+    JPanel panelUser;
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
     public User() {
 
         connection = new DBConnect();
-        setSize(500, 500);
-        setTitle("Form User");
-        setContentPane(JPUser);
-        setLocationRelativeTo(null);
 
         tampilRole();
 
@@ -238,7 +235,7 @@ public class User extends JFrame {
 
                 // Check if the entered text contains any non-letter characters except space
                 char c = e.getKeyChar();
-                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == KeyEvent.VK_SPACE)) {
+                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == KeyEvent.VK_SPACE || c == KeyEvent.VK_BACK_SPACE)) {
                     e.consume();
                     JOptionPane.showMessageDialog(null, "Nama hanya boleh diisi dengan huruf dan spasi!");
                 }
@@ -315,8 +312,7 @@ public class User extends JFrame {
         cmbRole.addItem(new ComboboxOption("DAAA", "DAAA"));
     }
 
-    public static void main(String[]args){
-        new User().setVisible(true);
-    }
-
+//    public static void main(String[]args){
+//        new User().setVisible(true);
+//    }
 }

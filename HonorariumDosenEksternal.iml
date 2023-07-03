@@ -17,5 +17,12 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="jcalendar-1.4" level="project" />
+    <orderEntry type="library" name="commons-beanutils-1.9.41" level="project" />
+    <orderEntry type="library" name="commons-collections4-4.2" level="project" />
+    <orderEntry type="library" name="commons-digester-2.1" level="project" />
+    <orderEntry type="library" name="commons-lang3-3.4" level="project" />
+    <orderEntry type="library" name="commons-logging-1.1.1" level="project" />
+    <orderEntry type="library" name="itext-2.1.7.js8" level="project" />
+    <orderEntry type="library" name="jasperreports-6.19.1" level="project" />
   </component>
 </module>

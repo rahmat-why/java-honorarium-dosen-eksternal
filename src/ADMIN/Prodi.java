@@ -9,7 +9,6 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class Prodi extends JFrame {
-    private JPanel JPProdi;
     private JTextField txtNamaProdi;
     private JTextField txtSingkatan;
     private JComboBox cmbTransport;
@@ -20,6 +19,8 @@ public class Prodi extends JFrame {
     private JTextField txtSearch;
     private JTable tblProdi;
     private JTextField txtID;
+    JPanel panelProdi;
+    private JPanel JPanel;
 
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
@@ -27,10 +28,6 @@ public class Prodi extends JFrame {
     public Prodi() {
 
         connection = new DBConnect();
-        setSize(500, 500);
-        setTitle("Form Prodi");
-        setContentPane(JPProdi);
-        setLocationRelativeTo(null);
 
         tampilTransport();
         tableModel = new DefaultTableModel();
@@ -167,7 +164,7 @@ public class Prodi extends JFrame {
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 char c = e.getKeyChar();
-                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == KeyEvent.VK_SPACE)) {
+                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == KeyEvent.VK_SPACE || c == KeyEvent.VK_BACK_SPACE)) {
                     e.consume();
                     JOptionPane.showMessageDialog(null, "Nama hanya boleh diisi dengan huruf dan spasi!");
                 }
@@ -317,7 +314,7 @@ public class Prodi extends JFrame {
         cmbTransport.addItem(new ComboboxOption("PER HARI MENGAJAR", "PER HARI MENGAJAR"));
         cmbTransport.addItem(new ComboboxOption("PER SEKALI MENGAJAR", "PER SEKALI MENGAJAR"));
     }
-    public static void main(String[]args){
-        new Prodi().setVisible(true);
-    }
+    //public static void main(String[]args){
+//        new Prodi().setVisible(true);
+//    }
 }

@@ -1,6 +1,6 @@
 package ADMIN;
 
-import ADMIN.Dosen;
+import LOGIN.Login;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -8,28 +8,27 @@ import java.awt.event.ActionListener;
 
 public class AdminPage extends JFrame{
     private JButton logoutButton;
-    private JButton dashboardButton;
     private JButton pembuatanAkunButton;
-    private JButton tableReferensiButton;
     private JButton dosenButton;
     private JButton programStudiButton;
     private JButton mataKuliahButton;
     private JButton kategoriDosenButton;
     private JPanel panelContent;
     private JPanel panelUtama;
+    private JLabel labelNama;
+    private JLabel labelRole;
+    private JButton golonganButton;
+    private JButton perusahaanButton;
 
-    public AdminPage() {
+    public AdminPage(String[] value) {
         add(this.panelUtama);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
-        dashboardButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
+        labelNama.setText(value[2]);
+        labelRole.setText(value[5]);
         dosenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -60,8 +59,73 @@ public class AdminPage extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                LOGIN.Login form = new LOGIN.Login();
-                form.setVisible(true);
+                LOGIN.Login login = new Login();
+                login.setVisible(true);
+            }
+        });
+        programStudiButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelContent.removeAll();
+                panelContent.revalidate();
+                panelContent.repaint();
+                Prodi prodi = new Prodi();
+                prodi.panelProdi.setVisible(true);
+                panelContent.revalidate();
+                panelContent.setLayout(new java.awt.BorderLayout());
+                panelContent.add(prodi.panelProdi);
+            }
+        });
+        mataKuliahButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelContent.removeAll();
+                panelContent.revalidate();
+                panelContent.repaint();
+                Matkul matkul = new Matkul();
+                matkul.panelMatkul.setVisible(true);
+                panelContent.revalidate();
+                panelContent.setLayout(new java.awt.BorderLayout());
+                panelContent.add(matkul.panelMatkul);
+            }
+        });
+        pembuatanAkunButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelContent.removeAll();
+                panelContent.revalidate();
+                panelContent.repaint();
+                User user = new User();
+                user.panelUser.setVisible(true);
+                panelContent.revalidate();
+                panelContent.setLayout(new java.awt.BorderLayout());
+                panelContent.add(user.panelUser);
+            }
+        });
+        golonganButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelContent.removeAll();
+                panelContent.revalidate();
+                panelContent.repaint();
+                GolonganDosen golonganDosen = new GolonganDosen();
+                golonganDosen.panelGolongan.setVisible(true);
+                panelContent.revalidate();
+                panelContent.setLayout(new java.awt.BorderLayout());
+                panelContent.add(golonganDosen.panelGolongan);
+            }
+        });
+        perusahaanButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelContent.removeAll();
+                panelContent.revalidate();
+                panelContent.repaint();
+                PerusahaanAstra perusahaanAstra = new PerusahaanAstra();
+                perusahaanAstra.panelPerusahaan.setVisible(true);
+                panelContent.revalidate();
+                panelContent.setLayout(new java.awt.BorderLayout());
+                panelContent.add(perusahaanAstra.panelPerusahaan);
             }
         });
     }

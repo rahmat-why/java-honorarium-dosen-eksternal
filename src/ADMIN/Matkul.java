@@ -18,17 +18,13 @@ public class Matkul  extends JFrame {
     private JTextField txtSearch;
     private JTable tblMatkul;
     private JTextField txtID;
-
+    JPanel panelMatkul;
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
 
     public Matkul() {
 
         connection = new DBConnect();
-        setSize(500, 500);
-        setTitle("Form Mata Kuliah");
-        setContentPane(JPMatkul);
-        setLocationRelativeTo(null);
 
         tableModel = new DefaultTableModel();
         tblMatkul.setModel(tableModel);
@@ -233,7 +229,7 @@ public class Matkul  extends JFrame {
     public void addColumn(){
         tableModel.addColumn("ID Matkul");
         tableModel.addColumn("Nama Matkul");
-        tableModel.addColumn("sks");
+        tableModel.addColumn("SKS");
     }
     public void generateId() {
         try {
@@ -279,7 +275,7 @@ public class Matkul  extends JFrame {
             System.out.println("Terjadi error saat load data Matkul :" + e);
         }
     }
-    public static void main(String[]args){
-        new Matkul().setVisible(true);
-    }
+    //public static void main(String[]args){
+//        new Matkul().setVisible(true);
+//    }
 }

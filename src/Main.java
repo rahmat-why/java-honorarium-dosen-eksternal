@@ -1,9 +1,10 @@
 import ADMIN.AdminPage;
 import ADMIN.JenisDosen;
-import CONTOH.CONTOH;
+import LOGIN.Login;
 
 public class Main {
     public static void main(String[] args) {
-        AdminPage admin = new AdminPage();
+        Login login = new Login();
+        login.setVisible(true);
     }
 }

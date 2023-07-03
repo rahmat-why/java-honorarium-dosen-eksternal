@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ADMIN.JenisDosen">
-  <grid id="27dc6" binding="panelJenisDosen" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+  <grid id="27dc6" binding="panelJenisDosen" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="845" height="651"/>
+      <xy x="20" y="20" width="848" height="651"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
       <grid id="a37b9" binding="JPJenis" layout-manager="BorderLayout" hgap="0" vgap="0">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
+        <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
@@ -20,18 +17,20 @@
             <constraints border-constraint="Center"/>
             <properties>
               <background color="-14146253"/>
+              <foreground color="-16382458"/>
             </properties>
             <border type="none">
               <color color="-1"/>
             </border>
             <children>
-              <grid id="21ae2" layout-manager="GridLayoutManager" row-count="13" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="21ae2" layout-manager="GridLayoutManager" row-count="9" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <background color="-14146253"/>
+                  <background color="-1"/>
+                  <foreground color="-16382458"/>
                 </properties>
                 <border type="line">
                   <color color="-1"/>
@@ -43,13 +42,13 @@
                     </constraints>
                     <properties>
                       <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
+                      <foreground color="-16777216"/>
                       <text value="Nama Jenis"/>
                     </properties>
                   </component>
                   <vspacer id="d96d">
                     <constraints>
-                      <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </vspacer>
                   <component id="1d63" class="javax.swing.JTextField" binding="txtNamaJenis">
@@ -67,39 +66,17 @@
                       <grid row="0" column="3" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                     </constraints>
                   </vspacer>
-                  <grid id="e0d5f" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="2" column="8" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                    </properties>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                  <grid id="9ae00" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="12" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                    </properties>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                  <component id="70f88" class="javax.swing.JLabel">
+                  <component id="2ae85" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
-                      <text value="Intensif Kehadiran Gol 1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Kompensasi Mengajar"/>
                     </properties>
                   </component>
-                  <component id="483da" class="javax.swing.JTextField" binding="txtKehadiranGol1">
+                  <component id="9f579" class="javax.swing.JTextField" binding="txtKompensasi">
                     <constraints>
                       <grid row="3" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -109,27 +86,17 @@
                       <background color="-1"/>
                     </properties>
                   </component>
-                  <component id="4a441" class="javax.swing.JLabel">
+                  <component id="2d712" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
-                      <text value="Intensif Kehadiran Gol 2"/>
+                      <foreground color="-16777216"/>
+                      <text value="Transport Mengajar"/>
                     </properties>
                   </component>
-                  <component id="dbb1f" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
-                      <text value="Intensif Kehadiran Gol 3"/>
-                    </properties>
-                  </component>
-                  <component id="d6d7d" class="javax.swing.JTextField" binding="txtKehadiranGol2">
+                  <component id="20cec" class="javax.swing.JTextField" binding="txtTransport">
                     <constraints>
                       <grid row="4" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -139,7 +106,17 @@
                       <background color="-1"/>
                     </properties>
                   </component>
-                  <component id="29862" class="javax.swing.JTextField" binding="txtKehadiranGol3">
+                  <component id="41a3" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Century Gothic" size="12"/>
+                      <foreground color="-16777216"/>
+                      <text value="Persentase PPH21 NPWP"/>
+                    </properties>
+                  </component>
+                  <component id="c51a4" class="javax.swing.JTextField" binding="txtPersentaseNPWP">
                     <constraints>
                       <grid row="5" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -149,17 +126,17 @@
                       <background color="-1"/>
                     </properties>
                   </component>
-                  <component id="2ae85" class="javax.swing.JLabel">
+                  <component id="d0b96" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
-                      <text value="Kompensasi Mengajar"/>
+                      <foreground color="-16777216"/>
+                      <text value="Persentase PPH21 NonNPWP"/>
                     </properties>
                   </component>
-                  <component id="9f579" class="javax.swing.JTextField" binding="txtKompensasi">
+                  <component id="ed594" class="javax.swing.JTextField" binding="txtPersentaseNonNPWP">
                     <constraints>
                       <grid row="6" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -169,100 +146,12 @@
                       <background color="-1"/>
                     </properties>
                   </component>
-                  <component id="2d712" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
-                      <text value="Transport Mengajar"/>
-                    </properties>
-                  </component>
-                  <component id="20cec" class="javax.swing.JTextField" binding="txtTransport">
-                    <constraints>
-                      <grid row="7" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-1"/>
-                    </properties>
-                  </component>
-                  <component id="41a3" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
-                      <text value="Persentase PPH21 NPWP"/>
-                    </properties>
-                  </component>
-                  <component id="c51a4" class="javax.swing.JTextField" binding="txtPersentaseNPWP">
-                    <constraints>
-                      <grid row="8" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-1"/>
-                    </properties>
-                  </component>
-                  <component id="d0b96" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
-                      <text value="Persentase PPH21 NonNPWP"/>
-                    </properties>
-                  </component>
-                  <component id="ed594" class="javax.swing.JTextField" binding="txtPersentaseNonNPWP">
-                    <constraints>
-                      <grid row="9" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-1"/>
-                    </properties>
-                  </component>
-                  <component id="55484" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-1"/>
-                      <foreground color="-1"/>
-                      <text value="Rp"/>
-                    </properties>
-                  </component>
-                  <component id="a31a7" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <foreground color="-1"/>
-                      <text value="Rp"/>
-                    </properties>
-                  </component>
-                  <component id="5b924" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <foreground color="-1"/>
-                      <text value="Rp"/>
-                    </properties>
-                  </component>
                   <component id="46694" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <foreground color="-1"/>
+                      <foreground color="-16382458"/>
                       <text value="ID Jenis"/>
                     </properties>
                   </component>
@@ -275,7 +164,7 @@
                     <properties>
                       <background color="-1"/>
                       <editable value="false"/>
-                      <enabled value="true"/>
+                      <enabled value="false"/>
                       <text value="Otomatis"/>
                     </properties>
                   </component>
@@ -291,53 +180,53 @@
                   </hspacer>
                   <component id="54693" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <foreground color="-1"/>
+                      <foreground color="-16382458"/>
                       <text value="Rp"/>
                     </properties>
                   </component>
                   <component id="b85af" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <foreground color="-1"/>
+                      <foreground color="-16382458"/>
                       <text value="Rp"/>
                     </properties>
                   </component>
                   <component id="cfa1a" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="8" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <foreground color="-1"/>
+                      <foreground color="-16777216"/>
                       <text value="%"/>
                     </properties>
                   </component>
                   <component id="5d32" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="9" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="6" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <foreground color="-1"/>
+                      <foreground color="-16777216"/>
                       <text value="%"/>
                     </properties>
                   </component>
                   <component id="cfd60" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
+                      <foreground color="-16777216"/>
                       <text value="Referensi Dosen"/>
                     </properties>
                   </component>
                   <component id="85a71" class="javax.swing.JComboBox" binding="cbReferensiDosen">
                     <constraints>
-                      <grid row="10" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="7" column="3" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                   </component>
@@ -362,7 +251,7 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-262152"/>
+                      <foreground color="-16777216"/>
                       <text value="Save"/>
                     </properties>
                   </component>
@@ -378,12 +267,12 @@
                   </hspacer>
                   <component id="f54d8" class="javax.swing.JButton" binding="btnUpdate">
                     <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="1" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="11" style="1"/>
-                      <foreground color="-262152"/>
+                      <foreground color="-16777216"/>
                       <text value="Update"/>
                     </properties>
                   </component>
@@ -394,7 +283,7 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="11" style="1"/>
-                      <foreground color="-262152"/>
+                      <foreground color="-16777216"/>
                       <text value="Delete"/>
                     </properties>
                   </component>
@@ -405,7 +294,7 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="11" style="1"/>
-                      <foreground color="-262152"/>
+                      <foreground color="-16777216"/>
                       <text value="Clear"/>
                     </properties>
                   </component>
@@ -524,7 +413,19 @@
                   <background color="-14146253"/>
                 </properties>
                 <border type="none"/>
-                <children/>
+                <children>
+                  <component id="e38a1" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <foreground color="-262152"/>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="0"/>
+                      <text value="Jenis Dosen"/>
+                    </properties>
+                  </component>
+                </children>
               </grid>
               <grid id="a34a1" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
@@ -563,11 +464,6 @@
           </grid>
         </children>
       </grid>
-      <vspacer id="298fe">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
     </children>
   </grid>
 </form>

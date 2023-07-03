@@ -31,6 +31,7 @@ public class ReportTransfer extends JFrame{
     private JButton btnFilter;
     private JComboBox cbJenisDosen;
     private JLabel TOTALTRANSFER;
+    public JPanel panelReportTransfer;
 
     DefaultTableModel tableModel;
 
@@ -39,11 +40,6 @@ public class ReportTransfer extends JFrame{
     private double total_transfer = 0;
 
     public ReportTransfer() {
-
-        setSize(500, 500);
-        setTitle("Form Laporan Transfer");
-        setContentPane(JPReportTransfer);
-        setLocationRelativeTo(null);
 
         connection = new DBConnect();
 

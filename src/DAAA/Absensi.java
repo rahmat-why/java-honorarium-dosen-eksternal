@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Absensi extends JFrame{
-    private JPanel JPAbsensi;
+    JPanel JPAbsensi;
     private JComboBox cmbIDDosen;
     private JComboBox cmbMatkul;
     private JComboBox cmbProdi;
@@ -35,13 +35,6 @@ public class Absensi extends JFrame{
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
     public Absensi() {
-
-
-        setSize(800, 800);
-        setTitle("FORM Transaksi");
-        setContentPane(JPAbsensi);
-        setLocationRelativeTo(null);
-
         JDateChooser tanggalMengajar = new JDateChooser();
         JPTanggalMengajar.add(tanggalMengajar);
         JDateChooser tanggalAwal = new JDateChooser();
