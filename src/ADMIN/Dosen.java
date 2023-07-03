@@ -4,6 +4,7 @@ import COMPONENT.ComboboxOption;
 import Connection.DBConnect;
 import com.toedter.calendar.JDateChooser;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -11,7 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
-import java.io.File;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.SQLOutput;
@@ -37,7 +39,6 @@ public class Dosen extends JFrame {
     private JTextField txtCabangBank;
     private JTextField txtNoRekening;
     private JTextField txtNPWP;
-    private JTextField txtAsalPerusahaan;
     private JTextField txtAtasNama;
     private JTextField txtKota;
     private JComboBox cbStatus;
@@ -45,13 +46,21 @@ public class Dosen extends JFrame {
     private JPanel JPTanggalKampus;
     private JPanel JPTanggalIndustri;
     private JLabel Label_Gambar;
-    private JTextField textFieldName;
     private JButton btnBrowser;
+    private JComboBox cbIdPerusahaan;
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
 
+    //Variabel
+    String selectedImagePath = "";
+    private File selectedImageFile;
+    byte[] imageBytes;
+
     public Dosen() {
-        connection = new DBConnect();
+        setSize(500, 500);
+        setTitle("FORM Dosen");
+        setContentPane(panelDosen);
+        setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
 
@@ -76,6 +85,7 @@ public class Dosen extends JFrame {
         addColumn();
         loadData(null);
         showJenisDosen();
+        showPerusahaan();
         txtNamaDosen.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -155,18 +165,7 @@ public class Dosen extends JFrame {
                 }
             }
         });
-        txtAsalPerusahaan.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
-                        && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Kolom ini hanya boleh diisi dengan huruf!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+
         txtAtasNama.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -222,7 +221,6 @@ public class Dosen extends JFrame {
                     String cabangBank = txtCabangBank.getText();
                     String noRekening = txtNoRekening.getText();
                     String npwp = txtNPWP.getText();
-                    String asalPerusahaan = txtAsalPerusahaan.getText();
 
                     ComboboxOption selectedOption = (ComboboxOption) cbStatus.getSelectedItem();
                     String status = selectedOption.getValue();
@@ -233,7 +231,7 @@ public class Dosen extends JFrame {
                     // Validasi data
                     if (namaDosen.isEmpty() || idDosen.isEmpty() || email.isEmpty() || jnID.isEmpty() ||
                             namaBank.isEmpty() || cabangBank.isEmpty() || noRekening.isEmpty() ||
-                            npwp.isEmpty() || asalPerusahaan.isEmpty() || status.isEmpty() ||
+                            npwp.isEmpty() || status.isEmpty() ||
                             atasNama.isEmpty() || kota.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data sebelum menyimpan!", "Error", JOptionPane.ERROR_MESSAGE);
                         return; // Stop further execution
@@ -247,7 +245,7 @@ public class Dosen extends JFrame {
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        String procedureCall = "{CALL sp_CreateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+                        String procedureCall = "{CALL sp_CreateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
                         connection.pstat.setString(1, namaDosen);
                         connection.pstat.setString(2, email);
@@ -258,10 +256,11 @@ public class Dosen extends JFrame {
                         connection.pstat.setString(7, npwp);
                         connection.pstat.setString(8, tanggalKampus);
                         connection.pstat.setString(9, tanggalIndustri);
-                        connection.pstat.setString(10, asalPerusahaan);
-                        connection.pstat.setString(11, status);
-                        connection.pstat.setString(12, atasNama);
-                        connection.pstat.setString(13, kota);
+                        connection.pstat.setString(10, status);
+                        connection.pstat.setString(11, atasNama);
+                        connection.pstat.setString(12, kota);
+
+                        connection.pstat.setBytes(14, imageBytes);
                         connection.pstat.execute();
 
                         connection.pstat.close();
@@ -307,12 +306,22 @@ public class Dosen extends JFrame {
                 txtNPWP.setText((String) tableModel.getValueAt(i, 7));
                 datechooser.setDate((Date) tableModel.getValueAt(i, 8));
                 dateChooser.setDate((Date) tableModel.getValueAt(i, 9));
-                txtAsalPerusahaan.setText((String) tableModel.getValueAt(i, 10));
+
+                String perusahaan = (String) tableModel.getValueAt(i, 10);
+                for (int x = 0; x < cbIdPerusahaan.getItemCount(); x++) {
+                    Object item = cbIdPerusahaan.getItemAt(x);
+                    String Perusahaan = ((ComboboxOption) item).getDisplay();
+                    if (Perusahaan.equals(perusahaan)) {
+                        cbIdPerusahaan.setSelectedItem(item);
+                        break;
+                    }
+                }
+
                 String status = (String) tableModel.getValueAt(i, 11);
                 for (int x = 0; x < cbStatus.getItemCount(); x++) {
                     Object item = cbStatus.getItemAt(x);
                     String Status = ((ComboboxOption) item).getValue();
-                    if (Status.equals(jnID)) {
+                    if (Status.equals(status)) {
                         cbStatus.setSelectedItem(item);
                         break;
                     }
@@ -324,6 +333,30 @@ public class Dosen extends JFrame {
                 btnSave.setEnabled(false);
                 btnUpdate.setEnabled(true);
                 btnDelete.setEnabled(true);
+
+                SwingWorker<ImageIcon, Void> worker = new SwingWorker<ImageIcon, Void>() {
+                    @Override
+                    protected ImageIcon doInBackground() throws Exception {
+                        // Retrieve the image from the database
+                        return retrieveImageFromDatabase(tableModel.getValueAt(i, 0).toString());
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            // Get the image result from doInBackground()
+                            ImageIcon imageIcon = get();
+
+                            // Resize image to fit JLabel
+                            Image image = imageIcon.getImage().getScaledInstance(Label_Gambar.getWidth(), Label_Gambar.getHeight(), Image.SCALE_SMOOTH);
+                            Label_Gambar.setIcon(new ImageIcon(image));
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                };
+
+                worker.execute(); // Start the SwingWorker
             }
         });
         btnClear.addActionListener(new ActionListener() {
@@ -354,13 +387,12 @@ public class Dosen extends JFrame {
                     }
 
                     ComboboxOption selectedOptionJenis = (ComboboxOption) cbIDJenis.getSelectedItem();
-                    String jnID = selectedOptionJenis.getValue();
+                    String jenis_id = selectedOptionJenis.getValue();
 
                     String namaBank = txtNamaBank.getText();
                     String cabangBank = txtCabangBank.getText();
                     String noRekening = txtNoRekening.getText();
                     String npwp = txtNPWP.getText();
-                    String asalPerusahaan = txtAsalPerusahaan.getText();
 
                     ComboboxOption selectedOption = (ComboboxOption) cbStatus.getSelectedItem();
                     String status = selectedOption.getValue();
@@ -368,9 +400,12 @@ public class Dosen extends JFrame {
                     String atasNama = txtAtasNama.getText();
                     String kota = txtKota.getText();
 
-                    if (namaDosen.isEmpty() || idDosen.isEmpty() || email.isEmpty() || jnID.isEmpty() ||
+                    ComboboxOption selectedOptionPerusahaan = (ComboboxOption) cbIdPerusahaan.getSelectedItem();
+                    String id_perusahaan = selectedOptionPerusahaan.getValue();
+
+                    if (namaDosen.isEmpty() || idDosen.isEmpty() || email.isEmpty() || jenis_id.isEmpty() ||
                             namaBank.isEmpty() || cabangBank.isEmpty() || noRekening.isEmpty() ||
-                            npwp.isEmpty() || asalPerusahaan.isEmpty() || status.isEmpty() ||
+                            npwp.isEmpty() || status.isEmpty() ||
                             atasNama.isEmpty() || kota.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!", "Error", JOptionPane.ERROR_MESSAGE);
                         return; // Stop further execution
@@ -378,22 +413,23 @@ public class Dosen extends JFrame {
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        String procedureCall = "{CALL sp_UpdateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+                        String procedureCall = "{CALL sp_UpdateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
                         connection.pstat.setString(1, idDosen);
                         connection.pstat.setString(2, namaDosen);
                         connection.pstat.setString(3, email);
-                        connection.pstat.setString(4, jnID);
-                        connection.pstat.setString(5, namaBank); // Atur nilai untuk parameter nomor 4 (pny_telp)
+                        connection.pstat.setString(4, jenis_id);
+                        connection.pstat.setString(5, namaBank);
                         connection.pstat.setString(6, cabangBank);
                         connection.pstat.setString(7, noRekening);
                         connection.pstat.setString(8, npwp);
                         connection.pstat.setString(9, tanggalKampus);
                         connection.pstat.setString(10, tanggalIndustri);
-                        connection.pstat.setString(11, asalPerusahaan);
-                        connection.pstat.setString(12, status);
-                        connection.pstat.setString(13, atasNama);
-                        connection.pstat.setString(14, kota);
+                        connection.pstat.setString(11, status);
+                        connection.pstat.setString(12, atasNama);
+                        connection.pstat.setString(13, kota);
+                        connection.pstat.setString(14, id_perusahaan);
+                        connection.pstat.setBytes(15, imageBytes);
 
                         connection.pstat.executeUpdate();
                         connection.pstat.close();
@@ -464,7 +500,6 @@ public class Dosen extends JFrame {
         btnBrowser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedImagePath = "";
                 JFileChooser browseImageFile = new JFileChooser();
                 //Filter extensions
                 FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
@@ -472,33 +507,126 @@ public class Dosen extends JFrame {
                 int showOpenDialogue = browseImageFile.showOpenDialog(null);
 
                 if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
-                    File selectedImageFile = browseImageFile.getSelectedFile();
+                    selectedImageFile = browseImageFile.getSelectedFile();
                     selectedImagePath = selectedImageFile.getAbsolutePath();
-                    //Display image on jlable
-                    ImageIcon ii = new ImageIcon(selectedImagePath);
-                    //Resize image to fit jlabel
-                    Image image = ii.getImage().getScaledInstance(175, 175, Image.SCALE_SMOOTH);
-                    Label_Gambar.setIcon(new ImageIcon(image));
-                    textFieldName.setText(selectedImagePath);
-                    JOptionPane.showMessageDialog(null, "Insert Image succesfully");
+
+                    try {
+                        // Mengubah gambar menjadi byte array
+                        imageBytes = convertImageToByteArray(selectedImageFile);
+
+                        //Display image on jlable
+                        ImageIcon ii = new ImageIcon(selectedImagePath);
+                        //Resize image to fit jlabel
+                        Image image = ii.getImage().getScaledInstance(Label_Gambar.getWidth(), Label_Gambar.getHeight(), Image.SCALE_SMOOTH);
+                        Label_Gambar.setIcon(new ImageIcon(image));
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });
-        cbIDJenis.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                showJenisDosen();
-            }
-        });
+
         cbIDJenis.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 ComboboxOption selectedOptionJenis = (ComboboxOption) cbIDJenis.getSelectedItem();
-                String jnID = selectedOptionJenis.getValue();
-                ShowgetSpecificJenisDosen(jnID);
+                String referensi_dosen = selectedOptionJenis.getHelper();
+                for (Component component : JPTanggalIndustri.getComponents()) {
+                    component.setEnabled(true);
+                }
+                cbIdPerusahaan.setEnabled(true);
+
+                if (referensi_dosen.equals("UMUM")) {
+                    for (Component component : JPTanggalIndustri.getComponents()) {
+                        component.setEnabled(false);
+                    }
+
+                    for (int x = 0; x < cbIdPerusahaan.getItemCount(); x++) {
+                        Object item = cbIdPerusahaan.getItemAt(x);
+                        String Perusahaan = ((ComboboxOption) item).getDisplay();
+                        if (Perusahaan.equals("UMUM")) {
+                            cbStatus.setSelectedItem(item);
+                            break;
+                        }
+                    }
+
+                    cbIdPerusahaan.setEnabled(false);
+                }
             }
         });
+    }
+
+    public ImageIcon retrieveImageFromDatabase(String id_dosen) {
+        ImageIcon imageIcon = null;
+
+        try {
+            // Prepare SQL statement
+            String sq2 = "SELECT foto_dosen FROM dosen WHERE id_dosen = ?";
+            connection.pstat = connection.conn.prepareStatement(sq2);
+
+
+            // Set the image ID parameter
+            connection.pstat.setString(1, id_dosen);
+
+            connection.result = connection.pstat.executeQuery();
+
+            if (connection.result.next()) {
+                // Retrieve the image data as an input stream
+                InputStream inputStream = connection.result.getBinaryStream("foto_dosen");
+
+                // Convert the input stream to a byte array
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+
+                imageBytes = outputStream.toByteArray();
+
+                // Create an ImageIcon from the byte array
+                imageIcon = new ImageIcon(imageBytes);
+
+                // Close streams and database connection
+                inputStream.close();
+                outputStream.close();
+            }
+
+            connection.pstat.close();
+        } catch (SQLException | IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return imageIcon;
+    }
+
+    private static byte[] convertImageToByteArray(File imageFile) throws IOException {
+        FileInputStream fis = new FileInputStream(imageFile);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        byte[] buffer = new byte[4096];
+        int bytesRead;
+        while ((bytesRead = fis.read(buffer)) != -1) {
+            baos.write(buffer, 0, bytesRead);
+        }
+
+        fis.close();
+        baos.close();
+
+        return baos.toByteArray();
+    }
+
+    private File convertImageToFile(Image image) throws IOException {
+        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = bufferedImage.createGraphics();
+        g2d.drawImage(image, 0, 0, null);
+        g2d.dispose();
+
+        File tempFile = File.createTempFile("temp", ".jpg");
+        ImageIO.write(bufferedImage, "jpg", tempFile);
+        return tempFile;
     }
 
     private boolean isValidEmailFormat(String email) {
@@ -517,6 +645,7 @@ public class Dosen extends JFrame {
     public void loadData(String nama_dosen) {
         tableModel.getDataVector().removeAllElements();
         tableModel.fireTableDataChanged();
+
         try {
             String functionCall = "SELECT * FROM dbo.getListDosen(?)";
             connection.pstat = connection.conn.prepareStatement(functionCall);
@@ -550,35 +679,6 @@ public class Dosen extends JFrame {
         }
     }
 
-
-    public void ShowgetSpecificJenisDosen(String jnID) {
-        try {
-            String functionCall = "SELECT * FROM dbo.getSpecificJenisDosen(?)";
-            connection.pstat = connection.conn.prepareStatement(functionCall);
-            connection.pstat.setString(1, jnID);
-
-            connection.result = connection.pstat.executeQuery();
-
-            if (connection.result.next()) {
-                for (Component component : JPTanggalIndustri.getComponents()) {
-                    component.setEnabled(true);
-                }
-
-                String referensi_dosen = connection.result.getString("referensi_dosen");
-                if (!referensi_dosen.equals("INDUSTRI")) {
-                    for (Component component : JPTanggalIndustri.getComponents()) {
-                        component.setEnabled(false);
-                    }
-                }
-            }
-            connection.stat.close();
-            connection.result.close();
-        } catch (Exception ex) {
-            System.out.println(ex.toString());
-        }
-    }
-
-
     public void generateId() {
         try {
             String query = "SELECT dbo.GenerateDosenID() AS newId";
@@ -602,7 +702,7 @@ public class Dosen extends JFrame {
         tableModel.addColumn("ID Dosen");
         tableModel.addColumn("Nama Dosen");
         tableModel.addColumn("Email");
-        tableModel.addColumn("ID Jenis Dosen");
+        tableModel.addColumn("Jenis Dosen");
         tableModel.addColumn("Nama Bank");
         tableModel.addColumn("Cabang Bank");
         tableModel.addColumn("No Rekening");
@@ -622,20 +722,23 @@ public class Dosen extends JFrame {
         txtNoRekening.setText("");
         txtCabangBank.setText("");
         txtNPWP.setText("");
-        txtAsalPerusahaan.setText("");
         txtAtasNama.setText("");
         txtKota.setText("");
     }
+
     public void showJenisDosen() {
         try {
-            connection.stat = connection.conn.createStatement();
-            String sql = "SELECT * FROM jenis_dosen";
-            connection.result = connection.stat.executeQuery(sql);
+            String functionCall = "SELECT * FROM dbo.getListJenisDosen(?)";
+            connection.pstat = connection.conn.prepareStatement(functionCall);
+            connection.pstat.setString(1, null);
+
+            connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                String jnID = connection.result.getString("id_jenis_dosen");
-                String namaJenis = connection.result.getString("nama_jenis");
-                cbIDJenis.addItem(new ComboboxOption( jnID, namaJenis));
+                String jenis_id = connection.result.getString("id_jenis_dosen");
+                String nama_jenis = connection.result.getString("nama_jenis");
+                String referensi_dosen = connection.result.getString("referensi_dosen");
+                cbIDJenis.addItem(new ComboboxOption( jenis_id, nama_jenis, referensi_dosen));
             }
 
             connection.stat.close();
@@ -644,7 +747,30 @@ public class Dosen extends JFrame {
             System.out.println("Error: " + exc.toString());
         }
     }
-//    public static void main(String[]args){
-//        new Dosen().setVisible(true);
-//    }
+
+    public void showPerusahaan() {
+        try {
+            String functionCall = "SELECT * FROM dbo.getListPerusahaan(?)";
+            connection.pstat = connection.conn.prepareStatement(functionCall);
+            connection.pstat.setString(1, null);
+
+            connection.result = connection.pstat.executeQuery();
+
+            cbIdPerusahaan.addItem(new ComboboxOption(null, "UMUM"));
+            while (connection.result.next()) {
+                String id_perusahaan = connection.result.getString("id_perusahaan");
+                String nama_perusahaan = connection.result.getString("nama_perusahaan");
+                cbIdPerusahaan.addItem(new ComboboxOption( id_perusahaan, nama_perusahaan));
+            }
+
+            connection.stat.close();
+            connection.result.close();
+        } catch (SQLException exc) {
+            System.out.println("Error: " + exc.toString());
+        }
+    }
+
+    public static void main(String[]args){
+        new Dosen().setVisible(true);
+    }
 }
