@@ -10,7 +10,6 @@ import java.sql.SQLException;
 
 public class JenisDosen extends JFrame{
     public JPanel panelJenisDosen;
-    private JPanel JPJenis;
     private JTextField txtNamaJenis;
     private JTextField txtKehadiranGol1;
     private JButton btnSave;

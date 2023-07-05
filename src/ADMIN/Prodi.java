@@ -20,7 +20,6 @@ public class Prodi extends JFrame {
     private JTable tblProdi;
     private JTextField txtID;
     JPanel panelProdi;
-    private JPanel JPanel;
 
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();

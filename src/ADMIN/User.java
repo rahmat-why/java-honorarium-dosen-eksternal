@@ -9,19 +9,18 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class User extends JFrame {
-    private JPanel JPUser;
     private JTextField txtEmpName;
     private JButton btnSave;
     private JButton btnUpdate;
     private JButton btnDelete;
     private JButton btnClear;
     private JTextField txtSearch;
-    private JTable tableEmployee;
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JComboBox cmbRole;
-    private JTextField txtIDUser;
     JPanel panelUser;
+    private JTextField txtID;
+    private JTable tblEmployee;
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
     public User() {
@@ -35,7 +34,7 @@ public class User extends JFrame {
         btnDelete.setEnabled(false);
 
         tableModel = new DefaultTableModel();
-        tableEmployee.setModel(tableModel);
+        tblEmployee.setModel(tableModel);
 
         addColumn();
         loadData(null);
@@ -86,15 +85,15 @@ public class User extends JFrame {
             }
         });
 
-        tableEmployee.addMouseListener(new MouseAdapter() {
+        tblEmployee.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                int i = tableEmployee.getSelectedRow();
+                int i = tblEmployee.getSelectedRow();
                 if (i == -1) {
                     return;
                 }
-                txtIDUser.setText((String) tableModel.getValueAt(i, 0));
+                txtID.setText((String) tableModel.getValueAt(i, 0));
                 txtEmpName.setText((String) tableModel.getValueAt(i, 1));
                 txtUsername.setText((String) tableModel.getValueAt(i, 2));
                 txtPassword.setText((String) tableModel.getValueAt(i, 3));
@@ -128,7 +127,7 @@ public class User extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id = txtIDUser.getText();
+                    String id = txtID.getText();
                     String nama = txtEmpName.getText();
                     String usrName = txtUsername.getText();
                     String password = txtPassword.getText();
@@ -175,7 +174,7 @@ public class User extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id = txtIDUser.getText();
+                    String id = txtID.getText();
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
@@ -275,7 +274,7 @@ public class User extends JFrame {
         tableModel.addColumn("Role");
     }
     public void clear() {
-        txtIDUser.setText("Otomatis");
+        txtID.setText("Otomatis");
         txtEmpName.setText("");
         txtUsername.setText("");
         txtPassword.setText("");

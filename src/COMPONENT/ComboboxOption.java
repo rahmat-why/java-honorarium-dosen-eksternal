@@ -21,4 +21,8 @@ public class ComboboxOption {
     public String getDisplay() {
         return display;
     }
+
+    public String getHelper() {
+        return getHelper();
+    }
 }

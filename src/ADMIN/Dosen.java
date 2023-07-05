@@ -25,7 +25,6 @@ import java.awt.event.MouseEvent;
 
 public class Dosen extends JFrame {
     public JPanel panelDosen;
-    private JPanel JPDosen;
     private JTextField txtNamaDosen;
     private JTextField txtEmail;
     private JButton btnSave;
@@ -737,10 +736,8 @@ public class Dosen extends JFrame {
             while (connection.result.next()) {
                 String jenis_id = connection.result.getString("id_jenis_dosen");
                 String nama_jenis = connection.result.getString("nama_jenis");
-                String referensi_dosen = connection.result.getString("referensi_dosen");
-                cbIDJenis.addItem(new ComboboxOption( jenis_id, nama_jenis, referensi_dosen));
+                cbIDJenis.addItem(new ComboboxOption(jenis_id, nama_jenis));
             }
-
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {

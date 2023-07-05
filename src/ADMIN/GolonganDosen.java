@@ -8,7 +8,6 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class GolonganDosen extends JFrame {
-    private JPanel JPJenis;
     private JTextField txtNamaGolongan;
     private JTextField txtInsentifKehadiran;
     private JTextField txtTahunBatasBawah;

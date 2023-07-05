@@ -8,7 +8,6 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class Matkul  extends JFrame {
-    private JPanel JPMatkul;
     private JTextField txtMatkul;
     private JTextField txtSKS;
     private JButton btnSave;

@@ -2,10 +2,7 @@ package DAAA;
 
 import ADMIN.Dosen;
 import LOGIN.Login;
-import REPORT.ReportDosen;
-import REPORT.ReportProdi;
-import REPORT.ReportSlipGaji;
-import REPORT.ReportTransfer;
+import REPORT.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +17,6 @@ public class DAAAPage extends JFrame{
     private JPanel panelContent;
     private JPanel panelUtama;
     private JLabel labelNama;
-    private JButton riwayatAbsensiDosenButton;
     private JLabel labelRole;
     private JButton slipGajiButton;
     String nama, role;
@@ -47,11 +43,11 @@ public class DAAAPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                Absensi absensi = new Absensi();
-                absensi.JPAbsensi.setVisible(true);
+                Absen absen = new Absen();
+                absen.panelAbsen.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
-                panelContent.add(absensi.JPAbsensi);
+                panelContent.add(absen.panelAbsen);
             }
         });
         dosenButton.addActionListener(new ActionListener() {
@@ -60,11 +56,11 @@ public class DAAAPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                REPORT.ReportDosen reportDosen = new ReportDosen();
-                reportDosen.panelReportDosen.setVisible(true);
+                REPORT.dosenReport dosen = new dosenReport();
+                dosen.panelDosenReport.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
-                panelContent.add(reportDosen.panelReportDosen);
+                panelContent.add(dosen.panelDosenReport);
             }
         });
         prodiButton.addActionListener(new ActionListener() {
@@ -73,11 +69,11 @@ public class DAAAPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                REPORT.ReportProdi reportProdi = new ReportProdi();
-                reportProdi.panelReportProdi.setVisible(true);
+                REPORT.prodiReport prodi = new prodiReport();
+                prodi.panelProdiReport.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
-                panelContent.add(reportProdi.panelReportProdi);
+                panelContent.add(prodi.panelProdiReport);
             }
         });
         transferButton.addActionListener(new ActionListener() {
@@ -86,11 +82,11 @@ public class DAAAPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                REPORT.ReportTransfer reportTransfer = new ReportTransfer();
-                reportTransfer.panelReportTransfer.setVisible(true);
+                REPORT.transferReport transfer = new transferReport();
+                transfer.panelTransfer.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
-                panelContent.add(reportTransfer.panelReportTransfer);
+                panelContent.add(transfer.panelTransfer);
             }
         });
         slipGajiButton.addActionListener(new ActionListener() {
@@ -99,11 +95,11 @@ public class DAAAPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                REPORT.ReportSlipGaji reportSlipGaji = new ReportSlipGaji();
-                reportSlipGaji.panelReportSlipGaji.setVisible(true);
+                REPORT.gajiReport gaji = new gajiReport();
+                gaji.panelGaji.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
-                panelContent.add(reportSlipGaji.panelReportSlipGaji);
+                panelContent.add(gaji.panelGaji);
             }
         });
     }

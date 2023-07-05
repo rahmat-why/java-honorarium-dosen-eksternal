@@ -122,10 +122,10 @@ public class AdminPage extends JFrame{
                 panelContent.revalidate();
                 panelContent.repaint();
                 PerusahaanAstra perusahaanAstra = new PerusahaanAstra();
-                perusahaanAstra.panelPerusahaan.setVisible(true);
+                perusahaanAstra.panelPerusahaanAstra.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
-                panelContent.add(perusahaanAstra.panelPerusahaan);
+                panelContent.add(perusahaanAstra.panelPerusahaanAstra);
             }
         });
     }

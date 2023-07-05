@@ -8,16 +8,15 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class PerusahaanAstra extends JFrame {
-    JPanel panelPerusahaan;
-    private JPanel JPPerusahaan;
+    JPanel panelPerusahaanAstra;
     private JTextField txtNamaPerusahaan;
     private JTextField txtID;
     private JButton btnSave;
     private JButton btnUpdate;
     private JButton btnDelete;
-    private JButton btnClear;
     private JTextField txtSearch;
-    private JTable tblPerusahaanAstra;
+    private JTable tblPerusahaan;
+    private JButton btnClear;
 
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
@@ -27,7 +26,7 @@ public class PerusahaanAstra extends JFrame {
         connection = new DBConnect();
 
         tableModel = new DefaultTableModel();
-        tblPerusahaanAstra.setModel(tableModel);
+        tblPerusahaan.setModel(tableModel);
 
         btnSave.setEnabled(true);
         btnUpdate.setEnabled(false);
@@ -165,6 +164,16 @@ public class PerusahaanAstra extends JFrame {
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 loadData(txtSearch.getText());
+            }
+        });
+        btnClear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clear();
+
+                btnSave.setEnabled(true);
+                btnUpdate.setEnabled(false);
+                btnDelete.setEnabled(false);
             }
         });
     }

@@ -2,411 +2,270 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ADMIN.User">
   <grid id="27dc6" binding="panelUser" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="855" height="479"/>
+      <xy x="20" y="20" width="882" height="761"/>
     </constraints>
     <properties/>
     <border type="none" title=""/>
     <children>
-      <grid id="9e6a6" binding="JPUser" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="f67f3" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="50f1b" layout-manager="GridLayoutManager" row-count="9" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="efb5d" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints border-constraint="Center"/>
-            <properties>
-              <background color="-14146253"/>
-            </properties>
-            <border type="none">
-              <color color="-1"/>
-            </border>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
             <children>
-              <grid id="f9ca" layout-manager="GridLayoutManager" row-count="7" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="1e428" layout-manager="GridLayoutManager" row-count="20" column-count="12" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <background color="-1"/>
-                  <foreground color="-1"/>
+                  <background color="-16734469"/>
                 </properties>
-                <border type="line">
-                  <color color="-1"/>
-                </border>
+                <border type="none"/>
                 <children>
-                  <component id="93e5a" class="javax.swing.JLabel">
+                  <grid id="99a08" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="5" left="5" bottom="5" right="5"/>
                     <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="9" column="1" row-span="5" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
-                    <properties>
-                      <background color="-2884865"/>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-16777216"/>
-                      <text value="Nama"/>
-                    </properties>
-                  </component>
-                  <hspacer id="3edea">
-                    <constraints>
-                      <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <vspacer id="5f6e6">
-                    <constraints>
-                      <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </vspacer>
-                  <component id="8e347" class="javax.swing.JTextField" binding="txtEmpName">
-                    <constraints>
-                      <grid row="1" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-262152"/>
-                    </properties>
-                  </component>
-                  <hspacer id="8982">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <grid id="9aff8" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <properties/>
+                    <border type="bevel-raised"/>
+                    <children>
+                      <component id="266f0" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="ID User"/>
+                        </properties>
+                      </component>
+                      <component id="7c028" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Nama"/>
+                        </properties>
+                      </component>
+                      <component id="5cce6" class="javax.swing.JTextField" binding="txtID">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-1"/>
+                          <editable value="false"/>
+                          <enabled value="false"/>
+                          <text value="Otomatis"/>
+                        </properties>
+                      </component>
+                      <component id="514ac" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Username"/>
+                        </properties>
+                      </component>
+                      <component id="8476a" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Password"/>
+                        </properties>
+                      </component>
+                      <component id="8b395" class="javax.swing.JTextField" binding="txtEmpName">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-262152"/>
+                        </properties>
+                      </component>
+                      <component id="2495d" class="javax.swing.JTextField" binding="txtUsername">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-262152"/>
+                        </properties>
+                      </component>
+                      <component id="fadae" class="javax.swing.JPasswordField" binding="txtPassword">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-262152"/>
+                        </properties>
+                      </component>
+                      <component id="3988c" class="javax.swing.JComboBox" binding="cmbRole">
+                        <constraints>
+                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-262152"/>
+                        </properties>
+                      </component>
+                      <component id="50191" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Role"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="84720" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="1" row-span="1" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="bevel-raised"/>
+                    <children>
+                      <component id="b4c82" class="javax.swing.JTextField" binding="txtSearch">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="d551f" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Search"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="cc5d2" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-2884865"/>
-                      <foreground color="-1"/>
+                      <background color="-16734469"/>
                     </properties>
                     <border type="none"/>
                     <children/>
                   </grid>
-                  <grid id="1d7ed" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
+                  <component id="93f21" class="javax.swing.JButton" binding="btnSave">
                     <constraints>
-                      <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-2884865"/>
-                      <foreground color="-1"/>
-                    </properties>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                  <component id="d1919" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-2884865"/>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-16777216"/>
-                      <text value="Username"/>
-                    </properties>
-                  </component>
-                  <component id="6e753" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-2884865"/>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-16777216"/>
-                      <text value="Password"/>
-                    </properties>
-                  </component>
-                  <component id="edde" class="javax.swing.JTextField" binding="txtUsername">
-                    <constraints>
-                      <grid row="2" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-262152"/>
-                    </properties>
-                  </component>
-                  <component id="d3a58" class="javax.swing.JPasswordField" binding="txtPassword">
-                    <constraints>
-                      <grid row="3" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-262152"/>
-                    </properties>
-                  </component>
-                  <component id="bf99e" class="javax.swing.JComboBox" binding="cmbRole">
-                    <constraints>
-                      <grid row="4" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-262152"/>
-                    </properties>
-                  </component>
-                  <component id="e125e" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-2884865"/>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-16777216"/>
-                      <text value="Role"/>
-                    </properties>
-                  </component>
-                  <component id="27944" class="javax.swing.JTextField" binding="txtIDUser">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-1"/>
-                      <editable value="false"/>
-                      <enabled value="true"/>
-                      <text value="Otomatis"/>
-                    </properties>
-                  </component>
-                  <component id="25aa5" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-2884865"/>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-16777216"/>
-                      <text value="ID User"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="bc1c5" layout-manager="GridLayoutManager" row-count="1" column-count="13" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-14146253"/>
-                </properties>
-                <border type="line">
-                  <color color="-1"/>
-                </border>
-                <children>
-                  <component id="aab46" class="javax.swing.JButton" binding="btnSave">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="17" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
                       <foreground color="-16777216"/>
-                      <text value="Save"/>
+                      <icon value="PICTURE/diskette.png"/>
+                      <text value="  Save"/>
                     </properties>
                   </component>
-                  <hspacer id="9b91f">
+                  <scrollpane id="cce51">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="10" row-span="19" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
-                  </hspacer>
-                  <hspacer id="ddbb3">
-                    <constraints>
-                      <grid row="0" column="12" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
-                  <component id="6107e" class="javax.swing.JButton" binding="btnUpdate">
-                    <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                      <font name="Century Gothic" size="11" style="1"/>
-                      <foreground color="-16777216"/>
-                      <text value="Update"/>
-                    </properties>
-                  </component>
-                  <component id="d87b0" class="javax.swing.JButton" binding="btnDelete">
-                    <constraints>
-                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                      <font name="Century Gothic" size="11" style="1"/>
-                      <foreground color="-16777216"/>
-                      <text value="Delete"/>
-                    </properties>
-                  </component>
-                  <component id="59be8" class="javax.swing.JButton" binding="btnClear">
-                    <constraints>
-                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                      <font name="Century Gothic" size="11" style="1"/>
-                      <foreground color="-16777216"/>
-                      <text value="Clear"/>
-                    </properties>
-                  </component>
-                  <component id="bc71f" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Century Gothic" size="12"/>
-                      <foreground color="-1"/>
-                      <text value="Search"/>
-                    </properties>
-                  </component>
-                  <component id="55fc5" class="javax.swing.JTextField" binding="txtSearch">
-                    <constraints>
-                      <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <enabled value="true"/>
-                    </properties>
-                  </component>
-                  <grid id="ec7f5" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                    </properties>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                  <grid id="c340c" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                    </properties>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                  <grid id="ca46a" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                    </properties>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                  <grid id="3f0d" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                    </properties>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                  <grid id="dde14" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="0" column="11" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                    </properties>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                </children>
-              </grid>
-              <grid id="a95da" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-14146253"/>
-                </properties>
-                <border type="line">
-                  <color color="-1"/>
-                </border>
-                <children>
-                  <scrollpane id="55918">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                    </properties>
-                    <border type="none"/>
+                    <properties/>
+                    <border type="line"/>
                     <children>
-                      <component id="91481" class="javax.swing.JTable" binding="tableEmployee">
+                      <component id="1088" class="javax.swing.JTable" binding="tblEmployee">
                         <constraints/>
                         <properties/>
                       </component>
                     </children>
                   </scrollpane>
-                </children>
-              </grid>
-              <grid id="2e6ee" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="0" column="0" row-span="2" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-14146253"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <component id="e265f" class="javax.swing.JLabel">
+                  <grid id="f5a20" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="1" row-span="1" col-span="10" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <foreground color="-1"/>
-                      <text value="User"/>
+                      <background color="-16751468"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="b3129" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <foreground color="-262152"/>
+                          <text value="User"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="be250" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints>
+                      <grid row="0" column="11" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-16734469"/>
+                    </properties>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                  <vspacer id="7dc02">
+                    <constraints>
+                      <grid row="19" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </vspacer>
+                  <component id="fc148" class="javax.swing.JButton" binding="btnUpdate">
+                    <constraints>
+                      <grid row="17" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-14146253"/>
+                      <font name="Century Gothic" size="12" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="PICTURE/updating.png"/>
+                      <text value="  Update"/>
+                    </properties>
+                  </component>
+                  <component id="8faa4" class="javax.swing.JButton" binding="btnClear">
+                    <constraints>
+                      <grid row="18" column="1" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-14146253"/>
+                      <font name="Century Gothic" size="12" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="PICTURE/clean.png"/>
+                      <text value="  Clear"/>
+                    </properties>
+                  </component>
+                  <component id="58453" class="javax.swing.JButton" binding="btnDelete">
+                    <constraints>
+                      <grid row="17" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-14146253"/>
+                      <font name="Century Gothic" size="12" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="PICTURE/bin.png"/>
+                      <text value="  Delete"/>
                     </properties>
                   </component>
                 </children>
-              </grid>
-              <grid id="3f19e" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="2" column="2" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-14146253"/>
-                </properties>
-                <border type="none"/>
-                <children/>
-              </grid>
-              <grid id="e3382" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="7" column="0" row-span="2" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-14146253"/>
-                </properties>
-                <border type="none"/>
-                <children/>
-              </grid>
-              <grid id="74341" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="2" column="0" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-14146253"/>
-                </properties>
-                <border type="none"/>
-                <children/>
               </grid>
             </children>
           </grid>

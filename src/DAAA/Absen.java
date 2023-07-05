@@ -13,8 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Absensi extends JFrame{
-    JPanel JPAbsensi;
+public class Absen extends JFrame{
+    JPanel panelAbsen;
     private JComboBox cmbIDDosen;
     private JComboBox cmbMatkul;
     private JComboBox cmbProdi;
@@ -30,11 +30,12 @@ public class Absensi extends JFrame{
     private JTextField txtSearch;
     private JButton btnDelete;
     private JTextField txtIdAbsen;
+    private JButton btnClear;
     private JButton txtClear;
 
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
-    public Absensi() {
+    public Absen() {
         JDateChooser tanggalMengajar = new JDateChooser();
         JPTanggalMengajar.add(tanggalMengajar);
         JDateChooser tanggalAwal = new JDateChooser();
@@ -247,7 +248,7 @@ public class Absensi extends JFrame{
                 if (selectedRow == -1) {
                     return;
                 }
-               txtIdAbsen.setText((String) tableModel.getValueAt(selectedRow, 0));
+                txtIdAbsen.setText((String) tableModel.getValueAt(selectedRow, 0));
                 String jnID = (String) tableModel.getValueAt(selectedRow, 1);
                 for (int x = 0; x < cmbIDDosen.getItemCount(); x++) {
                     Object item = cmbIDDosen.getItemAt(x);
@@ -298,7 +299,7 @@ public class Absensi extends JFrame{
                 btnDelete.setEnabled(true);
             }
         });
-        txtClear.addActionListener(new ActionListener() {
+        btnClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Clear();
@@ -309,7 +310,7 @@ public class Absensi extends JFrame{
     }
 
 
-        public void showProdi() {
+    public void showProdi() {
         try {
             connection.stat = connection.conn.createStatement();
             String sql = "SELECT * FROM prodi"; // Corrected table name
@@ -451,6 +452,6 @@ public class Absensi extends JFrame{
     }
 
     public static void main(String[]args){
-        new Absensi().setVisible(true);
+        new Absen().setVisible(true);
     }
 }
