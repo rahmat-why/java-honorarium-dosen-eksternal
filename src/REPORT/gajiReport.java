@@ -16,6 +16,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -40,21 +42,17 @@ public class gajiReport extends JFrame{
     private JLabel labelTotalPendapatan;
     public JPanel panelReportSlipGaji;
     private JLabel labelTotalDibayarkan;
-    private DBConnect connection = new DBConnect();
+    private JButton btnKirimEmail;
+    DBConnect connection = new DBConnect();
+    JDateChooser tanggalAwal = new JDateChooser();
+    JDateChooser tanggalAkhir = new JDateChooser();
 
     public gajiReport() {
-        setSize(500, 500);
-        setTitle("Form Laporan Prodi");
-        setContentPane(panelGaji);
-        setLocationRelativeTo(null);
-
-        JDateChooser tanggalAwal = new JDateChooser();
         JPTanggalAwal.add(tanggalAwal);
-
-        JDateChooser tanggalAkhir = new JDateChooser();
         JPTanggalAkhir.add(tanggalAkhir);
 
         showDosen(null);
+        showDefaultAbsensi();
 
         btnFilter.addActionListener(new ActionListener() {
             @Override
@@ -67,8 +65,6 @@ public class gajiReport extends JFrame{
 
                 ComboboxOption selectedJenisDosen = (ComboboxOption) cbIdDosen.getSelectedItem();
                 String id_dosen = selectedJenisDosen.getValue();
-
-                System.out.println(tanggal_awal+"-"+tanggal_akhir+"-"+id_dosen);
 
                 showReportSlipGaji(id_dosen, tanggal_awal, tanggal_akhir);
             }
@@ -105,8 +101,51 @@ public class gajiReport extends JFrame{
                     JasperPrint jp = JasperFillManager.fillReport(jr, parameter, new JREmptyDataSource());
                     JasperViewer viewer = new JasperViewer(jp, false);
                     viewer.setVisible(true);
-                }catch (Exception ex) {
-                    System.out.println(ex.toString());
+                }catch (Exception exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
+                }
+            }
+        });
+        btnKirimEmail.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    Format formatTanggalAwal = new SimpleDateFormat("dd MMMM yyyy");
+                    String tanggal_awal = formatTanggalAwal.format(tanggalAwal.getDate());
+
+                    Format formatTanggalAkhir = new SimpleDateFormat("dd MMMM yyyy");
+                    String tanggal_akhir = formatTanggalAkhir.format(tanggalAkhir.getDate());
+
+                    String subject = "SLIP GAJI "+tanggal_awal+" - "+tanggal_akhir;
+                    String body;
+                    body = "Nama\t:"+labelNamaDosen.getText();
+                    body += "\nMata Kuliah\t: "+labelMataKuliah.getText();
+                    body += "\nProgram Studi\t: "+labelProgramStudi.getText();
+                    body += "\nJumlah SKS\t: "+labelJumlahSks.getText();
+
+                    body += "\n\nPENDAPATAN";
+                    body += "\nKompensasi\t: "+labelKompensasiMengajar.getText();
+                    body += "\nTransport\t: "+labelTransportMengajar.getText();
+                    body += "\nInsentif\t: "+labelInsentifKehadiran.getText();
+                    body += "\nMembuat Soal\t: -";
+                    body += "\nMengoreksi Jawaban\t: -";
+                    body += "\nTunjuangan TAX\t: "+labelPph21.getText();
+
+                    body += "\n\nPOTONGAN";
+                    body += "\nPPh ps 21\t: "+labelPph21.getText();
+
+                    body += "\n\nTOTAL PENDAPATAN\t: "+labelTotalPendapatan.getText();
+                    body += "\nTOTAL POTONGAN\t: "+labelPph21.getText();
+
+                    body += "\n\nDIBAYARKAN\t: "+labelTotalDibayarkan.getText();
+
+                    EmailSender emailSender = new EmailSender("rahmatwahyubudiyanto@gmail.com", subject, body);
+                    emailSender.sendEmail();
+                    JOptionPane.showMessageDialog(null, "Slip gaji berhasil dikirim!");
+                }catch (Exception exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
@@ -143,7 +182,8 @@ public class gajiReport extends JFrame{
             connection.pstat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
 
@@ -180,7 +220,8 @@ public class gajiReport extends JFrame{
             connection.pstat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
 
@@ -194,7 +235,15 @@ public class gajiReport extends JFrame{
         return "Rp. "+formatter.format(amount);
     }
 
-    public static void main(String[]args){
-        new ReportSlipGaji().setVisible(true);
+    public void showDefaultAbsensi() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate start = currentDate.minusMonths(2).withDayOfMonth(16);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(start.getYear(), start.getMonthValue() - 1, start.getDayOfMonth());
+        tanggalAwal.setDate(calendar.getTime());
+
+        LocalDate end = start.plusMonths(1).withDayOfMonth(15);
+        calendar.set(end.getYear(), end.getMonthValue() - 1, end.getDayOfMonth());
+        tanggalAkhir.setDate(calendar.getTime());
     }
 }

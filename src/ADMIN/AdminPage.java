@@ -1,5 +1,6 @@
 package ADMIN;
 
+import LOGIN.ADTUser;
 import LOGIN.Login;
 
 import javax.swing.*;
@@ -20,15 +21,16 @@ public class AdminPage extends JFrame{
     private JButton golonganButton;
     private JButton perusahaanButton;
 
-    public AdminPage(String[] value) {
+    public AdminPage(ADTUser verifyUser) {
         add(this.panelUtama);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
 
-        labelNama.setText(value[2]);
-        labelRole.setText(value[5]);
+        labelNama.setText(verifyUser.getNama());
+        labelRole.setText(verifyUser.getRole());
+
         dosenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

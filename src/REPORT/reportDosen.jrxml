@@ -5,6 +5,7 @@
 	<parameter name="TAHUNAKADEMIK" class="java.lang.String"/>
 	<parameter name="PERIODE" class="java.lang.String"/>
 	<parameter name="CHECKED" class="java.lang.String"/>
+	<parameter name="JENISDOSEN" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -32,11 +33,11 @@
 				<textFieldExpression><![CDATA[$P{SEMESTER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="228" y="37" width="390" height="30" uuid="6e27a05b-e779-4db8-98c6-ca3a849811ab"/>
-				<textElement textAlignment="Center">
+				<reportElement x="240" y="37" width="172" height="30" uuid="6e27a05b-e779-4db8-98c6-ca3a849811ab"/>
+				<textElement textAlignment="Right">
 					<font size="15" isBold="true"/>
 				</textElement>
-				<text><![CDATA[HONOR DOSEN LUAR]]></text>
+				<text><![CDATA[HONOR DOSEN ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="319" y="69" width="80" height="20" uuid="281da24c-977f-4db0-8871-652011fc0375"/>
@@ -60,7 +61,7 @@
 				<text><![CDATA[Tahun Akademik]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="349" y="90" width="120" height="26" uuid="634bd0c8-21ff-46e0-8595-5895b872d9ad"/>
+				<reportElement x="326" y="90" width="194" height="26" uuid="634bd0c8-21ff-46e0-8595-5895b872d9ad"/>
 				<textElement textAlignment="Center">
 					<font size="11"/>
 				</textElement>
@@ -69,6 +70,13 @@
 			<textField>
 				<reportElement x="465" y="71" width="128" height="19" uuid="a723368b-e10e-40bc-9510-d0cc70ed6823"/>
 				<textFieldExpression><![CDATA[$P{TAHUNAKADEMIK}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="37" width="170" height="30" uuid="9d783e15-107e-4371-b27a-dafd57ef3480"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{JENISDOSEN}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

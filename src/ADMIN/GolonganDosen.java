@@ -22,11 +22,11 @@ public class GolonganDosen extends JFrame {
     private JTable tblGolongan;
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
+    String id_golongan, nama_golongan;
+    float insentif_kehadiran;
+    int tahun_batas_bawah, tahun_batas_atas;
 
     public GolonganDosen(){
-
-        connection = new DBConnect();
-
         tableModel = new DefaultTableModel();
         tblGolongan.setModel(tableModel);
 
@@ -40,26 +40,24 @@ public class GolonganDosen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String namaGolongan = txtNamaGolongan.getText();
-                    String insentifKehadiran = txtInsentifKehadiran.getText();
-                    String tahunBatasBawah = txtTahunBatasBawah.getText();
-                    String tahunBatasAtas = txtTahunBatasAtas.getText();
+                    nama_golongan = txtNamaGolongan.getText();
+                    insentif_kehadiran = Float.parseFloat(txtInsentifKehadiran.getText());
+                    tahun_batas_bawah = Integer.parseInt(txtTahunBatasBawah.getText());
+                    tahun_batas_atas = Integer.parseInt(txtTahunBatasAtas.getText());
 
-                    if (namaGolongan.isEmpty() || insentifKehadiran.isEmpty() || tahunBatasBawah.isEmpty() || tahunBatasAtas.isEmpty()) {
+                    if (nama_golongan.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
-                        return; // Menghentikan proses penyimpanan data jika validasi tidak terpenuhi
+                        return;
                     }
-                    int tahunBawah = Integer.parseInt(tahunBatasBawah);
-                    int tahunAtas = Integer.parseInt(tahunBatasAtas);
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL dbo.sp_CreateGolongan(?, ?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, namaGolongan);
-                        connection.pstat.setString(2, insentifKehadiran);
-                        connection.pstat.setInt(3, tahunBawah);
-                        connection.pstat.setInt(4, tahunAtas);
+                        connection.pstat.setString(1, nama_golongan);
+                        connection.pstat.setFloat(2, insentif_kehadiran);
+                        connection.pstat.setInt(3, tahun_batas_bawah);
+                        connection.pstat.setInt(4, tahun_batas_atas);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -75,14 +73,15 @@ public class GolonganDosen extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(null, "Penyimpanan data dibatalkan.");
                     }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data Mata Kuliah!");
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "SKS harus berupa angka!");
+                    JOptionPane.showMessageDialog(null, "Form harus lengkap dan sesuai format!");
                 }
             }
         });
+
         tblGolongan.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -91,9 +90,10 @@ public class GolonganDosen extends JFrame {
                 if (i == -1) {
                     return;
                 }
+
                 txtID.setText((String) tableModel.getValueAt(i, 0));
                 txtNamaGolongan.setText((String) tableModel.getValueAt(i, 1));
-                txtInsentifKehadiran.setText((String) tableModel.getValueAt(i, 2));
+                txtInsentifKehadiran.setText(String.valueOf((int) tableModel.getValueAt(i, 2)));
                 txtTahunBatasBawah.setText(String.valueOf((int) tableModel.getValueAt(i, 3)));
                 txtTahunBatasAtas.setText(String.valueOf((int) tableModel.getValueAt(i, 4)));
 
@@ -125,6 +125,7 @@ public class GolonganDosen extends JFrame {
                 }
             }
         });
+
         txtTahunBatasAtas.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -136,6 +137,7 @@ public class GolonganDosen extends JFrame {
                 }
             }
         });
+
         btnClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -146,23 +148,20 @@ public class GolonganDosen extends JFrame {
                 btnDelete.setEnabled(false);
             }
         });
+
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id;
-                    id = txtID.getText();
+                    id_golongan = txtID.getText();
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        // Prepare the stored procedure call
                         String procedureCall = "{CALL dbo.sp_DeleteGolongan(?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, id);
+                        connection.pstat.setString(1, id_golongan);
 
-                        // Execute the stored procedure
                         connection.pstat.execute();
-                        // Close the statement and connection
                         connection.pstat.close();
 
                         loadData(null);
@@ -177,8 +176,8 @@ public class GolonganDosen extends JFrame {
                         JOptionPane.showMessageDialog(null, "Penghapusan data dibatalkan.");
                     }
                 } catch (Exception exc) {
-                    System.out.println("Error: " + exc.toString());
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan!");
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
@@ -186,30 +185,27 @@ public class GolonganDosen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id = txtID.getText();
-                    String nama = txtNamaGolongan.getText();
-                    String insentifKehadiran = txtInsentifKehadiran.getText();
-                    String tahunBatasBawah = txtTahunBatasBawah.getText();
-                    String tahunBatasAtas = txtTahunBatasAtas.getText();
+                    id_golongan = txtID.getText();
+                    nama_golongan = txtNamaGolongan.getText();
+                    insentif_kehadiran = Float.parseFloat(txtInsentifKehadiran.getText());
+                    tahun_batas_bawah = Integer.parseInt(txtTahunBatasBawah.getText());
+                    tahun_batas_atas = Integer.parseInt(txtTahunBatasAtas.getText());
 
-                    if (nama.isEmpty() || insentifKehadiran.isEmpty() || tahunBatasBawah.isEmpty() || tahunBatasAtas.isEmpty()) {
+                    if (nama_golongan.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
-                        return; // Menghentikan proses penyimpanan data jika validasi tidak terpenuhi
+                        return;
                     }
-
-                    int tahunBawah = Integer.parseInt(tahunBatasBawah);
-                    int tahunAtas = Integer.parseInt(tahunBatasAtas);
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
 
                         String procedureCall = "{CALL sp_UpdateGolongan(?, ?, ?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, id);
-                        connection.pstat.setString(2, nama);
-                        connection.pstat.setString(3, insentifKehadiran);
-                        connection.pstat.setInt(4, tahunBawah);
-                        connection.pstat.setInt(5, tahunAtas);
+                        connection.pstat.setString(1, id_golongan);
+                        connection.pstat.setString(2, nama_golongan);
+                        connection.pstat.setFloat(3, insentif_kehadiran);
+                        connection.pstat.setInt(4, tahun_batas_bawah);
+                        connection.pstat.setInt(5, tahun_batas_atas);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -222,13 +218,12 @@ public class GolonganDosen extends JFrame {
                         btnDelete.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data Golongan berhasil diperbarui!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Pembaruan data dibatalkan.");
                     }
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data Mata Kuliah!");
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Form harus lengkap dan sesuai format!");
                 }
             }
         });
@@ -240,6 +235,7 @@ public class GolonganDosen extends JFrame {
             }
         });
     }
+
     public void loadData(String nama){
         tableModel.getDataVector().removeAllElements();
         tableModel.fireTableDataChanged();
@@ -263,10 +259,12 @@ public class GolonganDosen extends JFrame {
 
             connection.pstat.close();
             connection.result.close();
-        }catch (Exception e){
-            System.out.println("Terjadi error saat load data Golongan :" + e);
+        }catch (Exception exc){
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
+
     public void addColumn(){
         tableModel.addColumn("ID Golongan");
         tableModel.addColumn("Nama Golongan");
@@ -274,6 +272,7 @@ public class GolonganDosen extends JFrame {
         tableModel.addColumn("Tahun Batas Bawah");
         tableModel.addColumn("Tahun Batas Atas");
     }
+
     public void clear() {
         txtID.setText("Otomatis");
         txtNamaGolongan.setText("");

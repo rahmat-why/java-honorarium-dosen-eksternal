@@ -19,6 +19,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -33,20 +34,13 @@ public class prodiReport extends JFrame{
 
     DefaultTableModel tableModel;
 
-    private DBConnect connection;
+    DBConnect connection = new DBConnect();;
+
+    JDateChooser tanggalAwal = new JDateChooser();
+    JDateChooser tanggalAkhir = new JDateChooser();
 
     public prodiReport() {
-        setSize(500, 500);
-        setTitle("Form Laporan Prodi");
-        setContentPane(panelProdiReport);
-        setLocationRelativeTo(null);
-
-        connection = new DBConnect();
-
-        JDateChooser tanggalAwal = new JDateChooser();
         JPTanggalAwal.add(tanggalAwal);
-
-        JDateChooser tanggalAkhir = new JDateChooser();
         JPTanggalAkhir.add(tanggalAkhir);
 
         showJenisDosen(null);
@@ -54,6 +48,8 @@ public class prodiReport extends JFrame{
         tableModel = new DefaultTableModel();
         tblProdiReport.setModel(tableModel);
         addColumn();
+
+        showDefaultAbsensi();
 
         btnFilter.addActionListener(new ActionListener() {
             @Override
@@ -87,6 +83,10 @@ public class prodiReport extends JFrame{
                     parameter.put("SEMESTER", getSemester(LocalDate.parse(tanggal_awal_semester)));
                     parameter.put("TAHUNAKADEMIK", getTahunAkademik(LocalDate.parse(tanggal_awal_semester)));
 
+                    ComboboxOption selectedJenisDosen = (ComboboxOption) cbJenisDosen.getSelectedItem();
+                    String nama_jenis = selectedJenisDosen.getDisplay();
+                    parameter.put("JENISDOSEN", nama_jenis);
+
                     parameter.put("PERIODE", tanggal_awal+" - "+tanggal_akhir);
                     parameter.put("PREPARED_BY", "Rahmat");
                     parameter.put("CHECKED_BY", "Kepala DAAA");
@@ -97,8 +97,9 @@ public class prodiReport extends JFrame{
                     JasperPrint jp = JasperFillManager.fillReport(jr, parameter, dataSource);
                     JasperViewer viewer = new JasperViewer(jp, false);
                     viewer.setVisible(true);
-                }catch (Exception ex) {
-                    System.out.println(ex.toString());
+                }catch (Exception exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
@@ -121,12 +122,9 @@ public class prodiReport extends JFrame{
             connection.pstat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
-    }
-
-    public static void main(String[]args){
-        new ReportProdi().setVisible(true);
     }
 
     public void addColumn() {
@@ -163,7 +161,8 @@ public class prodiReport extends JFrame{
             connection.pstat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
 
@@ -196,5 +195,17 @@ public class prodiReport extends JFrame{
         } else {
             return (year - 1) + "/" + year; // Contoh: 2022/2023
         }
+    }
+
+    public void showDefaultAbsensi() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate start = currentDate.minusMonths(2).withDayOfMonth(16);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(start.getYear(), start.getMonthValue() - 1, start.getDayOfMonth());
+        tanggalAwal.setDate(calendar.getTime());
+
+        LocalDate end = start.plusMonths(1).withDayOfMonth(15);
+        calendar.set(end.getYear(), end.getMonthValue() - 1, end.getDayOfMonth());
+        tanggalAkhir.setDate(calendar.getTime());
     }
 }

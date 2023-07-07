@@ -19,6 +19,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -35,18 +36,14 @@ public class transferReport extends JFrame{
 
     DefaultTableModel tableModel;
 
-    private DBConnect connection;
+    DBConnect connection = new DBConnect();;
+    JDateChooser tanggalAwal = new JDateChooser();
+    JDateChooser tanggalAkhir = new JDateChooser();
 
-    private double total_transfer = 0;
+    double total_transfer = 0;
 
     public transferReport() {
-
-        connection = new DBConnect();
-
-        JDateChooser tanggalAwal = new JDateChooser();
         JPTanggalAwal.add(tanggalAwal);
-
-        JDateChooser tanggalAkhir = new JDateChooser();
         JPTanggalAkhir.add(tanggalAkhir);
 
         showJenisDosen(null);
@@ -54,6 +51,9 @@ public class transferReport extends JFrame{
         tableModel = new DefaultTableModel();
         tblTransfer.setModel(tableModel);
         addColumn();
+
+        showDefaultAbsensi();
+
         btnFilter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,6 +69,7 @@ public class transferReport extends JFrame{
                 loadData(tanggal_awal, tanggal_akhir, id_jenis_dosen);
             }
         });
+
         btnCetak.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -86,9 +87,13 @@ public class transferReport extends JFrame{
                     parameter.put("SEMESTER", getSemester(LocalDate.parse(tanggal_awal_semester)));
                     parameter.put("THNAKADEMIK", getTahunAkademik(LocalDate.parse(tanggal_awal_semester)));
 
+                    ComboboxOption selectedJenisDosen = (ComboboxOption) cbJenisDosen.getSelectedItem();
+                    String nama_jenis = selectedJenisDosen.getDisplay();
+                    parameter.put("JENISDOSEN", nama_jenis);
+
                     parameter.put("PERIODE", tanggal_awal+" - "+tanggal_akhir);
                     parameter.put("TOTALTRANSFER", formatRupiah(total_transfer));
-                    parameter.put("TERBILANG", formatTerbilang(60000000));
+                    parameter.put("TERBILANG", formatTerbilang((int) total_transfer)+" ribu rupiah");
                     parameter.put("MEMBUAT", "Rahmat");
                     parameter.put("MENYETUJUI", "Agung Kaswadi, S.T., M.T.");
                     parameter.put("MENGETAHUI", "Agung Kurniawan");
@@ -99,8 +104,9 @@ public class transferReport extends JFrame{
                     JasperPrint jp = JasperFillManager.fillReport(jr, parameter, dataSource);
                     JasperViewer viewer = new JasperViewer(jp, false);
                     viewer.setVisible(true);
-                }catch (Exception ex) {
-                    System.out.println(ex.toString());
+                }catch (Exception exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
@@ -122,7 +128,8 @@ public class transferReport extends JFrame{
             connection.pstat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
     public void addColumn() {
@@ -137,48 +144,37 @@ public class transferReport extends JFrame{
 
     }
 
-    public String formatTerbilang(int number) {
-        String[] ones = {"", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan"};
-        String[] tens = {"", "sepuluh", "dua puluh", "tiga puluh", "empat puluh", "lima puluh", "enam puluh", "tujuh puluh", "delapan puluh", "sembilan puluh"};
-        String[] thousands = {"ribu"};
+    public static String formatTerbilang(int angka) {
+        String[] ANGKA = {
+                "", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"
+        };
 
-        String[] millions = {"juta"};
-
-        String[] billions = {"milyar"};
-
-        if (number < 0) {
-            return "minus " + formatTerbilang(-number);
+        if (angka < 12) {
+            return ANGKA[angka];
+        }
+        if (angka < 20) {
+            return ANGKA[angka % 10] + " belas";
+        }
+        if (angka < 100) {
+            return ANGKA[angka / 10] + " puluh " + ANGKA[angka % 10];
+        }
+        if (angka < 200) {
+            return "seratus " + formatTerbilang(angka % 100);
+        }
+        if (angka < 1000) {
+            return ANGKA[angka / 100] + " ratus " + formatTerbilang(angka % 100);
+        }
+        if (angka < 2000) {
+            return "seribu " + formatTerbilang(angka % 1000);
+        }
+        if (angka < 1000000) {
+            return formatTerbilang(angka / 1000) + " ribu " + formatTerbilang(angka % 1000);
+        }
+        if (angka < 1000000000) {
+            return formatTerbilang(angka / 1000000) + " juta " + formatTerbilang(angka % 1000000);
         }
 
-        if (number < 10) {
-            return ones[number];
-        }
-
-        if (number < 20) {
-            return tens[number - 10];
-        }
-
-        if (number < 100) {
-            return tens[number / 10] + (number % 10 != 0 ? " " : "") + ones[number % 10];
-        }
-
-        if (number < 1000) {
-            return ones[number / 100] + " ratus" + (number % 100 != 0 ? " " : "") + formatTerbilang(number % 100);
-        }
-
-        if (number < 1000000) {
-            return formatTerbilang(number / 1000) + " ribu" + (number % 1000 != 0 ? " " : "") + formatTerbilang(number % 1000);
-        }
-
-        if (number < 1000000000) {
-            return formatTerbilang(number / 1000000) + " juta" + (number % 1000000 != 0 ? " " : "") + formatTerbilang(number % 1000000);
-        }
-
-        if (number < Integer.MAX_VALUE) {
-            return formatTerbilang(number / 1000000000) + " milyar" + (number % 1000000000 != 0 ? " " : "") + formatTerbilang(number % 1000000000);
-        }
-
-        return "";
+        return "Angka terlalu besar";
     }
 
     public void loadData(String tanggal_awal, String tanggal_akhir, String id_jenis_dosen) {
@@ -215,7 +211,8 @@ public class transferReport extends JFrame{
 
             TOTALTRANSFER.setText(String.valueOf(formatRupiah(total_transfer)));
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
 
@@ -250,7 +247,15 @@ public class transferReport extends JFrame{
         return "Rp. "+formatter.format(amount);
     }
 
-    public static void main(String[]args){
-        new ReportTransfer().setVisible(true);
+    public void showDefaultAbsensi() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate start = currentDate.minusMonths(2).withDayOfMonth(16);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(start.getYear(), start.getMonthValue() - 1, start.getDayOfMonth());
+        tanggalAwal.setDate(calendar.getTime());
+
+        LocalDate end = start.plusMonths(1).withDayOfMonth(15);
+        calendar.set(end.getYear(), end.getMonthValue() - 1, end.getDayOfMonth());
+        tanggalAkhir.setDate(calendar.getTime());
     }
 }

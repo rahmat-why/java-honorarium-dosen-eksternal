@@ -1,6 +1,7 @@
 package DAAA;
 
 import ADMIN.Dosen;
+import LOGIN.ADTUser;
 import LOGIN.Login;
 import REPORT.*;
 
@@ -19,16 +20,17 @@ public class DAAAPage extends JFrame{
     private JLabel labelNama;
     private JLabel labelRole;
     private JButton slipGajiButton;
-    String nama, role;
-    public DAAAPage(String[] value) {
+
+    public DAAAPage(ADTUser verifyUser) {
         add(this.panelUtama);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
 
-        labelNama.setText(value[2]);
-        labelRole.setText(value[5]);
+        labelNama.setText(verifyUser.getNama());
+        labelRole.setText(verifyUser.getRole());
+
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

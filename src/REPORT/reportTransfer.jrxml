@@ -9,6 +9,7 @@
 	<parameter name="MENYETUJUI" class="java.lang.String"/>
 	<parameter name="MENGETAHUI" class="java.lang.String"/>
 	<parameter name="TOTALTRANSFER" class="java.lang.String"/>
+	<parameter name="JENISDOSEN" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -54,18 +55,18 @@
 				<textFieldExpression><![CDATA[$P{THNAKADEMIK}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="221" y="99" width="120" height="26" uuid="33601d04-f8ba-4a2f-a5b1-93a6d370a184"/>
+				<reportElement x="180" y="99" width="220" height="26" uuid="33601d04-f8ba-4a2f-a5b1-93a6d370a184"/>
 				<textElement textAlignment="Center">
 					<font size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{PERIODE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="90" y="49" width="390" height="30" uuid="e9cd0c94-40fd-4e0e-a26a-481ffb5f1326"/>
-				<textElement textAlignment="Center">
+				<reportElement x="139" y="49" width="134" height="30" uuid="e9cd0c94-40fd-4e0e-a26a-481ffb5f1326"/>
+				<textElement textAlignment="Right">
 					<font size="15" isBold="true"/>
 				</textElement>
-				<text><![CDATA[HONOR DOSEN LUAR]]></text>
+				<text><![CDATA[HONOR DOSEN]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="142" y="19" width="270" height="30" uuid="fd88e5f2-2281-4837-84e4-c8c9b191d453"/>
@@ -74,6 +75,13 @@
 				</textElement>
 				<text><![CDATA[POLITEKNIK ASTRA CIKARANG]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="280" y="49" width="221" height="30" uuid="762410e0-97ed-42ae-8b77-7f162b131fba"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{JENISDOSEN}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

@@ -23,10 +23,8 @@ public class User extends JFrame {
     private JTable tblEmployee;
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
+    String id_user, nama, username, password, role;
     public User() {
-
-        connection = new DBConnect();
-
         tampilRole();
 
         btnSave.setEnabled(true);
@@ -43,23 +41,23 @@ public class User extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String Nama = txtEmpName.getText();
-                    String username = txtUsername.getText();
-                    String password = txtPassword.getText();
-                    ComboboxOption selectedOption = (ComboboxOption) cmbRole.getSelectedItem();
-                    String role = selectedOption.getValue().toString();
+                    nama = txtEmpName.getText();
+                    username = txtUsername.getText();
+                    password = txtPassword.getText();
 
-                    if (Nama.isEmpty() || username.isEmpty() || password.isEmpty() || role.isEmpty()) {
+                    ComboboxOption selectedOption = (ComboboxOption) cmbRole.getSelectedItem();
+                    role = selectedOption.getValue().toString();
+
+                    if (nama.isEmpty() || username.isEmpty() || password.isEmpty() || role.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap isi semua data!");
-                        return; // Stop the data saving process if any field is empty
+                        return;
                     }
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-
                         String procedureCall = "{CALL dbo.sp_CreateUser(?, ?, ?,?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, Nama);
+                        connection.pstat.setString(1, nama);
                         connection.pstat.setString(2, username);
                         connection.pstat.setString(3, password);
                         connection.pstat.setString(4, role);
@@ -75,12 +73,10 @@ public class User extends JFrame {
                         btnDelete.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data User berhasil disimpan!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Penyimpanan data dibatalkan.");
                     }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data User!");
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
@@ -88,31 +84,35 @@ public class User extends JFrame {
         tblEmployee.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                int i = tblEmployee.getSelectedRow();
-                if (i == -1) {
-                    return;
-                }
-                txtID.setText((String) tableModel.getValueAt(i, 0));
-                txtEmpName.setText((String) tableModel.getValueAt(i, 1));
-                txtUsername.setText((String) tableModel.getValueAt(i, 2));
-                txtPassword.setText((String) tableModel.getValueAt(i, 3));
+            super.mouseClicked(e);
 
-                String ROLE = (String) tableModel.getValueAt(i, 3);
-                for (int x = 0; x < cmbRole.getItemCount(); x++) {
-                    Object item = cmbRole.getItemAt(x);
-                    String jenisCb = ((ComboboxOption) item).getValue();
-                    System.out.println("ROLE = " + ROLE + " jenisCb = " + jenisCb);
-                    if (jenisCb.equals(ROLE)) {
-                        cmbRole.setSelectedItem(item);
-                        break;
-                    }
-                    btnSave.setEnabled(false);
-                    btnUpdate.setEnabled(true);
-                    btnDelete.setEnabled(true);
+            int i = tblEmployee.getSelectedRow();
+            if (i == -1) {
+                return;
+            }
+
+            txtID.setText((String) tableModel.getValueAt(i, 0));
+            txtEmpName.setText((String) tableModel.getValueAt(i, 1));
+            txtUsername.setText((String) tableModel.getValueAt(i, 2));
+            txtPassword.setText("");
+
+            String id_role = (String) tableModel.getValueAt(i, 0);
+            for (int x = 0; x < cmbRole.getItemCount(); x++) {
+                Object item = cmbRole.getItemAt(x);
+                String cb_id_role = ((ComboboxOption) item).getValue();
+
+                if (cb_id_role.equals(id_role)) {
+                    cmbRole.setSelectedItem(item);
+                    break;
                 }
+
+                btnSave.setEnabled(false);
+                btnUpdate.setEnabled(true);
+                btnDelete.setEnabled(true);
+            }
             }
         });
+
         btnClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -123,32 +123,33 @@ public class User extends JFrame {
                 btnDelete.setEnabled(false);
             }
         });
+
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id = txtID.getText();
-                    String nama = txtEmpName.getText();
-                    String usrName = txtUsername.getText();
-                    String password = txtPassword.getText();
+                    id_user = txtID.getText();
+                    nama = txtEmpName.getText();
+                    username = txtUsername.getText();
+                    password = txtPassword.getText();
 
                     ComboboxOption selectedOption = (ComboboxOption) cmbRole.getSelectedItem();
-                    String Role = selectedOption.getValue().toString();
+                    role = selectedOption.getValue().toString();
 
-                    if (nama.isEmpty() || usrName.isEmpty() || password.isEmpty() || Role.isEmpty()) {
+                    if (nama.isEmpty() || username.isEmpty() || password.isEmpty() || role.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
-                        return; // Stop the data updating process if any field is empty
+                        return;
                     }
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin mengupdate data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL sp_UpdateUser(?, ?, ?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, id);
+                        connection.pstat.setString(1, id_user);
                         connection.pstat.setString(2, nama);
-                        connection.pstat.setString(3, usrName);
+                        connection.pstat.setString(3, username);
                         connection.pstat.setString(4, password);
-                        connection.pstat.setString(5, Role);
+                        connection.pstat.setString(5, role);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -161,32 +162,28 @@ public class User extends JFrame {
                         btnUpdate.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data User berhasil diupdate!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Pembaruan data dibatalkan.");
                     }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam pembaruan data User!");
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
+
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id = txtID.getText();
+                    id_user = txtID.getText();
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        // Prepare the stored procedure call
                         String procedureCall = "{CALL dbo.sp_DeleteUser(?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, id);
+                        connection.pstat.setString(1, id_user);
 
-                        // Execute the stored procedure
                         connection.pstat.execute();
 
-                        // Close the statement and connection
                         connection.pstat.close();
 
                         loadData(null);
@@ -197,74 +194,62 @@ public class User extends JFrame {
                         btnUpdate.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Penghapusan data dibatalkan.");
                     }
                 } catch (Exception exc) {
-                    System.out.println("Error: " + exc.toString());
-
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan!");
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
+
         txtUsername.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
+            super.keyTyped(e);
 
-                // Get the entered text
-                String currentUsername = txtUsername.getText();
-
-                // Check if the entered text contains a space character
-                char c = e.getKeyChar();
-                if (c == ' ') {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Username tidak boleh menggunakan spasi!");
-                }
+            // Check if the entered text contains a space character
+            char c = e.getKeyChar();
+            if (c == ' ') {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Username tidak boleh menggunakan spasi!");
+            }
             }
         });
 
         txtEmpName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-
-                // Get the entered text
-                String currentName = txtEmpName.getText();
-
-                // Check if the entered text contains any non-letter characters except space
-                char c = e.getKeyChar();
-                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == KeyEvent.VK_SPACE || c == KeyEvent.VK_BACK_SPACE)) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Nama hanya boleh diisi dengan huruf dan spasi!");
-                }
+            super.keyTyped(e);
+            // Check if the entered text contains any non-letter characters except space
+            char c = e.getKeyChar();
+            if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == KeyEvent.VK_SPACE || c == KeyEvent.VK_BACK_SPACE)) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Nama hanya boleh diisi dengan huruf dan spasi!");
+            }
             }
         });
 
         txtPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                // Get the entered text
-                String currentUsername = txtUsername.getText();
-
-                // Check if the entered text contains a space character
-                char c = e.getKeyChar();
-                if (c == ' ') {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Username tidak boleh menggunakan spasi!");
-                }
+            super.keyTyped(e);
+            // Check if the entered text contains a space character
+            char c = e.getKeyChar();
+            if (c == ' ') {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Username tidak boleh menggunakan spasi!");
+            }
             }
         });
+
         txtSearch.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                loadData(txtSearch.getText());
+        public void keyTyped(KeyEvent e) {
+            super.keyTyped(e);
+            loadData(txtSearch.getText());
             }
         });
     }
-
 
     public void addColumn(){
         tableModel.addColumn("ID User");
@@ -273,12 +258,14 @@ public class User extends JFrame {
         tableModel.addColumn("Password");
         tableModel.addColumn("Role");
     }
+
     public void clear() {
         txtID.setText("Otomatis");
         txtEmpName.setText("");
         txtUsername.setText("");
         txtPassword.setText("");
     }
+
     public void loadData(String nama) {
         tableModel.getDataVector().removeAllElements();
         tableModel.fireTableDataChanged();
@@ -291,7 +278,7 @@ public class User extends JFrame {
             connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                Object[] obj = new Object[5]; // Menyesuaikan jumlah kolom dengan tabel tblPenyewa
+                Object[] obj = new Object[5];
                 obj[0] = connection.result.getString("id_user");
                 obj[1] = connection.result.getString("nama");
                 obj[2] = connection.result.getString("username");
@@ -304,14 +291,11 @@ public class User extends JFrame {
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
     public void tampilRole() {
         cmbRole.addItem(new ComboboxOption("DAAA", "DAAA"));
     }
-
-//    public static void main(String[]args){
-//        new User().setVisible(true);
-//    }
 }

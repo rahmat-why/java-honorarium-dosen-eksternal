@@ -16,12 +16,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 
 public class Dosen extends JFrame {
     public JPanel panelDosen;
@@ -47,13 +45,17 @@ public class Dosen extends JFrame {
     private JLabel Label_Gambar;
     private JButton btnBrowser;
     private JComboBox cbIdPerusahaan;
+    private JPanel Panel_Konten_Gambar;
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
 
-    //Variabel
     String selectedImagePath = "";
     private File selectedImageFile;
     byte[] imageBytes;
+    Format formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    JDateChooser tanggalKampus = new JDateChooser();
+    JDateChooser tanggalIndustri = new JDateChooser();
+    String id_dosen, nama_dosen, email, id_jenis_dosen, nama_bank, cabang_bank, no_rekening, npwp, tanggal_gabung_kampus, tanggal_gabung_industri, status, atas_nama, kota, id_perusahaan;
 
     public Dosen() {
         setSize(500, 500);
@@ -63,11 +65,8 @@ public class Dosen extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
 
-        JDateChooser datechooser = new JDateChooser();
-        JDateChooser dateChooser = new JDateChooser();
-
-        JPTanggalKampus.add(datechooser);
-        JPTanggalIndustri.add(dateChooser);
+        JPTanggalKampus.add(tanggalKampus);
+        JPTanggalIndustri.add(tanggalIndustri);
 
         btnSave.setEnabled(true);
         btnUpdate.setEnabled(false);
@@ -204,61 +203,58 @@ public class Dosen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Format formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    String tanggalKampus = formatter.format(datechooser.getDate());
-                    Format formatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    String tanggalIndustri = formatter1.format(dateChooser.getDate());
+                    tanggal_gabung_kampus = formatter.format(tanggalKampus.getDate());
+                    tanggal_gabung_industri = formatter.format(tanggalIndustri.getDate());
 
-                    String namaDosen = txtNamaDosen.getText();
-                    String idDosen = txtIDDosen.getText();
-                    String email = txtEmail.getText();
+                    nama_dosen = txtNamaDosen.getText();
+                    id_dosen = txtIDDosen.getText();
+                    email = txtEmail.getText();
 
                     ComboboxOption selectedOptionJenis = (ComboboxOption) cbIDJenis.getSelectedItem();
-                    String jnID = selectedOptionJenis.getValue();
+                    id_jenis_dosen = selectedOptionJenis.getValue();
 
-                    String namaBank = txtNamaBank.getText();
-                    String cabangBank = txtCabangBank.getText();
-                    String noRekening = txtNoRekening.getText();
-                    String npwp = txtNPWP.getText();
+                    nama_bank = txtNamaBank.getText();
+                    cabang_bank = txtCabangBank.getText();
+                    no_rekening = txtNoRekening.getText();
+                    npwp = txtNPWP.getText();
 
                     ComboboxOption selectedOption = (ComboboxOption) cbStatus.getSelectedItem();
-                    String status = selectedOption.getValue();
+                    status = selectedOption.getValue();
 
-                    String atasNama = txtAtasNama.getText();
-                    String kota = txtKota.getText();
+                    atas_nama = txtAtasNama.getText();
+                    kota = txtKota.getText();
 
                     // Validasi data
-                    if (namaDosen.isEmpty() || idDosen.isEmpty() || email.isEmpty() || jnID.isEmpty() ||
-                            namaBank.isEmpty() || cabangBank.isEmpty() || noRekening.isEmpty() ||
-                            npwp.isEmpty() || status.isEmpty() ||
-                            atasNama.isEmpty() || kota.isEmpty()) {
+                    if (nama_dosen.isEmpty() || email.isEmpty() || id_jenis_dosen.isEmpty() ||
+                            nama_bank.isEmpty() || cabang_bank.isEmpty() || no_rekening.isEmpty() ||
+                            status.isEmpty() ||
+                            atas_nama.isEmpty() || kota.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data sebelum menyimpan!", "Error", JOptionPane.ERROR_MESSAGE);
-                        return; // Stop further execution
+                        return;
                     }
 
-                    // Validasi format email
                     if (!isValidEmailFormat(email)) {
                         JOptionPane.showMessageDialog(null, "Format email tidak valid!", "Error", JOptionPane.ERROR_MESSAGE);
-                        return; // Stop further execution
+                        return;
                     }
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL sp_CreateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, namaDosen);
+                        connection.pstat.setString(1, nama_dosen);
                         connection.pstat.setString(2, email);
-                        connection.pstat.setString(3, jnID);
-                        connection.pstat.setString(4, namaBank);
-                        connection.pstat.setString(5, cabangBank);
-                        connection.pstat.setString(6, noRekening);
+                        connection.pstat.setString(3, id_jenis_dosen);
+                        connection.pstat.setString(4, nama_bank);
+                        connection.pstat.setString(5, cabang_bank);
+                        connection.pstat.setString(6, no_rekening);
                         connection.pstat.setString(7, npwp);
-                        connection.pstat.setString(8, tanggalKampus);
-                        connection.pstat.setString(9, tanggalIndustri);
+                        connection.pstat.setString(8, tanggal_gabung_kampus);
+                        connection.pstat.setString(9, tanggal_gabung_industri);
                         connection.pstat.setString(10, status);
-                        connection.pstat.setString(11, atasNama);
+                        connection.pstat.setString(11, atas_nama);
                         connection.pstat.setString(12, kota);
-
+                        connection.pstat.setString(13, id_perusahaan);
                         connection.pstat.setBytes(14, imageBytes);
                         connection.pstat.execute();
 
@@ -270,12 +266,10 @@ public class Dosen extends JFrame {
 
                         JOptionPane.showMessageDialog(null, "Data berhasil disimpan!");
                         loadData(null);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Penyimpanan data dibatalkan.");
                     }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data Dosen!");
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
@@ -303,8 +297,8 @@ public class Dosen extends JFrame {
                 txtCabangBank.setText((String) tableModel.getValueAt(i, 5));
                 txtNoRekening.setText((String) tableModel.getValueAt(i, 6));
                 txtNPWP.setText((String) tableModel.getValueAt(i, 7));
-                datechooser.setDate((Date) tableModel.getValueAt(i, 8));
-                dateChooser.setDate((Date) tableModel.getValueAt(i, 9));
+                tanggalKampus.setDate((Date) tableModel.getValueAt(i, 8));
+                tanggalIndustri.setDate((Date) tableModel.getValueAt(i, 9));
 
                 String perusahaan = (String) tableModel.getValueAt(i, 10);
                 for (int x = 0; x < cbIdPerusahaan.getItemCount(); x++) {
@@ -349,8 +343,9 @@ public class Dosen extends JFrame {
                             // Resize image to fit JLabel
                             Image image = imageIcon.getImage().getScaledInstance(Label_Gambar.getWidth(), Label_Gambar.getHeight(), Image.SCALE_SMOOTH);
                             Label_Gambar.setIcon(new ImageIcon(image));
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+                        } catch (Exception exc) {
+                            exc.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                         }
                     }
                 };
@@ -371,14 +366,15 @@ public class Dosen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Format formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    String tanggalKampus = formatter.format(datechooser.getDate());
-                    Format formatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    String tanggalIndustri = formatter1.format(dateChooser.getDate());
+                    tanggal_gabung_kampus = formatter.format(tanggalKampus.getDate());
+                    tanggal_gabung_industri = null;
+                    if(tanggalIndustri.getDate() != null) {
+                        tanggal_gabung_industri = formatter.format(tanggalIndustri.getDate());
+                    }
 
-                    String namaDosen = txtNamaDosen.getText();
-                    String idDosen = txtIDDosen.getText();
-                    String email = txtEmail.getText();
+                    nama_dosen = txtNamaDosen.getText();
+                    id_dosen = txtIDDosen.getText();
+                    email = txtEmail.getText();
 
                     if (!isValidEmailFormat(email)) {
                         JOptionPane.showMessageDialog(null, "Input harus menggunakan format email yang valid!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -386,46 +382,46 @@ public class Dosen extends JFrame {
                     }
 
                     ComboboxOption selectedOptionJenis = (ComboboxOption) cbIDJenis.getSelectedItem();
-                    String jenis_id = selectedOptionJenis.getValue();
+                    id_jenis_dosen = selectedOptionJenis.getValue();
 
-                    String namaBank = txtNamaBank.getText();
-                    String cabangBank = txtCabangBank.getText();
-                    String noRekening = txtNoRekening.getText();
-                    String npwp = txtNPWP.getText();
+                    nama_bank = txtNamaBank.getText();
+                    cabang_bank = txtCabangBank.getText();
+                    no_rekening = txtNoRekening.getText();
+                    npwp = txtNPWP.getText();
 
                     ComboboxOption selectedOption = (ComboboxOption) cbStatus.getSelectedItem();
-                    String status = selectedOption.getValue();
+                    status = selectedOption.getValue();
 
-                    String atasNama = txtAtasNama.getText();
-                    String kota = txtKota.getText();
+                    atas_nama = txtAtasNama.getText();
+                    kota = txtKota.getText();
 
                     ComboboxOption selectedOptionPerusahaan = (ComboboxOption) cbIdPerusahaan.getSelectedItem();
-                    String id_perusahaan = selectedOptionPerusahaan.getValue();
+                    id_perusahaan = selectedOptionPerusahaan.getValue();
 
-                    if (namaDosen.isEmpty() || idDosen.isEmpty() || email.isEmpty() || jenis_id.isEmpty() ||
-                            namaBank.isEmpty() || cabangBank.isEmpty() || noRekening.isEmpty() ||
-                            npwp.isEmpty() || status.isEmpty() ||
-                            atasNama.isEmpty() || kota.isEmpty()) {
+                    if (nama_dosen.isEmpty() || email.isEmpty() || id_jenis_dosen.isEmpty() ||
+                            nama_bank.isEmpty() || cabang_bank.isEmpty() || no_rekening.isEmpty() ||
+                            status.isEmpty() ||
+                            atas_nama.isEmpty() || kota.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!", "Error", JOptionPane.ERROR_MESSAGE);
-                        return; // Stop further execution
+                        return;
                     }
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL sp_UpdateDosen(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, idDosen);
-                        connection.pstat.setString(2, namaDosen);
+                        connection.pstat.setString(1, id_dosen);
+                        connection.pstat.setString(2, nama_dosen);
                         connection.pstat.setString(3, email);
-                        connection.pstat.setString(4, jenis_id);
-                        connection.pstat.setString(5, namaBank);
-                        connection.pstat.setString(6, cabangBank);
-                        connection.pstat.setString(7, noRekening);
+                        connection.pstat.setString(4, id_jenis_dosen);
+                        connection.pstat.setString(5, nama_bank);
+                        connection.pstat.setString(6, cabang_bank);
+                        connection.pstat.setString(7, no_rekening);
                         connection.pstat.setString(8, npwp);
-                        connection.pstat.setString(9, tanggalKampus);
-                        connection.pstat.setString(10, tanggalIndustri);
+                        connection.pstat.setString(9, tanggal_gabung_kampus);
+                        connection.pstat.setString(10, tanggal_gabung_industri);
                         connection.pstat.setString(11, status);
-                        connection.pstat.setString(12, atasNama);
+                        connection.pstat.setString(12, atas_nama);
                         connection.pstat.setString(13, kota);
                         connection.pstat.setString(14, id_perusahaan);
                         connection.pstat.setBytes(15, imageBytes);
@@ -441,13 +437,10 @@ public class Dosen extends JFrame {
                         btnUpdate.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data dosen berhasil diperbarui!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Pembaruan data dibatalkan.");
                     }
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data dosen!");
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
@@ -455,20 +448,15 @@ public class Dosen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id;
-                    id = txtIDDosen.getText();
-                    // Prepare the stored procedure call
+                    id_dosen = txtIDDosen.getText();
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        // Prepare the stored procedure call
                         String procedureCall = "{CALL dbo.sp_DeleteDosen(?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, id);
+                        connection.pstat.setString(1, id_dosen);
 
-                        // Execute the stored procedure
                         connection.pstat.execute();
 
-                        // Close the statement and connection
                         connection.pstat.close();
 
                         loadData(null);
@@ -479,13 +467,10 @@ public class Dosen extends JFrame {
                         btnUpdate.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Penghapusan data dibatalkan.");
                     }
                 } catch (Exception exc) {
-                    System.out.println("Error: " + exc.toString());
-
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan!");
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
@@ -594,8 +579,9 @@ public class Dosen extends JFrame {
             }
 
             connection.pstat.close();
-        } catch (SQLException | IOException ex) {
-            ex.printStackTrace();
+        } catch (SQLException | IOException exc) {
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
 
         return imageIcon;
@@ -674,7 +660,8 @@ public class Dosen extends JFrame {
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
 
@@ -692,9 +679,9 @@ public class Dosen extends JFrame {
             // Close the statement and connection
             connection.stat.close();
             connection.result.close();
-        } catch (SQLException e) {
-            // Handle any errors that occur during the execution
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
     public void addColumn(){
@@ -734,14 +721,16 @@ public class Dosen extends JFrame {
             connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                String jenis_id = connection.result.getString("id_jenis_dosen");
+                String id_jenis_dosen = connection.result.getString("id_jenis_dosen");
                 String nama_jenis = connection.result.getString("nama_jenis");
-                cbIDJenis.addItem(new ComboboxOption(jenis_id, nama_jenis));
+                String referensi_dosen = connection.result.getString("referensi_dosen");
+                cbIDJenis.addItem(new ComboboxOption(id_jenis_dosen, nama_jenis, referensi_dosen));
             }
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
 
@@ -753,7 +742,6 @@ public class Dosen extends JFrame {
 
             connection.result = connection.pstat.executeQuery();
 
-            cbIdPerusahaan.addItem(new ComboboxOption(null, "UMUM"));
             while (connection.result.next()) {
                 String id_perusahaan = connection.result.getString("id_perusahaan");
                 String nama_perusahaan = connection.result.getString("nama_perusahaan");
@@ -763,11 +751,8 @@ public class Dosen extends JFrame {
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
-    }
-
-    public static void main(String[]args){
-        new Dosen().setVisible(true);
     }
 }

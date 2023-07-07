@@ -209,7 +209,7 @@
 				<textFieldExpression><![CDATA[$P{kompensasi_mengajar}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="133" y="78" width="134" height="25" uuid="b71addc2-6754-421b-b6d7-ac97294fc1b1"/>
+				<reportElement x="133" y="81" width="134" height="25" uuid="b71addc2-6754-421b-b6d7-ac97294fc1b1"/>
 				<textElement>
 					<font size="11"/>
 				</textElement>

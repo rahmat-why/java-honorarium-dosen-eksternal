@@ -26,15 +26,12 @@ public class JenisDosen extends JFrame{
     private JTextField txtPersentaseNonNPWP;
     private JTextField txtID;
     private JComboBox cbReferensiDosen;
-    //private JComboBox cbIDGolongan;
-
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
-
+    String id_jenis, nama_jenis, referensi_dosen;
+    float kompensasi_mengajar, transport_mengajar, persentase_pph21_npwp, persentasi_pph21_non_npwpw;
 
     public JenisDosen() {
-        connection = new DBConnect();
-
         tampilReferensiDosen();
         tableModel = new DefaultTableModel();
         tblJenisDosen.setModel(tableModel);
@@ -45,79 +42,73 @@ public class JenisDosen extends JFrame{
 
         addColumn();
         loadData(null);
-//        showGolongan();
+
         txtNamaJenis.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
-                        && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Nama hanya boleh diisi dengan huruf!");
-                }
+            super.keyTyped(e);
+            char c = e.getKeyChar();
+            if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
+                    && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Nama hanya boleh diisi dengan huruf!");
+            }
             }
         });
+
         txtKompensasi.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtKompensasi.getText().length() >= 25 ) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Kompensasi mengajar hanya boleh diisi dengan angka!");
-                }
+            super.keyTyped(e);
+            char c = e.getKeyChar();
+            if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtKompensasi.getText().length() >= 25 ) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Kompensasi mengajar hanya boleh diisi dengan angka!");
+            }
             }
         });
+
         txtTransport.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtTransport.getText().length() >= 25 ) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Transport Mengajar hanya boleh diisi dengan angka!");
-                }
+            super.keyTyped(e);
+            char c = e.getKeyChar();
+            if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) || txtTransport.getText().length() >= 25 ) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Transport Mengajar hanya boleh diisi dengan angka!");
+            }
             }
         });
+
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String namaJenis = txtNamaJenis.getText();
-                    String kompensasiText = txtKompensasi.getText();
-                    String transportText = txtTransport.getText();
-                    String persentaseNPWPText = txtPersentaseNPWP.getText();
-                    String persentaseNonNPWPText = txtPersentaseNonNPWP.getText();
+                    nama_jenis = txtNamaJenis.getText();
+                    kompensasi_mengajar = Float.parseFloat(txtKompensasi.getText());
+                    transport_mengajar = Float.parseFloat(txtTransport.getText());
+                    persentase_pph21_npwp = Float.parseFloat(txtPersentaseNPWP.getText());
+                    persentasi_pph21_non_npwpw = Float.parseFloat(txtPersentaseNonNPWP.getText());
 
                     ComboboxOption selectedOption = (ComboboxOption) cbReferensiDosen.getSelectedItem();
-                    String Referensi = selectedOption.getValue().toString();
+                    referensi_dosen = selectedOption.getValue().toString();
 
-                    // Check if any field is empty
-                    if (namaJenis.isEmpty() || kompensasiText.isEmpty() || transportText.isEmpty()
-                            || persentaseNPWPText.isEmpty() || persentaseNonNPWPText.isEmpty() || Referensi.isEmpty()) {
+                    if (nama_jenis.isEmpty() || referensi_dosen.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
-                        return; // Stop the data saving process if any field is empty
+                        return;
                     }
 
-                    // Parse the numeric fields to their respective data types
-                    int Kompensasi = Integer.parseInt(kompensasiText);
-                    int Transport = Integer.parseInt(transportText);
-                    float NPWP = Float.parseFloat(persentaseNPWPText);
-                    float NonNPWP = Float.parseFloat(persentaseNonNPWPText);
-
-                    // Display confirmation dialog
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data jenis dosen?",
                             "Konfirmasi Simpan Data", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL dbo.sp_CreateJenisDosen(?, ?, ?, ?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, namaJenis);
-                        connection.pstat.setInt(2, Kompensasi);
-                        connection.pstat.setInt(3, Transport);
-                        connection.pstat.setFloat(4, NPWP);
-                        connection.pstat.setFloat(5, NonNPWP);
-                        connection.pstat.setString(6, Referensi);
+                        connection.pstat.setString(1, nama_jenis);
+                        connection.pstat.setFloat(2, kompensasi_mengajar);
+                        connection.pstat.setFloat(3, transport_mengajar);
+                        connection.pstat.setFloat(4, persentase_pph21_npwp);
+                        connection.pstat.setFloat(5, persentasi_pph21_non_npwpw);
+                        connection.pstat.setString(6, referensi_dosen);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -133,9 +124,9 @@ public class JenisDosen extends JFrame{
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data jenis dosen!");
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Pastikan input angka pada field yang memerlukan nilai numerik!");
+                    JOptionPane.showMessageDialog(null, "Form harus lengkap dan sesuai format!");
                 }
             }
         });
@@ -154,12 +145,12 @@ public class JenisDosen extends JFrame{
                 txtPersentaseNPWP.setText(String.valueOf((float) tableModel.getValueAt(i, 4)));
                 txtPersentaseNonNPWP.setText(String.valueOf((float) tableModel.getValueAt(i, 5)));
 
-                String Referensi = (String) tableModel.getValueAt(i, 6);
+                referensi_dosen = (String) tableModel.getValueAt(i, 6);
                 for (int x = 0; x < cbReferensiDosen.getItemCount(); x++) {
                     Object item = cbReferensiDosen.getItemAt(x);
-                    String jenisCb = ((ComboboxOption) item).getValue();
-                    System.out.println("referensi = "+Referensi+" jenisCb = "+jenisCb);
-                    if (jenisCb.equals(Referensi)) {
+                    String cb_referensi_dosen = ((ComboboxOption) item).getValue();
+
+                    if (cb_referensi_dosen.equals(referensi_dosen)) {
                         cbReferensiDosen.setSelectedItem(item);
                         break;
                     }
@@ -174,42 +165,33 @@ public class JenisDosen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id = txtID.getText();
-                    String namaJenis = txtNamaJenis.getText();
-                    String kompensasiText = txtKompensasi.getText();
-                    String transportText = txtTransport.getText();
-                    String persentaseNPWPText = txtPersentaseNPWP.getText();
-                    String persentaseNonNPWPText = txtPersentaseNonNPWP.getText();
+                    id_jenis = txtID.getText();
+                    nama_jenis = txtNamaJenis.getText();
+                    kompensasi_mengajar = Float.parseFloat(txtKompensasi.getText());
+                    transport_mengajar = Float.parseFloat(txtTransport.getText());
+                    persentase_pph21_npwp = Float.parseFloat(txtPersentaseNPWP.getText());
+                    persentasi_pph21_non_npwpw = Float.parseFloat(txtPersentaseNonNPWP.getText());
 
                     ComboboxOption selectedOption = (ComboboxOption) cbReferensiDosen.getSelectedItem();
-                    String Referensi = selectedOption.getValue().toString();
+                    referensi_dosen = selectedOption.getValue().toString();
 
-                    // Check if any field is empty
-                    if (id.isEmpty() || namaJenis.isEmpty() || kompensasiText.isEmpty() || transportText.isEmpty()
-                            || persentaseNPWPText.isEmpty() || persentaseNonNPWPText.isEmpty() || Referensi.isEmpty()) {
+                    if (id_jenis.isEmpty() || nama_jenis.isEmpty() || referensi_dosen.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
-                        return; // Stop the data updating process if any field is empty
+                        return;
                     }
 
-                    // Parse the numeric fields to their respective data types
-                    int Kompensasi = Integer.parseInt(kompensasiText);
-                    int Transport = Integer.parseInt(transportText);
-                    float NPWP = Float.parseFloat(persentaseNPWPText);
-                    float NonNPWP = Float.parseFloat(persentaseNonNPWPText);
-
-                    // Display confirmation dialog
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data jenis dosen?",
                             "Konfirmasi Perbarui Data", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL dbo.sp_UpdateJenisDosen(?, ?, ?, ?, ?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, id);
-                        connection.pstat.setString(2, namaJenis);
-                        connection.pstat.setInt(3, Kompensasi);
-                        connection.pstat.setInt(4, Transport);
-                        connection.pstat.setFloat(5, NPWP);
-                        connection.pstat.setFloat(6, NonNPWP);
-                        connection.pstat.setString(7, Referensi);
+                        connection.pstat.setString(1, id_jenis);
+                        connection.pstat.setString(2, nama_jenis);
+                        connection.pstat.setFloat(3, kompensasi_mengajar);
+                        connection.pstat.setFloat(4, transport_mengajar);
+                        connection.pstat.setFloat(5, persentase_pph21_npwp);
+                        connection.pstat.setFloat(6, persentasi_pph21_non_npwpw);
+                        connection.pstat.setString(7, referensi_dosen);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -221,33 +203,31 @@ public class JenisDosen extends JFrame{
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam perbarui data jenis dosen!");
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Pastikan input angka pada field yang memerlukan nilai numerik!");
+                    JOptionPane.showMessageDialog(null, "Form harus lengkap dan sesuai format!");
                 }
+
                 btnSave.setEnabled(true);
                 btnDelete.setEnabled(false);
                 btnUpdate.setEnabled(false);
             }
         });
+
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id;
-                    id = txtID.getText();
+                    id_jenis = txtID.getText();
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        // Prepare the stored procedure call
                         String procedureCall = "{CALL dbo.sp_DeleteJenisDosen(?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, id);
+                        connection.pstat.setString(1, id_jenis);
 
-                        // Execute the stored procedure
                         connection.pstat.execute();
 
-                        // Close the statement and connection
                         connection.pstat.close();
 
                         loadData(null);
@@ -258,45 +238,43 @@ public class JenisDosen extends JFrame{
                         btnUpdate.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Penghapusan data dibatalkan.");
                     }
                 } catch (Exception exc) {
-                    System.out.println("Error: " + exc.toString());
-
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan!");
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
+
         txtPersentaseNPWP.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
+            super.keyTyped(e);
 
-                char c = e.getKeyChar();
-                if (!Character.isDigit(c) && c != '.' && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
-                } else if (c == '.' && txtPersentaseNPWP.getText().contains(".")) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            char c = e.getKeyChar();
+            if (!Character.isDigit(c) && c != '.' && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (c == '.' && txtPersentaseNPWP.getText().contains(".")) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             }
         });
 
         txtPersentaseNonNPWP.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
+            super.keyTyped(e);
 
-                char c = e.getKeyChar();
-                if (!Character.isDigit(c) && c != '.' && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
-                } else if (c == '.' && txtPersentaseNonNPWP.getText().contains(".")) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            char c = e.getKeyChar();
+            if (!Character.isDigit(c) && c != '.' && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (c == '.' && txtPersentaseNonNPWP.getText().contains(".")) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             }
         });
 
@@ -317,25 +295,7 @@ public class JenisDosen extends JFrame{
             }
         });
     }
-    public void generateId() {
-        try {
-            String query = "SELECT dbo.GenerateJenisDosenID() AS newId";
-            connection.stat = connection.conn.createStatement();
-            connection.result = connection.stat.executeQuery(query);
 
-            // perbarui data
-            while (connection.result.next()) {
-                txtID.setText(connection.result.getString("newId"));
-            }
-
-            // Close the statement and connection
-            connection.stat.close();
-            connection.result.close();
-        } catch (SQLException e) {
-            // Handle any errors that occur during the execution
-            e.printStackTrace();
-        }
-    }
     public void loadData(String nama_jenis) {
         tableModel.getDataVector().removeAllElements();
         tableModel.fireTableDataChanged();
@@ -347,7 +307,7 @@ public class JenisDosen extends JFrame{
             connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                Object[] obj = new Object[7]; // Menyesuaikan jumlah kolom dengan tabel tblPenyewa
+                Object[] obj = new Object[7];
                 obj[0] = connection.result.getString("id_jenis_dosen");
                 obj[1] = connection.result.getString("nama_jenis");
                 obj[2] = connection.result.getInt("kompensasi_mengajar");
@@ -362,9 +322,11 @@ public class JenisDosen extends JFrame{
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
+
     public void clear() {
         txtID.setText("Otomatis");
         txtNamaJenis.setText("");
@@ -373,6 +335,7 @@ public class JenisDosen extends JFrame{
         txtPersentaseNPWP.setText("");
         txtPersentaseNonNPWP.setText("");
     }
+
     public void addColumn(){
         tableModel.addColumn("ID Jenis");
         tableModel.addColumn("Nama Jenis");
@@ -382,6 +345,7 @@ public class JenisDosen extends JFrame{
         tableModel.addColumn("Persentase PPH21 NonNPWP");
         tableModel.addColumn("Referensi Dosen");
     }
+
     public void tampilReferensiDosen(){
         cbReferensiDosen.addItem(new ComboboxOption("UMUM", "UMUM"));
         cbReferensiDosen.addItem(new ComboboxOption("INDUSTRI", "INDUSTRI"));

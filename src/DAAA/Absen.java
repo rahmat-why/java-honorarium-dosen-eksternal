@@ -10,6 +10,7 @@ import java.awt.event.*;
 import java.sql.SQLException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,13 +35,30 @@ public class Absen extends JFrame{
     private JButton txtClear;
 
     DefaultTableModel tableModel;
+    Format formatter = new SimpleDateFormat("yyyy-MM-dd");
     DBConnect connection = new DBConnect();
+    String id_absensi, id_dosen, id_matkul, id_prodi, tanggal_mengajar, tanggal_awal, tanggal_akhir, kelas;
+    Date currentDate = new Date();
+    int sks;
+    JDateChooser tanggalMengajar = new JDateChooser();
+    JDateChooser tanggalAwal = new JDateChooser();
+    JDateChooser tanggalAkhir = new JDateChooser();
+
+    public void showDefaultAbsensi() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate start = currentDate.minusMonths(2).withDayOfMonth(16);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(start.getYear(), start.getMonthValue() - 1, start.getDayOfMonth());
+        tanggalAwal.setDate(calendar.getTime());
+
+        LocalDate end = start.plusMonths(1).withDayOfMonth(15);
+        calendar.set(end.getYear(), end.getMonthValue() - 1, end.getDayOfMonth());
+        tanggalAkhir.setDate(calendar.getTime());
+    }
+
     public Absen() {
-        JDateChooser tanggalMengajar = new JDateChooser();
         JPTanggalMengajar.add(tanggalMengajar);
-        JDateChooser tanggalAwal = new JDateChooser();
         jpTanggalAwal.add(tanggalAwal);
-        JDateChooser tanggalAkhir = new JDateChooser();
         jpTanggalAkhir.add(tanggalAkhir);
 
         tableModel = new DefaultTableModel();
@@ -53,49 +71,44 @@ public class Absen extends JFrame{
         addColumn();
         btnSave.setEnabled(true);
         btnDelete.setEnabled(false);
-
+        showDefaultAbsensi();
 
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Mendapatkan tanggal saat ini
-                    Date currentDate = new Date();
-
                     ComboboxOption selectedOptionidDosen = (ComboboxOption) cmbIDDosen.getSelectedItem();
-                    String idDosen = selectedOptionidDosen.getValue().toString();
+                    id_dosen = selectedOptionidDosen.getValue().toString();
 
                     ComboboxOption selectedOption1 = (ComboboxOption) cmbMatkul.getSelectedItem();
-                    String matkul = selectedOption1.getValue().toString();
+                    id_matkul = selectedOption1.getValue().toString();
 
                     ComboboxOption selectedOption2 = (ComboboxOption) cmbProdi.getSelectedItem();
-                    String prodi = selectedOption2.getValue().toString();
+                    id_prodi = selectedOption2.getValue().toString();
 
-                    Date selectedDate = tanggalMengajar.getDate();
+                    Date tanggal_mengajar_selected = tanggalMengajar.getDate();
 
-                    // Memeriksa apakah tanggal yang dipilih lebih besar dari tanggal saat ini
-                    if (selectedDate.after(currentDate)) {
+                    if (tanggal_mengajar_selected.after(currentDate)) {
                         JOptionPane.showMessageDialog(null, "Tanggal mengajar tidak boleh lebih dari hari ini!");
                         return;
                     }
 
-                    Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-                    String tanggal = formatter.format(selectedDate);
+                    tanggal_mengajar = formatter.format(tanggal_mengajar_selected);
 
-                    String kelas = txtKelas.getText();
-                    int sks = Integer.parseInt(txtSks.getText());
+                    kelas = txtKelas.getText();
+                    sks = Integer.parseInt(txtSks.getText());
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data jenis dosen?",
                             "Konfirmasi Simpan Data", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL sp_CreateAbsensi(?, ?, ?, ?, ?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, idDosen);
-                        connection.pstat.setString(2, matkul);
-                        connection.pstat.setString(3, prodi);
+                        connection.pstat.setString(1, id_dosen);
+                        connection.pstat.setString(2, id_matkul);
+                        connection.pstat.setString(3, id_prodi);
                         connection.pstat.setString(4, "USR003");
                         connection.pstat.setString(5, kelas);
-                        connection.pstat.setString(6, tanggal);
+                        connection.pstat.setString(6, tanggal_mengajar);
                         connection.pstat.setInt(7, sks);
                         connection.pstat.execute();
 
@@ -111,127 +124,116 @@ public class Absen extends JFrame{
             }
         });
 
-
-
         txtSks.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "SKS hanya boleh diisi dengan angka!");
-                }
+            super.keyTyped(e);
+            char c = e.getKeyChar();
+            if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "SKS hanya boleh diisi dengan angka!");
+            }
             }
         });
+
         txtSearch.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
+            super.keyTyped(e);
 
-                Format formatter1 = new SimpleDateFormat("yyyy-MM-dd");
-                String firstDate = formatter1.format(tanggalAwal.getDate()).toString();
+            tanggal_awal = formatter.format(tanggalAwal.getDate()).toString();
+            tanggal_akhir = formatter.format(tanggalAkhir.getDate()).toString();
 
-                Format formatter2 = new SimpleDateFormat("yyyy-MM-dd");
-                String lastDate = formatter2.format(tanggalAkhir.getDate()).toString();
+            ComboboxOption selectedOption = (ComboboxOption) cmbJenisDosen.getSelectedItem();
+            id_dosen = selectedOption.getValue().toString();
 
-                ComboboxOption selectedOption = (ComboboxOption) cmbJenisDosen.getSelectedItem();
-                String jnDosen = selectedOption.getValue().toString();
-
-                showByNama(firstDate, lastDate, jnDosen, txtSearch.getText());
+            showByNama(tanggal_awal, tanggal_akhir, id_dosen, txtSearch.getText());
             }
         });
+
         cmbIDDosen.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
-                        && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Kolom ini hanya boleh diisi dengan huruf!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            super.keyTyped(e);
+            char c = e.getKeyChar();
+            if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
+                    && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Kolom ini hanya boleh diisi dengan huruf!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             }
         });
+
         cmbMatkul.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
-                        && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Kolom ini hanya boleh diisi dengan huruf!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            super.keyTyped(e);
+            char c = e.getKeyChar();
+            if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
+                    && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Kolom ini hanya boleh diisi dengan huruf!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             }
         });
+
         cmbProdi.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
-                        && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Kolom ini hanya boleh diisi dengan huruf!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            super.keyTyped(e);
+            char c = e.getKeyChar();
+            if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
+                    && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Kolom ini hanya boleh diisi dengan huruf!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
             }
         });
+
         btnFilter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Format formatter1 = new SimpleDateFormat("yyyy-MM-dd");
-                String firstDate = formatter1.format(tanggalAwal.getDate()).toString();
-
-                Format formatter2 = new SimpleDateFormat("yyyy-MM-dd");
-                String lastDate = formatter2.format(tanggalAkhir.getDate()).toString();
+                tanggal_awal = formatter.format(tanggalAwal.getDate()).toString();
+                tanggal_akhir = formatter.format(tanggalAkhir.getDate()).toString();
 
                 ComboboxOption selectedOption = (ComboboxOption) cmbJenisDosen.getSelectedItem();
-                String jnDosen = selectedOption.getValue().toString();
+                String id_jenis_dosen = selectedOption.getValue().toString();
 
-                showByNama(firstDate, lastDate, jnDosen, null);
+                showByNama(tanggal_awal, tanggal_akhir, id_jenis_dosen, null);
             }
         });
+
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id = txtIdAbsen.getText();
-                    Date tanggal = tanggalMengajar.getDate();
+                    id_absensi = txtIdAbsen.getText();
+                    Date tanggal_mengajar_selected = tanggalMengajar.getDate();
 
-                    // Mendapatkan tanggal saat ini
-                    Date currentDate = new Date();
-
-                    // Mendapatkan tanggal setelah dikurangi 30 hari
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(currentDate);
                     calendar.add(Calendar.DAY_OF_MONTH, -30);
-                    Date minDate = calendar.getTime();
+                    Date last_month = calendar.getTime();
 
                     // Memeriksa apakah tanggal transaksi dikurangi 30 hari >= tanggal 16
-                    if (tanggal.after(minDate) || tanggal.equals(minDate)) {
-                        int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_OPTION) {
-                            // Prepare the stored procedure call
-                            String procedureCall = "{CALL dbo.sp_DeleteAbsensi(?)}";
-                            connection.pstat = connection.conn.prepareCall(procedureCall);
-                            connection.pstat.setString(1, id);
-                            // Execute the stored procedure
-                            connection.pstat.execute();
-
-                            // Close the statement and connection
-                            connection.pstat.close();
-
-                            btnDelete.setEnabled(true);
-                            btnSave.setEnabled(true);
-
-                            JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Penghapusan data dibatalkan.");
-                        }
-                    } else {
+                    if (!(tanggal_mengajar_selected.after(last_month) || tanggal_mengajar_selected.equals(last_month))) {
                         JOptionPane.showMessageDialog(null, "Transaksi ini tidak dapat dihapus karena sudah dibukukan");
+                        return;
+                    }
+
+                    int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        String procedureCall = "{CALL dbo.sp_DeleteAbsensi(?)}";
+                        connection.pstat = connection.conn.prepareCall(procedureCall);
+                        connection.pstat.setString(1, id_absensi);
+                        connection.pstat.execute();
+                        connection.pstat.close();
+
+                        btnDelete.setEnabled(true);
+                        btnSave.setEnabled(true);
+
+                        JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
                     }
                 } catch (Exception exc) {
                     System.out.println("Error: " + exc.toString());
@@ -248,86 +250,81 @@ public class Absen extends JFrame{
                 if (selectedRow == -1) {
                     return;
                 }
+
                 txtIdAbsen.setText((String) tableModel.getValueAt(selectedRow, 0));
-                String jnID = (String) tableModel.getValueAt(selectedRow, 1);
+
+                String nama_dosen = (String) tableModel.getValueAt(selectedRow, 1);
                 for (int x = 0; x < cmbIDDosen.getItemCount(); x++) {
                     Object item = cmbIDDosen.getItemAt(x);
-                    if (item instanceof ComboboxOption) {
-                        String jenisCb = ((ComboboxOption) item).getDisplay();
-                        System.out.println("jnID = " + jnID + " jenisCb = " + jenisCb);
-                        if (jenisCb.equals(jnID)) {
-                            cmbIDDosen.setSelectedItem(item);
-                            break;
-                        }
+                    String cb_nama_dosen = ((ComboboxOption) item).getDisplay();
+                    if (cb_nama_dosen.equals(nama_dosen)) {
+                        cmbIDDosen.setSelectedItem(item);
+                        break;
                     }
                 }
 
-                String matkul = (String) tableModel.getValueAt(selectedRow, 2);
+                String nama_matkul = (String) tableModel.getValueAt(selectedRow, 2);
                 for (int x = 0; x < cmbMatkul.getItemCount(); x++) {
                     Object item = cmbMatkul.getItemAt(x);
-                    if (item instanceof ComboboxOption) {
-                        String jenisCb = ((ComboboxOption) item).getDisplay();
-                        System.out.println("matkul = " + matkul + " jenisCb = " + jenisCb);
-                        if (jenisCb.equals(matkul)) {
-                            cmbMatkul.setSelectedItem(item);
-                            break;
-                        }
+                    String cb_nama_matkul = ((ComboboxOption) item).getDisplay();
+                    if (cb_nama_matkul.equals(nama_matkul)) {
+                        cmbMatkul.setSelectedItem(item);
+                        break;
                     }
                 }
 
-                String prodi = (String) tableModel.getValueAt(selectedRow, 3);
+                String nama_prodi = (String) tableModel.getValueAt(selectedRow, 3);
                 for (int x = 0; x < cmbProdi.getItemCount(); x++) {
                     Object item = cmbProdi.getItemAt(x);
-                    if (item instanceof ComboboxOption) {
-                        String jenisCb = ((ComboboxOption) item).getDisplay();
-                        System.out.println("prodi = " + prodi + " jenisCb = " + jenisCb);
-                        if (jenisCb.equals(prodi)) {
-                            cmbProdi.setSelectedItem(item);
-                            break;
-                        }
+                    String cb_nama_prodi = ((ComboboxOption) item).getDisplay();
+                    if (cb_nama_prodi.equals(nama_prodi)) {
+                        cmbProdi.setSelectedItem(item);
+                        break;
                     }
                 }
 
                 txtKelas.setText((String) tableModel.getValueAt(selectedRow, 4));
-
-                //System.out.println((Date) tblAbsensi.getValueAt(selectedRow, 5));
                 tanggalMengajar.setDate((Date) tblAbsensi.getValueAt(selectedRow, 5));
-
                 txtSks.setText(String.valueOf((int) tableModel.getValueAt(selectedRow, 6)));
 
                 btnSave.setEnabled(false);
                 btnDelete.setEnabled(true);
             }
         });
+
         btnClear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Clear();
                 btnSave.setEnabled(true);
                 btnDelete.setEnabled(false);
+                tanggalMengajar.setDate(null);
             }
         });
     }
 
-
     public void showProdi() {
         try {
-            connection.stat = connection.conn.createStatement();
-            String sql = "SELECT * FROM prodi"; // Corrected table name
-            connection.result = connection.stat.executeQuery(sql);
+            String functionCall = "SELECT * FROM dbo.getListProdi(?)";
+            connection.pstat = connection.conn.prepareStatement(functionCall);
+            connection.pstat.setString(1, null);
+
+            connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                String idProdi = connection.result.getString("id_prodi"); // Corrected column name
-                String namaProdi = connection.result.getString("nama_prodi"); // Corrected column name
-                cmbProdi.addItem(new ComboboxOption(idProdi, namaProdi));
+                String id_prodi = connection.result.getString("id_prodi");
+                String nama_prodi = connection.result.getString("nama_prodi");
+                cmbProdi.addItem(new ComboboxOption(id_prodi, nama_prodi));
             }
 
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
+
     public void Clear(){
         txtIdAbsen.setText("Otomatis");
         txtKelas.setText("");
@@ -336,56 +333,66 @@ public class Absen extends JFrame{
 
     public void showMatkul() {
         try {
-            connection.stat = connection.conn.createStatement();
-            String sql = "SELECT * FROM matkul"; // Corrected table name
-            connection.result = connection.stat.executeQuery(sql);
+            String functionCall = "SELECT * FROM dbo.getListMatkul(?)";
+            connection.pstat = connection.conn.prepareStatement(functionCall);
+            connection.pstat.setString(1, null);
+
+            connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                String idMatkul = connection.result.getString("id_matkul"); // Corrected column name
-                String namaMatkul = connection.result.getString("nama_matkul"); // Corrected column name
-                cmbMatkul.addItem(new ComboboxOption(idMatkul, namaMatkul));
+                String id_matkul = connection.result.getString("id_matkul");
+                String nama_matkul = connection.result.getString("nama_matkul");
+                cmbMatkul.addItem(new ComboboxOption(id_matkul, nama_matkul));
             }
-
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
+
     public void showJenisDosen() {
         try {
-            connection.stat = connection.conn.createStatement();
-            String sql = "SELECT * FROM jenis_dosen";
-            connection.result = connection.stat.executeQuery(sql);
+            String functionCall = "SELECT * FROM dbo.getListJenisDosen(?)";
+            connection.pstat = connection.conn.prepareStatement(functionCall);
+            connection.pstat.setString(1, null);
+
+            connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                String jnID = connection.result.getString("id_jenis_dosen");
-                String namaJenis = connection.result.getString("nama_jenis");
-                cmbJenisDosen.addItem(new ComboboxOption(jnID, namaJenis));
+                String id_jenis_dosen = connection.result.getString("id_jenis_dosen");
+                String nama_jenis = connection.result.getString("nama_jenis");
+                cmbJenisDosen.addItem(new ComboboxOption(id_jenis_dosen, nama_jenis));
             }
 
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
+
     public void showDosen() {
         try {
-            connection.stat = connection.conn.createStatement();
-            String sql = "SELECT * FROM dosen"; // Corrected table name
-            connection.result = connection.stat.executeQuery(sql);
+            String functionCall = "SELECT * FROM dbo.getListDosen(?)";
+            connection.pstat = connection.conn.prepareStatement(functionCall);
+            connection.pstat.setString(1, null);
+
+            connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                String idDosen = connection.result.getString("id_dosen"); // Corrected column name
-                String namaDosen = connection.result.getString("nama_dosen"); // Corrected column name
-                cmbIDDosen.addItem(new ComboboxOption(idDosen, namaDosen));
+                String id_dosen = connection.result.getString("id_dosen");
+                String nama_dosen = connection.result.getString("nama_dosen");
+                cmbIDDosen.addItem(new ComboboxOption(id_dosen, nama_dosen));
             }
 
             connection.stat.close();
             connection.result.close();
         } catch (SQLException exc) {
-            System.out.println("Error: " + exc.toString());
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
 
@@ -417,7 +424,7 @@ public class Absen extends JFrame{
             connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                Object[] obj = new Object[12]; // Menyesuaikan jumlah kolom dengan tabel tblPenyewa
+                Object[] obj = new Object[12];
                 obj[0] = connection.result.getString("id_absensi");
                 obj[1] = connection.result.getString("nama_dosen");
                 obj[2] = connection.result.getString("nama_matkul");
@@ -446,12 +453,9 @@ public class Absen extends JFrame{
 
             connection.pstat.close();
             connection.result.close();
-        }catch (Exception e){
-            System.out.println("Terjadi error saat load data Absensi :" + e);
+        }catch (Exception exc){
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
-    }
-
-    public static void main(String[]args){
-        new Absen().setVisible(true);
     }
 }

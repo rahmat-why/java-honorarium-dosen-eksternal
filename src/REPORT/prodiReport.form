@@ -119,7 +119,7 @@
                       </component>
                     </children>
                   </grid>
-                  <grid id="9208f" binding="JPTanggalAkhir" layout-manager="BorderLayout" hgap="0" vgap="0">
+                  <grid id="9208f" binding="JPTanggalAwal" layout-manager="BorderLayout" hgap="0" vgap="0">
                     <constraints>
                       <grid row="1" column="1" row-span="1" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -127,7 +127,7 @@
                     <border type="none"/>
                     <children/>
                   </grid>
-                  <grid id="512ad" binding="JPTanggalAwal" layout-manager="BorderLayout" hgap="0" vgap="0">
+                  <grid id="512ad" binding="JPTanggalAkhir" layout-manager="BorderLayout" hgap="0" vgap="0">
                     <constraints>
                       <grid row="1" column="8" row-span="1" col-span="6" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>

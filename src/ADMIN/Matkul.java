@@ -20,11 +20,10 @@ public class Matkul  extends JFrame {
     JPanel panelMatkul;
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
+    String id_matkul, nama_matkul;
+    int sks;
 
     public Matkul() {
-
-        connection = new DBConnect();
-
         tableModel = new DefaultTableModel();
         tblMatkul.setModel(tableModel);
 
@@ -34,29 +33,25 @@ public class Matkul  extends JFrame {
 
         addColumn();
         loadData(null);
-        //showByNama();
-        //generateId();
+
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String Nama_Matkul = txtMatkul.getText();
-                    String SKS_text = txtSKS.getText();
+                    nama_matkul = txtMatkul.getText();
+                    sks = Integer.parseInt(txtSKS.getText());
 
-                    // Validasi data tidak boleh kosong
-                    if (Nama_Matkul.isEmpty() || SKS_text.isEmpty()) {
+                    if (nama_matkul.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
-                        return; // Menghentikan proses penyimpanan data jika validasi tidak terpenuhi
+                        return;
                     }
-
-                    int SKS = Integer.parseInt(SKS_text);
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL dbo.sp_CreateMatkul(?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, Nama_Matkul);
-                        connection.pstat.setInt(2, SKS);
+                        connection.pstat.setString(1, nama_matkul);
+                        connection.pstat.setInt(2, sks);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -69,13 +64,10 @@ public class Matkul  extends JFrame {
                         btnDelete.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data Mata Kuliah berhasil disimpan!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Penyimpanan data dibatalkan.");
                     }
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data Mata Kuliah!");
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim TI!");
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "SKS harus berupa angka!");
                 }
@@ -90,6 +82,7 @@ public class Matkul  extends JFrame {
                 if (i == -1) {
                     return;
                 }
+
                 txtID.setText((String) tableModel.getValueAt(i, 0));
                 txtMatkul.setText((String) tableModel.getValueAt(i, 1));
                 txtSKS.setText(String.valueOf((int) tableModel.getValueAt(i, 2)));
@@ -99,27 +92,29 @@ public class Matkul  extends JFrame {
                 btnDelete.setEnabled(true);
             }
         });
+
         txtMatkul.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
-                        && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Nama hanya boleh diisi dengan huruf!");
-                }
+            super.keyTyped(e);
+            char c = e.getKeyChar();
+            if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
+                    && (c != KeyEvent.VK_SPACE) && (c != KeyEvent.VK_PERIOD)) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "Nama hanya boleh diisi dengan huruf!");
+            }
             }
         });
+
         txtSKS.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char c = e.getKeyChar();
-                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "SKS hanya boleh diisi dengan angka!");
-                }
+            super.keyTyped(e);
+            char c = e.getKeyChar();
+            if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+                e.consume();
+                JOptionPane.showMessageDialog(null, "SKS hanya boleh diisi dengan angka!");
+            }
             }
         });
 
@@ -127,19 +122,15 @@ public class Matkul  extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id;
-                    id = txtID.getText();
+                    id_matkul = txtID.getText();
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        // Prepare the stored procedure call
                         String procedureCall = "{CALL dbo.sp_DeleteMatkul(?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, id);
+                        connection.pstat.setString(1, id_matkul);
 
-                        // Execute the stored procedure
                         connection.pstat.execute();
-                        // Close the statement and connection
                         connection.pstat.close();
 
                         loadData(null);
@@ -150,35 +141,34 @@ public class Matkul  extends JFrame {
                         btnDelete.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Penghapusan data dibatalkan.");
                     }
                 } catch (Exception exc) {
-                    System.out.println("Error: " + exc.toString());
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan!");
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
+
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String id = txtID.getText();
-                    String nama_matkul = txtMatkul.getText();
-                    String sks = txtSKS.getText();
+                    id_matkul = txtID.getText();
+                    nama_matkul = txtMatkul.getText();
+                    sks = Integer.parseInt(txtSKS.getText());
 
-                    if (nama_matkul.isEmpty() || sks.isEmpty()) {
+                    if (nama_matkul.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
-                        return; // Stop the data updating process if any field is empty
+                        return;
                     }
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL sp_UpdateMatkul(?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
-                        connection.pstat.setString(1, id);
+                        connection.pstat.setString(1, id_matkul);
                         connection.pstat.setString(2, nama_matkul);
-                        connection.pstat.setString(3, sks);
+                        connection.pstat.setInt(3, sks);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -191,13 +181,10 @@ public class Matkul  extends JFrame {
                         btnDelete.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data Mata Kuliah berhasil diperbarui!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Pembaruan data dibatalkan.");
                     }
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan dalam penyimpanan data Mata Kuliah!");
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 }
             }
         });
@@ -219,6 +206,7 @@ public class Matkul  extends JFrame {
             }
         });
     }
+
     public void clear() {
         txtID.setText("Otomatis");
         txtMatkul.setText("");
@@ -230,25 +218,7 @@ public class Matkul  extends JFrame {
         tableModel.addColumn("Nama Matkul");
         tableModel.addColumn("SKS");
     }
-    public void generateId() {
-        try {
-            String query = "SELECT dbo.GenerateMatkulID() AS newId";
-            connection.stat = connection.conn.createStatement();
-            connection.result = connection.stat.executeQuery(query);
 
-            // perbarui data
-            while (connection.result.next()) {
-                txtID.setText(connection.result.getString("newId"));
-            }
-
-            // Close the statement and connection
-            connection.stat.close();
-            connection.result.close();
-        } catch (SQLException e) {
-            // Handle any errors that occur during the execution
-            e.printStackTrace();
-        }
-    }
     public void loadData(String nama_matkul){
         tableModel.getDataVector().removeAllElements();
         tableModel.fireTableDataChanged();
@@ -260,7 +230,7 @@ public class Matkul  extends JFrame {
             connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                Object[] obj = new Object[3]; // Menyesuaikan jumlah kolom dengan tabel tblMatkul
+                Object[] obj = new Object[3];
                 obj[0] = connection.result.getString("id_matkul");
                 obj[1] = connection.result.getString("nama_matkul");
                 obj[2] = connection.result.getInt("sks");
@@ -270,11 +240,9 @@ public class Matkul  extends JFrame {
 
             connection.pstat.close();
             connection.result.close();
-        }catch (Exception e){
-            System.out.println("Terjadi error saat load data Matkul :" + e);
+        }catch (Exception exc){
+            exc.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
         }
     }
-    //public static void main(String[]args){
-//        new Matkul().setVisible(true);
-//    }
 }

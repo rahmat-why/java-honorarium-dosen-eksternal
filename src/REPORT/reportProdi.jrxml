@@ -7,6 +7,7 @@
 	<parameter name="PERIODE" class="java.lang.String"/>
 	<parameter name="PREPARED_BY" class="java.lang.String"/>
 	<parameter name="CHECKED_BY" class="java.lang.String"/>
+	<parameter name="JENISDOSEN" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -20,11 +21,11 @@
 	<pageHeader>
 		<band height="131" splitType="Stretch">
 			<staticText>
-				<reportElement x="90" y="43" width="390" height="30" uuid="4ba8d55d-e784-4747-ac1a-5185e127abc8"/>
-				<textElement textAlignment="Center">
+				<reportElement x="0" y="43" width="390" height="30" uuid="4ba8d55d-e784-4747-ac1a-5185e127abc8"/>
+				<textElement textAlignment="Right">
 					<font size="15" isBold="true"/>
 				</textElement>
-				<text><![CDATA[REKAPITULASI PERHITUNGAN HONOR DOSEN LUAR]]></text>
+				<text><![CDATA[REKAPITULASI PERHITUNGAN HONOR DOSEN]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="142" y="13" width="270" height="30" uuid="dcf4579d-86a7-49fa-b7cb-9d9d1c7355f2"/>
@@ -62,11 +63,18 @@
 				<textFieldExpression><![CDATA[$P{TAHUNAKADEMIK}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="221" y="93" width="120" height="26" uuid="8489f06a-c11c-43c3-9ded-22bea57398fe"/>
+				<reportElement x="163" y="92" width="229" height="17" uuid="8489f06a-c11c-43c3-9ded-22bea57398fe"/>
 				<textElement textAlignment="Center">
 					<font size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{PERIODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="396" y="43" width="180" height="30" uuid="641a14db-5d7b-4c0f-9450-81e3c5f2c11a"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{JENISDOSEN}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
