@@ -37,11 +37,11 @@ public class AdminPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                Dosen dosen = new Dosen();
-                dosen.panelDosen.setVisible(true);
+                viewDosen view = new viewDosen();
+                view.panelViewDosen.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
-                panelContent.add(dosen.panelDosen);
+                panelContent.add(view.panelViewDosen);
             }
         });
         kategoriDosenButton.addActionListener(new ActionListener() {

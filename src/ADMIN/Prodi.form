@@ -181,7 +181,7 @@
                     <properties>
                       <background color="-16751468"/>
                     </properties>
-                    <border type="none"/>
+                    <border type="bevel-raised"/>
                     <children>
                       <component id="75abd" class="javax.swing.JLabel">
                         <constraints>

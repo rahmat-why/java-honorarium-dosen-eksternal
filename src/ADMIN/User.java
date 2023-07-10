@@ -26,13 +26,12 @@ public class User extends JFrame {
     String id_user, nama, username, password, role;
     public User() {
         tampilRole();
+        tableModel = new DefaultTableModel();
+        tblEmployee.setModel(tableModel);
 
         btnSave.setEnabled(true);
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
-
-        tableModel = new DefaultTableModel();
-        tblEmployee.setModel(tableModel);
 
         addColumn();
         loadData(null);
