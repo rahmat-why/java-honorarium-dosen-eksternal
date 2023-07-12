@@ -58,13 +58,6 @@ public class Dosen extends JFrame {
     String id_dosen, nama_dosen, email, id_jenis_dosen, nama_bank, cabang_bank, no_rekening, npwp, tanggal_gabung_kampus, tanggal_gabung_industri, status, atas_nama, kota, id_perusahaan;
 
     public Dosen() {
-        setSize(500, 500);
-        setTitle("FORM Dosen");
-        setContentPane(panelDosen);
-        setLocationRelativeTo(null);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setUndecorated(true);
-
         JPTanggalKampus.add(tanggalKampus);
         JPTanggalIndustri.add(tanggalIndustri);
 
@@ -72,11 +65,11 @@ public class Dosen extends JFrame {
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
 
-        //tampilDosen();ƒ
-
         cbStatus.addItem(new ComboboxOption("AKTIF", "AKTIF"));
         cbStatus.addItem(new ComboboxOption("TIDAK AKTIF", "TIDAK AKTIF"));
 
+        tableModel = new DefaultTableModel();
+        tblDosen.setModel(tableModel);
 
         addColumn();
         loadData(null);
@@ -342,8 +335,7 @@ public class Dosen extends JFrame {
                             Image image = imageIcon.getImage().getScaledInstance(Label_Gambar.getWidth(), Label_Gambar.getHeight(), Image.SCALE_SMOOTH);
                             Label_Gambar.setIcon(new ImageIcon(image));
                         } catch (Exception exc) {
-                            exc.printStackTrace();
-                            JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
+                            Label_Gambar.setIcon(null);
                         }
                     }
                 };

@@ -48,6 +48,9 @@ public class gajiReport extends JFrame{
     JDateChooser tanggalAkhir = new JDateChooser();
 
     public gajiReport() {
+        String currentPath = System.getProperty("user.dir");
+        System.out.println("Current Path: " + currentPath);
+
         JPTanggalAwal.add(tanggalAwal);
         JPTanggalAkhir.add(tanggalAkhir);
 
@@ -117,31 +120,40 @@ public class gajiReport extends JFrame{
                     Format formatTanggalAkhir = new SimpleDateFormat("dd MMMM yyyy");
                     String tanggal_akhir = formatTanggalAkhir.format(tanggalAkhir.getDate());
 
+                    HashMap parameter = new HashMap();
+
+                    parameter.put("PERIODE", tanggal_awal+" - "+tanggal_akhir);
+                    parameter.put("NAMA", labelNamaDosen.getText());
+                    parameter.put("MATA KULIAH", labelMataKuliah.getText());
+                    parameter.put("PRODI", labelProgramStudi.getText());
+                    parameter.put("JUMLAHSKS", labelJumlahSks.getText());
+                    parameter.put("INSENTIFKEHADIRANPERSKS", labelInsentifKehadiranPerSks.getText());
+
+                    parameter.put("kompensasi_mengajar", labelKompensasiMengajar.getText());
+                    parameter.put("transport_mengajar", labelTransportMengajar.getText());
+                    parameter.put("insentif_kehadiran", labelInsentifKehadiran.getText());
+                    parameter.put("tunjangan_tax", labelPph21.getText());
+                    parameter.put("pph21", labelPph21.getText());
+                    parameter.put("total_pendapatan", labelTotalPendapatan.getText());
+                    parameter.put("dibayarkan", labelTotalDibayarkan.getText());
+
                     String subject = "SLIP GAJI "+tanggal_awal+" - "+tanggal_akhir;
                     String body;
-                    body = "Nama\t:"+labelNamaDosen.getText();
-                    body += "\nMata Kuliah\t: "+labelMataKuliah.getText();
-                    body += "\nProgram Studi\t: "+labelProgramStudi.getText();
-                    body += "\nJumlah SKS\t: "+labelJumlahSks.getText();
-
-                    body += "\n\nPENDAPATAN";
-                    body += "\nKompensasi\t: "+labelKompensasiMengajar.getText();
-                    body += "\nTransport\t: "+labelTransportMengajar.getText();
-                    body += "\nInsentif\t: "+labelInsentifKehadiran.getText();
-                    body += "\nMembuat Soal\t: -";
-                    body += "\nMengoreksi Jawaban\t: -";
-                    body += "\nTunjuangan TAX\t: "+labelPph21.getText();
-
-                    body += "\n\nPOTONGAN";
-                    body += "\nPPh ps 21\t: "+labelPph21.getText();
-
-                    body += "\n\nTOTAL PENDAPATAN\t: "+labelTotalPendapatan.getText();
-                    body += "\nTOTAL POTONGAN\t: "+labelPph21.getText();
-
-                    body += "\n\nDIBAYARKAN\t: "+labelTotalDibayarkan.getText();
+                    body = "Berikut ini kami lampirkan slip gaji anda: ";
 
                     EmailSender emailSender = new EmailSender("rahmatwahyubudiyanto@gmail.com", subject, body);
-                    emailSender.sendEmail();
+
+                    JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream("reportSlipGaji.jrxml"));
+                    JasperReport jr = JasperCompileManager.compileReport(jd);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, parameter, new JREmptyDataSource());
+
+                    String outputFile = System.getProperty("user.dir")+"\\src\\REPORT\\"+labelNamaDosen.getText()+".pdf";
+                    JasperExportManager.exportReportToPdfFile(jp, outputFile);
+
+                    JasperViewer jasperViewer = new JasperViewer(jp, false);
+                    jasperViewer.setVisible(true);
+
+                    emailSender.sendEmail(labelNamaDosen.getText());
                     JOptionPane.showMessageDialog(null, "Slip gaji berhasil dikirim!");
                 }catch (Exception exc) {
                     exc.printStackTrace();

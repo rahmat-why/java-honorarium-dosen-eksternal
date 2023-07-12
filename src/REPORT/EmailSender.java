@@ -1,8 +1,15 @@
 package REPORT;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.util.Random;
 
 public class EmailSender {
     // SMTP server configuration
@@ -19,7 +26,7 @@ public class EmailSender {
         this.body = body;
     }
 
-    public void sendEmail() {
+    public void sendEmail(String nama_dosen) {
         // Create properties object and set SMTP server configuration
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -44,7 +51,27 @@ public class EmailSender {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(this.receiver));
             message.setSubject(this.subject);
-            message.setText(this.body);
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(this.body);
+
+            // random
+            Random random = new Random();
+
+            // Create the message body part for the file attachment
+            BodyPart attachmentBodyPart = new MimeBodyPart();
+            String filename = System.getProperty("user.dir")+"\\src\\REPORT\\"+nama_dosen+".pdf";
+            File file = new File(filename);
+            FileDataSource dataSource = new FileDataSource(file);
+            attachmentBodyPart.setDataHandler(new DataHandler(dataSource));
+            attachmentBodyPart.setFileName(file.getName());
+
+            // Create a multipart message to combine the text content and file attachment
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(attachmentBodyPart);
+
+            // Set the multipart message as the content of the email
+            message.setContent(multipart);
 
             // Send the message
             Transport.send(message);
