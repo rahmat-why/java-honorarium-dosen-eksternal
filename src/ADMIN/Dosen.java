@@ -27,7 +27,7 @@ public class Dosen extends JFrame {
     private JTextField txtEmail;
     private JButton btnSave;
     private JButton btnUpdate;
-    private JButton btnDelete;
+    //private JButton btnDelete;
     private JButton btnClear;
     private JTextField txtSearch;
     private JTable tblDosen;
@@ -63,7 +63,7 @@ public class Dosen extends JFrame {
 
         btnSave.setEnabled(true);
         btnUpdate.setEnabled(false);
-        btnDelete.setEnabled(false);
+        //btnDelete.setEnabled(false);
 
         cbStatus.addItem(new ComboboxOption("AKTIF", "AKTIF"));
         cbStatus.addItem(new ComboboxOption("TIDAK AKTIF", "TIDAK AKTIF"));
@@ -253,7 +253,7 @@ public class Dosen extends JFrame {
 
                         btnSave.setEnabled(true);
                         btnUpdate.setEnabled(false);
-                        btnDelete.setEnabled(false);
+                        //btnDelete.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data berhasil disimpan!");
                         loadData(null);
@@ -316,7 +316,7 @@ public class Dosen extends JFrame {
 
                 btnSave.setEnabled(false);
                 btnUpdate.setEnabled(true);
-                btnDelete.setEnabled(true);
+                //btnDelete.setEnabled(true);
 
                 SwingWorker<ImageIcon, Void> worker = new SwingWorker<ImageIcon, Void>() {
                     @Override
@@ -349,7 +349,7 @@ public class Dosen extends JFrame {
                 clear();
                 btnSave.setEnabled(true);
                 btnUpdate.setEnabled(false);
-                btnDelete.setEnabled(false);
+                //btnDelete.setEnabled(false);
             }
         });
         btnUpdate.addActionListener(new ActionListener() {
@@ -423,7 +423,7 @@ public class Dosen extends JFrame {
                         clear();
 
                         btnSave.setEnabled(true);
-                        btnDelete.setEnabled(false);
+                        //btnDelete.setEnabled(false);
                         btnUpdate.setEnabled(false);
 
                         JOptionPane.showMessageDialog(null, "Data dosen berhasil diperbarui!");
@@ -434,6 +434,7 @@ public class Dosen extends JFrame {
                 }
             }
         });
+        /*
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -464,6 +465,7 @@ public class Dosen extends JFrame {
                 }
             }
         });
+         */
         txtSearch.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {

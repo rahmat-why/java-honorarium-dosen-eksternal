@@ -31,7 +31,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <grid id="13e67" layout-manager="GridLayoutManager" row-count="7" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="13e67" layout-manager="GridLayoutManager" row-count="7" column-count="10" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="5" left="5" bottom="5" right="5"/>
                     <constraints>
                       <grid row="3" column="1" row-span="11" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -81,7 +81,7 @@
                       </component>
                       <component id="b34f4" class="javax.swing.JLabel">
                         <constraints>
-                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="2" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <background color="-1"/>
@@ -91,7 +91,7 @@
                       </component>
                       <component id="88a6a" class="javax.swing.JLabel">
                         <constraints>
-                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="3" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <background color="-1"/>
@@ -117,7 +117,7 @@
                       </component>
                       <component id="fecf5" class="javax.swing.JTextField" binding="txtID">
                         <constraints>
-                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -130,7 +130,7 @@
                       </component>
                       <component id="bcfa3" class="javax.swing.JTextField" binding="txtNamaJenis">
                         <constraints>
-                          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="1" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -140,7 +140,7 @@
                       </component>
                       <component id="a86f6" class="javax.swing.JTextField" binding="txtKompensasi">
                         <constraints>
-                          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="2" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -150,7 +150,7 @@
                       </component>
                       <component id="8dc47" class="javax.swing.JTextField" binding="txtTransport">
                         <constraints>
-                          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="3" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -160,7 +160,7 @@
                       </component>
                       <component id="6f31f" class="javax.swing.JTextField" binding="txtPersentaseNPWP">
                         <constraints>
-                          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="4" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -170,7 +170,7 @@
                       </component>
                       <component id="2508e" class="javax.swing.JTextField" binding="txtPersentaseNonNPWP">
                         <constraints>
-                          <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="5" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -180,9 +180,21 @@
                       </component>
                       <component id="cbc53" class="javax.swing.JComboBox" binding="cbReferensiDosen">
                         <constraints>
-                          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="6" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
+                      </component>
+                      <component id="a0742" class="javax.swing.JButton" binding="btnClear">
+                        <constraints>
+                          <grid row="6" column="1" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-14146253"/>
+                          <font name="Century Gothic" size="12" style="1"/>
+                          <foreground color="-2162708"/>
+                          <icon value="PICTURE/clean.png"/>
+                          <text value="  Clear"/>
+                        </properties>
                       </component>
                     </children>
                   </grid>
@@ -229,7 +241,7 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
+                      <foreground color="-2162708"/>
                       <icon value="PICTURE/diskette.png"/>
                       <text value="  Save"/>
                     </properties>
@@ -290,21 +302,9 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
+                      <foreground color="-2162708"/>
                       <icon value="PICTURE/updating.png"/>
                       <text value="  Update"/>
-                    </properties>
-                  </component>
-                  <component id="a0742" class="javax.swing.JButton" binding="btnClear">
-                    <constraints>
-                      <grid row="18" column="1" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                      <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
-                      <icon value="PICTURE/clean.png"/>
-                      <text value="  Clear"/>
                     </properties>
                   </component>
                   <component id="33de3" class="javax.swing.JButton" binding="btnDelete">
@@ -314,7 +314,7 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
+                      <foreground color="-2162708"/>
                       <icon value="PICTURE/bin.png"/>
                       <text value="  Delete"/>
                     </properties>

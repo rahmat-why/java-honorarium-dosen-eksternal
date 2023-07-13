@@ -2,6 +2,7 @@ package REPORT;
 
 import COMPONENT.ComboboxOption;
 import Connection.DBConnect;
+import LOGIN.ADTUser;
 import com.toedter.calendar.JDateChooser;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
@@ -39,7 +40,7 @@ public class prodiReport extends JFrame{
     JDateChooser tanggalAwal = new JDateChooser();
     JDateChooser tanggalAkhir = new JDateChooser();
 
-    public prodiReport() {
+    public prodiReport(ADTUser verifyUser) {
         JPTanggalAwal.add(tanggalAwal);
         JPTanggalAkhir.add(tanggalAkhir);
 
@@ -88,7 +89,7 @@ public class prodiReport extends JFrame{
                     parameter.put("JENISDOSEN", nama_jenis);
 
                     parameter.put("PERIODE", tanggal_awal+" - "+tanggal_akhir);
-                    parameter.put("PREPARED_BY", "Rahmat");
+                    parameter.put("PREPARED_BY", verifyUser.getNama());
                     parameter.put("CHECKED_BY", "Kepala DAAA");
 
                     JRDataSource dataSource = new JRTableModelDataSource(tblProdiReport.getModel());

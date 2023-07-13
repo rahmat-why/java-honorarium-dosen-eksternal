@@ -2,6 +2,7 @@ package DAAA;
 
 import COMPONENT.ComboboxOption;
 import Connection.DBConnect;
+import LOGIN.ADTUser;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -56,7 +57,7 @@ public class Absen extends JFrame{
         tanggalAkhir.setDate(calendar.getTime());
     }
 
-    public Absen() {
+    public Absen(ADTUser verifyUser) {
         JPTanggalMengajar.add(tanggalMengajar);
         jpTanggalAwal.add(tanggalAwal);
         jpTanggalAkhir.add(tanggalAkhir);
@@ -106,7 +107,7 @@ public class Absen extends JFrame{
                         connection.pstat.setString(1, id_dosen);
                         connection.pstat.setString(2, id_matkul);
                         connection.pstat.setString(3, id_prodi);
-                        connection.pstat.setString(4, "USR003");
+                        connection.pstat.setString(4, verifyUser.getId_user());
                         connection.pstat.setString(5, kelas);
                         connection.pstat.setString(6, tanggal_mengajar);
                         connection.pstat.setInt(7, sks);

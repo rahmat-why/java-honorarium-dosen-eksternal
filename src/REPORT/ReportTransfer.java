@@ -88,7 +88,7 @@ public class ReportTransfer extends JFrame{
 
                     parameter.put("PERIODE", tanggal_awal+" - "+tanggal_akhir);
                     parameter.put("TOTALTRANSFER", formatRupiah(total_transfer));
-                    parameter.put("TERBILANG", formatTerbilang(60000000));
+                    parameter.put("TERBILANG", formatTerbilang((int) total_transfer));
                     parameter.put("MEMBUAT", "Rahmat");
                     parameter.put("MENYETUJUI", "Agung Kaswadi, S.T., M.T.");
                     parameter.put("MENGETAHUI", "Agung Kurniawan");

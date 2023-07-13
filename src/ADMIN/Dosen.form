@@ -431,33 +431,9 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
+                      <foreground color="-2162708"/>
                       <icon value="PICTURE/updating.png"/>
                       <text value="  Update"/>
-                    </properties>
-                  </component>
-                  <component id="5fb90" class="javax.swing.JButton" binding="btnDelete">
-                    <constraints>
-                      <grid row="4" column="12" row-span="1" col-span="6" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                      <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
-                      <icon value="PICTURE/bin.png"/>
-                      <text value="  Delete"/>
-                    </properties>
-                  </component>
-                  <component id="aeb5b" class="javax.swing.JButton" binding="btnClear">
-                    <constraints>
-                      <grid row="4" column="19" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-14146253"/>
-                      <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
-                      <icon value="PICTURE/clean.png"/>
-                      <text value="  Clear"/>
                     </properties>
                   </component>
                   <component id="ff503" class="javax.swing.JButton" binding="btnSave">
@@ -467,9 +443,22 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
+                      <foreground color="-2162708"/>
                       <icon value="PICTURE/diskette.png"/>
                       <text value="  Save"/>
+                    </properties>
+                  </component>
+                  <component id="aeb5b" class="javax.swing.JButton" binding="btnClear">
+                    <constraints>
+                      <grid row="4" column="12" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-14146253"/>
+                      <enabled value="true"/>
+                      <font name="Century Gothic" size="12" style="1"/>
+                      <foreground color="-2162708"/>
+                      <icon value="PICTURE/clean.png"/>
+                      <text value="  Clear"/>
                     </properties>
                   </component>
                 </children>

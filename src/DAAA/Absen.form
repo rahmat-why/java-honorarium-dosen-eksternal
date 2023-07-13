@@ -301,7 +301,7 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
+                      <foreground color="-2162708"/>
                       <icon value="PICTURE/diskette.png"/>
                       <text value="  Save"/>
                     </properties>
@@ -313,7 +313,7 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
+                      <foreground color="-2162708"/>
                       <icon value="PICTURE/clean.png"/>
                       <text value="  Clear"/>
                     </properties>
@@ -325,7 +325,7 @@
                     <properties>
                       <background color="-14146253"/>
                       <font name="Century Gothic" size="12" style="1"/>
-                      <foreground color="-16777216"/>
+                      <foreground color="-2162708"/>
                       <icon value="PICTURE/bin.png"/>
                       <text value="  Delete"/>
                     </properties>

@@ -45,7 +45,7 @@ public class DAAAPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                Absen absen = new Absen();
+                Absen absen = new Absen(verifyUser);
                 absen.panelAbsen.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
@@ -71,7 +71,7 @@ public class DAAAPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                REPORT.prodiReport prodi = new prodiReport();
+                REPORT.prodiReport prodi = new prodiReport(verifyUser);
                 prodi.panelProdiReport.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
@@ -84,7 +84,7 @@ public class DAAAPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                REPORT.transferReport transfer = new transferReport();
+                REPORT.transferReport transfer = new transferReport(verifyUser);
                 transfer.panelTransfer.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());
@@ -97,7 +97,7 @@ public class DAAAPage extends JFrame{
                 panelContent.removeAll();
                 panelContent.revalidate();
                 panelContent.repaint();
-                REPORT.gajiReport gaji = new gajiReport();
+                REPORT.gajiReport gaji = new gajiReport(verifyUser);
                 gaji.panelGaji.setVisible(true);
                 panelContent.revalidate();
                 panelContent.setLayout(new java.awt.BorderLayout());

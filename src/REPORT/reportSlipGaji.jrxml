@@ -14,6 +14,7 @@
 	<parameter name="dibayarkan" class="java.lang.String"/>
 	<parameter name="total_pendapatan" class="java.lang.String"/>
 	<parameter name="INSENTIFKEHADIRANPERSKS" class="java.lang.String"/>
+	<parameter name="PENERIMA" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -305,24 +306,21 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="54" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="94" splitType="Stretch">
-			<staticText>
-				<reportElement x="20" y="74" width="150" height="20" uuid="90c3ddcc-d2f8-4a86-bb51-64f1365e8645"/>
-				<textElement textAlignment="Left">
-					<font size="11"/>
-				</textElement>
-				<text><![CDATA[Arsip Polman Astra]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="20" y="10" width="100" height="20" uuid="eec8b87e-4092-4b39-b04b-ed34a75d2ee7"/>
 				<textElement textAlignment="Left">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[(Tanda Tangan)]]></text>
+				<text><![CDATA[Penerima,]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="20" y="64" width="100" height="15" uuid="c5ec293a-c568-4179-9e4a-bb5a2afad5b1"/>
+				<textFieldExpression><![CDATA[$P{PENERIMA}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 	<summary>

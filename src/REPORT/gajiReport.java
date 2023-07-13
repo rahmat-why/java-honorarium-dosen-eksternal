@@ -2,6 +2,7 @@ package REPORT;
 
 import COMPONENT.ComboboxOption;
 import Connection.DBConnect;
+import LOGIN.ADTUser;
 import com.toedter.calendar.JDateChooser;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -47,7 +48,7 @@ public class gajiReport extends JFrame{
     JDateChooser tanggalAwal = new JDateChooser();
     JDateChooser tanggalAkhir = new JDateChooser();
 
-    public gajiReport() {
+    public gajiReport(ADTUser verifyUser) {
         String currentPath = System.getProperty("user.dir");
         System.out.println("Current Path: " + currentPath);
 
@@ -98,6 +99,7 @@ public class gajiReport extends JFrame{
                     parameter.put("pph21", labelPph21.getText());
                     parameter.put("total_pendapatan", labelTotalPendapatan.getText());
                     parameter.put("dibayarkan", labelTotalDibayarkan.getText());
+                    parameter.put("PENERIMA", labelNamaDosen.getText());
 
                     JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream("reportSlipGaji.jrxml"));
                     JasperReport jr = JasperCompileManager.compileReport(jd);
@@ -136,12 +138,27 @@ public class gajiReport extends JFrame{
                     parameter.put("pph21", labelPph21.getText());
                     parameter.put("total_pendapatan", labelTotalPendapatan.getText());
                     parameter.put("dibayarkan", labelTotalDibayarkan.getText());
+                    parameter.put("PENERIMA", labelNamaDosen.getText());
 
                     String subject = "SLIP GAJI "+tanggal_awal+" - "+tanggal_akhir;
                     String body;
-                    body = "Berikut ini kami lampirkan slip gaji anda: ";
+                    body =  "Dear "+labelNamaDosen.getText()+"" +
+                            "\n" +
+                            "Kami dengan senang hati mengirimkan slip gaji Anda untuk periode "+tanggal_awal+" - "+tanggal_akhir+". Ini adalah apresiasi kami terhadap upaya keras dan kontribusi yang Anda berikan di Politeknik Astra. Slip gaji ini berisi rincian gaji dan tunjangan yang Anda terima pada periode ini.\n" +
+                            "\n" +
+                            "Kami ingin mengucapkan terima kasih atas dedikasi Anda dan harapan kami adalah Anda merasa dihargai dan diakui atas kerja keras Anda. Jika Anda memiliki pertanyaan atau membutuhkan penjelasan lebih lanjut tentang slip gaji ini, jangan ragu untuk menghubungi kami.\n" +
+                            "\n" +
+                            "Kami berharap Anda terus memberikan kinerja terbaik dan mencapai kesuksesan dalam karir Anda di Politeknik Astra. Terima kasih atas kerjasama Anda dan semoga bulan ini membawa keberhasilan dan kebahagiaan bagi Anda.\n"+
+                            "\n" +
+                            "Salam hormat,\n" +
+                            "\n" +
+                            ""+verifyUser.getNama()+"\n" +
+                            "Politeknik Astra";
 
-                    EmailSender emailSender = new EmailSender("rahmatwahyubudiyanto@gmail.com", subject, body);
+                    ComboboxOption selectedJenisDosen = (ComboboxOption) cbIdDosen.getSelectedItem();
+                    String email = selectedJenisDosen.getHelper();
+
+                    EmailSender emailSender = new EmailSender(email, subject, body);
 
                     JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream("reportSlipGaji.jrxml"));
                     JasperReport jr = JasperCompileManager.compileReport(jd);
@@ -226,7 +243,8 @@ public class gajiReport extends JFrame{
             while (connection.result.next()) {
                 String id_dosen = connection.result.getString("id_dosen");
                 String nama_dosen = connection.result.getString("nama_dosen");
-                cbIdDosen.addItem(new ComboboxOption(id_dosen, nama_dosen));
+                String email = connection.result.getString("email");
+                cbIdDosen.addItem(new ComboboxOption(id_dosen, nama_dosen, email));
             }
 
             connection.pstat.close();

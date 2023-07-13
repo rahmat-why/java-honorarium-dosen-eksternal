@@ -2,6 +2,7 @@ package REPORT;
 
 import COMPONENT.ComboboxOption;
 import Connection.DBConnect;
+import LOGIN.ADTUser;
 import com.toedter.calendar.JDateChooser;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
@@ -42,7 +43,7 @@ public class transferReport extends JFrame{
 
     double total_transfer = 0;
 
-    public transferReport() {
+    public transferReport(ADTUser verifyUser) {
         JPTanggalAwal.add(tanggalAwal);
         JPTanggalAkhir.add(tanggalAkhir);
 
@@ -93,10 +94,10 @@ public class transferReport extends JFrame{
 
                     parameter.put("PERIODE", tanggal_awal+" - "+tanggal_akhir);
                     parameter.put("TOTALTRANSFER", formatRupiah(total_transfer));
-                    parameter.put("TERBILANG", formatTerbilang((int) total_transfer)+" ribu rupiah");
-                    parameter.put("MEMBUAT", "Rahmat");
-                    parameter.put("MENYETUJUI", "Agung Kaswadi, S.T., M.T.");
-                    parameter.put("MENGETAHUI", "Agung Kurniawan");
+                    parameter.put("TERBILANG", formatTerbilang((int) total_transfer));
+                    parameter.put("MEMBUAT", verifyUser.getNama());
+                    parameter.put("MENYETUJUI", "Kepala DAAA");
+                    parameter.put("MENGETAHUI", "Staff Keuangan");
 
                     JRDataSource dataSource = new JRTableModelDataSource(tblTransfer.getModel());
                     JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream("reportTransfer.jrxml"));
@@ -146,32 +147,32 @@ public class transferReport extends JFrame{
 
     public static String formatTerbilang(int angka) {
         String[] ANGKA = {
-                "", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"
+                "", "satu ", "dua ", "tiga ", "empat ", "lima ", "enam ", "tujuh ", "delapan ", "sembilan ", "sepuluh ", "sebelas "
         };
 
         if (angka < 12) {
             return ANGKA[angka];
         }
         if (angka < 20) {
-            return ANGKA[angka % 10] + " belas";
+            return ANGKA[angka % 10] + "belas";
         }
         if (angka < 100) {
-            return ANGKA[angka / 10] + " puluh " + ANGKA[angka % 10];
+            return ANGKA[angka / 10] + "puluh " + ANGKA[angka % 10];
         }
         if (angka < 200) {
             return "seratus " + formatTerbilang(angka % 100);
         }
         if (angka < 1000) {
-            return ANGKA[angka / 100] + " ratus " + formatTerbilang(angka % 100);
+            return ANGKA[angka / 100] + "ratus " + formatTerbilang(angka % 100);
         }
         if (angka < 2000) {
             return "seribu " + formatTerbilang(angka % 1000);
         }
         if (angka < 1000000) {
-            return formatTerbilang(angka / 1000) + " ribu " + formatTerbilang(angka % 1000);
+            return formatTerbilang(angka / 1000) + "ribu " + formatTerbilang(angka % 1000);
         }
         if (angka < 1000000000) {
-            return formatTerbilang(angka / 1000000) + " juta " + formatTerbilang(angka % 1000000);
+            return formatTerbilang(angka / 1000000) + "juta " + formatTerbilang(angka % 1000000);
         }
 
         return "Angka terlalu besar";
