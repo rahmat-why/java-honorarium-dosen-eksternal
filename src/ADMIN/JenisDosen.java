@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 
 public class JenisDosen extends JFrame{
     public JPanel panelJenisDosen;
@@ -126,7 +127,7 @@ public class JenisDosen extends JFrame{
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim IT!");
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Form harus lengkap dan sesuai format!");
+                    JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
                 }
             }
         });
@@ -246,37 +247,6 @@ public class JenisDosen extends JFrame{
             }
         });
 
-        txtPersentaseNPWP.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            super.keyTyped(e);
-
-            char c = e.getKeyChar();
-            if (!Character.isDigit(c) && c != '.' && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
-                e.consume();
-                JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (c == '.' && txtPersentaseNPWP.getText().contains(".")) {
-                e.consume();
-                JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            }
-        });
-
-        txtPersentaseNonNPWP.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            super.keyTyped(e);
-
-            char c = e.getKeyChar();
-            if (!Character.isDigit(c) && c != '.' && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
-                e.consume();
-                JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (c == '.' && txtPersentaseNonNPWP.getText().contains(".")) {
-                e.consume();
-                JOptionPane.showMessageDialog(null, "Input harus menggunakan desimal!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            }
-        });
 
         btnClear.addActionListener(new ActionListener() {
             @Override
@@ -294,6 +264,52 @@ public class JenisDosen extends JFrame{
                 loadData(txtSearch.getText());
             }
         });
+        txtPersentaseNPWP.setInputVerifier(new InputVerifier() {
+            @Override
+            public boolean verify(JComponent input) {
+                JTextField textField = (JTextField) input;
+                String text = textField.getText().trim();
+
+                try {
+                    double value = Double.parseDouble(text);
+                    if (value >= 0 && value <= 100) {
+                        String formattedValue = NumberFormat.getInstance().format(value);
+                        textField.setText(formattedValue);
+                        return true;
+                    } else {
+                        throw new NumberFormatException();
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Input harus berupa angka dengan desimal");
+                    return false;
+                }
+            }
+        });
+        txtPersentaseNPWP.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != '.' && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+                    e.consume();
+                    JOptionPane.showMessageDialog(null, "Input harus berupa angka dengan format desimal");
+                }
+            }
+        });
+        txtPersentaseNonNPWP.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+
+                char character = e.getKeyChar();
+
+                // Memeriksa apakah karakter yang dimasukkan adalah angka atau desimal
+                if (!Character.isDigit(character) && character != '.' && character != KeyEvent.VK_BACK_SPACE) {
+                    e.consume(); // Mencegah karakter yang tidak valid dimasukkan
+                    JOptionPane.showMessageDialog(null, "Input harus berupa angka dengan format desimal");
+                }
+            }
+        });
+
     }
 
     public void loadData(String nama_jenis) {

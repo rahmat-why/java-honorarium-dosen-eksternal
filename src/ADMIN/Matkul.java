@@ -41,7 +41,7 @@ public class Matkul  extends JFrame {
                     nama_matkul = txtMatkul.getText();
                     sks = Integer.parseInt(txtSKS.getText());
 
-                    if (nama_matkul.isEmpty()) {
+                    if (nama_matkul.isEmpty() || txtSKS.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
                         return;
                     }
@@ -69,7 +69,7 @@ public class Matkul  extends JFrame {
                     exc.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Terjadi kesalahan! Hubungi tim TI!");
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "SKS harus berupa angka!");
+                    JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
                 }
             }
         });
@@ -111,7 +111,7 @@ public class Matkul  extends JFrame {
             public void keyTyped(KeyEvent e) {
             super.keyTyped(e);
             char c = e.getKeyChar();
-            if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE  && (c != KeyEvent.VK_PERIOD)) {
                 e.consume();
                 JOptionPane.showMessageDialog(null, "SKS hanya boleh diisi dengan angka!");
             }

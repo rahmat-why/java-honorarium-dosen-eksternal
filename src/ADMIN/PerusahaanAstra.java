@@ -17,11 +17,12 @@ public class PerusahaanAstra extends JFrame {
     private JTextField txtSearch;
     private JTable tblPerusahaan;
     private JButton btnClear;
+    private JTextField txtSingkatan;
 
     DefaultTableModel tableModel;
     DBConnect connection = new DBConnect();
 
-    String id_perusahaan, nama_perusahaan;
+    String id_perusahaan, nama_perusahaan, singkatan_perusahaan;
 
     public PerusahaanAstra(){
         tableModel = new DefaultTableModel();
@@ -39,17 +40,18 @@ public class PerusahaanAstra extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     nama_perusahaan = txtNamaPerusahaan.getText();
-
-                    if (nama_perusahaan.isEmpty()) {
+                    singkatan_perusahaan = txtSingkatan.getText();
+                    if (nama_perusahaan.isEmpty() || singkatan_perusahaan.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
                         return;
                     }
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        String procedureCall = "{CALL dbo.sp_CreatePerusahaan(?)}";
+                        String procedureCall = "{CALL dbo.sp_CreatePerusahaan(?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
                         connection.pstat.setString(1, nama_perusahaan);
+                        connection.pstat.setString(2, singkatan_perusahaan);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -112,6 +114,7 @@ public class PerusahaanAstra extends JFrame {
 
                 txtID.setText((String) tableModel.getValueAt(i, 0));
                 txtNamaPerusahaan.setText((String) tableModel.getValueAt(i, 1));
+                txtSingkatan.setText((String) tableModel.getValueAt(i,2));
 
                 btnSave.setEnabled(false);
                 btnUpdate.setEnabled(true);
@@ -125,18 +128,20 @@ public class PerusahaanAstra extends JFrame {
                 try {
                     id_perusahaan = txtID.getText();
                     nama_perusahaan = txtNamaPerusahaan.getText();
+                    singkatan_perusahaan = txtSingkatan.getText();
 
-                    if (nama_perusahaan.isEmpty()) {
+                    if (nama_perusahaan.isEmpty() || singkatan_perusahaan.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!");
                         return;
                     }
 
                     int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin memperbarui data?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        String procedureCall = "{CALL sp_UpdatePerusahaan(?, ?)}";
+                        String procedureCall = "{CALL sp_UpdatePerusahaan(?, ?, ?)}";
                         connection.pstat = connection.conn.prepareCall(procedureCall);
                         connection.pstat.setString(1, id_perusahaan);
                         connection.pstat.setString(2, nama_perusahaan);
+                        connection.pstat.setString(3, singkatan_perusahaan);
 
                         connection.pstat.execute();
                         connection.pstat.close();
@@ -198,6 +203,28 @@ public class PerusahaanAstra extends JFrame {
                 btnDelete.setEnabled(false);
             }
         });
+        txtSingkatan.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                char c = e.getKeyChar();
+                int is_error = 0;
+                if (((c < 'a') || (c > 'z')) && ((c < 'A') || (c > 'Z')) && (c != KeyEvent.VK_BACK_SPACE)
+                        && (c != KeyEvent.VK_PERIOD)) {
+                    e.consume();
+                    is_error = 1;
+                }
+
+                if (c == KeyEvent.VK_SPACE) {
+                    e.consume();
+                    is_error = 1;
+                }
+
+                if (is_error == 1) {
+                    JOptionPane.showMessageDialog(null, "Singkatan hanya boleh diisi dengan huruf dan spasi!");
+                }
+            }
+        });
     }
 
     public void loadData(String nama_perusahaan){
@@ -212,9 +239,10 @@ public class PerusahaanAstra extends JFrame {
             connection.result = connection.pstat.executeQuery();
 
             while (connection.result.next()) {
-                Object[] obj = new Object[2];
+                Object[] obj = new Object[3];
                 obj[0] = connection.result.getString("id_perusahaan");
                 obj[1] = connection.result.getString("nama_perusahaan");
+                obj[2] = connection.result.getString("singkatan_perusahaan");
 
                 tableModel.addRow(obj);
             }
@@ -229,10 +257,12 @@ public class PerusahaanAstra extends JFrame {
     public void clear() {
         txtID.setText("Otomatis");
         txtNamaPerusahaan.setText("");
+        txtSingkatan.setText("");
     }
 
     public void addColumn(){
         tableModel.addColumn("ID Perusahaan");
         tableModel.addColumn("Nama Perusahaan");
+        tableModel.addColumn("Singkatan Perusahaan");
     }
 }
