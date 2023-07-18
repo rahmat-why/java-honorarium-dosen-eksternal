@@ -398,6 +398,7 @@ public class Absen extends JFrame{
     }
 
     public void addColumn() {
+        tableModel.addColumn("ID Absen");
         tableModel.addColumn("Nama Dosen");
         tableModel.addColumn("Mata Kuliah");
         tableModel.addColumn("Prodi");
@@ -406,7 +407,7 @@ public class Absen extends JFrame{
         tableModel.addColumn("SKS");
         tableModel.addColumn("Kompensansi Mengajar");
         tableModel.addColumn("Transport Mengajar");
-        tableModel.addColumn("Kehadiran");
+        tableModel.addColumn("Insentif Kehadiran");
         tableModel.addColumn("Total Pendapatan");
         tableModel.addColumn("Gross up");
     }

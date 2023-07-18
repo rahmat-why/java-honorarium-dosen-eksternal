@@ -61,6 +61,11 @@ public class Dosen extends JFrame {
         JPTanggalKampus.add(tanggalKampus);
         JPTanggalIndustri.add(tanggalIndustri);
 
+        // default disabled tanggal gabung industri
+        for (Component component : JPTanggalIndustri.getComponents()) {
+            component.setEnabled(false);
+        }
+
         btnSave.setEnabled(true);
         btnUpdate.setEnabled(false);
         //btnDelete.setEnabled(false);
@@ -194,9 +199,6 @@ public class Dosen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    tanggal_gabung_kampus = formatter.format(tanggalKampus.getDate());
-                    tanggal_gabung_industri = formatter.format(tanggalIndustri.getDate());
-
                     nama_dosen = txtNamaDosen.getText();
                     id_dosen = txtIDDosen.getText();
                     email = txtEmail.getText();
@@ -218,10 +220,17 @@ public class Dosen extends JFrame {
                     // Validasi data
                     if (nama_dosen.isEmpty() || email.isEmpty() || id_jenis_dosen.isEmpty() ||
                             nama_bank.isEmpty() || cabang_bank.isEmpty() || no_rekening.isEmpty() ||
-                            status.isEmpty() ||
-                            atas_nama.isEmpty() || kota.isEmpty()) {
+                            status.isEmpty() || atas_nama.isEmpty() || kota.isEmpty() ||
+                            tanggalKampus.getDate() == null) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data sebelum menyimpan!", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
+                    }
+
+                    tanggal_gabung_kampus = formatter.format(tanggalKampus.getDate());
+
+                    tanggal_gabung_industri = null;
+                    if(tanggalIndustri.getDate() != null) {
+                        tanggal_gabung_industri = formatter.format(tanggalIndustri.getDate());
                     }
 
                     if (!isValidEmailFormat(email)) {
@@ -349,6 +358,7 @@ public class Dosen extends JFrame {
                 clear();
                 btnSave.setEnabled(true);
                 btnUpdate.setEnabled(false);
+                Label_Gambar.setIcon(null);
                 //btnDelete.setEnabled(false);
             }
         });
@@ -391,7 +401,7 @@ public class Dosen extends JFrame {
                     if (nama_dosen.isEmpty() || email.isEmpty() || id_jenis_dosen.isEmpty() ||
                             nama_bank.isEmpty() || cabang_bank.isEmpty() || no_rekening.isEmpty() ||
                             status.isEmpty() ||
-                            atas_nama.isEmpty() || kota.isEmpty()) {
+                            atas_nama.isEmpty() || kota.isEmpty() || Label_Gambar.getIcon() == null) {
                         JOptionPane.showMessageDialog(null, "Harap lengkapi semua data!", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }

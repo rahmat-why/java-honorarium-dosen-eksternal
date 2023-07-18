@@ -62,17 +62,17 @@ public class Login extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (txtUsername.getText().isEmpty() || txtPassword.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(PanelUtama, "Username / Password Kosong", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(PanelUtama, "Akun tidak ditemukan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
                 ADTUser verifyUser = verifyUser();
                 if (verifyUser == null){
-                    JOptionPane.showMessageDialog(PanelUtama, "User Not Found!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(PanelUtama, "Akun tidak ditemukan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
-                JOptionPane.showMessageDialog(PanelUtama, "Welcome "+verifyUser.getNama()+"-"+verifyUser.getRole()+" to Honorer Dosen External", "Information", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(PanelUtama, "Selamat datang "+verifyUser.getNama()+"-"+verifyUser.getRole(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
                 if(verifyUser.getRole().equals("ADMIN")){
                     dispose();
                     AdminPage form = new AdminPage(verifyUser);

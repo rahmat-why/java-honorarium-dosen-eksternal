@@ -71,7 +71,7 @@ public class User extends JFrame {
                         btnUpdate.setEnabled(false);
                         btnDelete.setEnabled(false);
 
-                        JOptionPane.showMessageDialog(null, "Data User berhasil disimpan!");
+                        JOptionPane.showMessageDialog(null, "Akun berhasil disimpan!");
                     }
                 } catch (SQLException exc) {
                     exc.printStackTrace();
@@ -160,7 +160,7 @@ public class User extends JFrame {
                         btnDelete.setEnabled(false);
                         btnUpdate.setEnabled(false);
 
-                        JOptionPane.showMessageDialog(null, "Data User berhasil diupdate!");
+                        JOptionPane.showMessageDialog(null, "Akun berhasil diubah!");
                     }
                 } catch (SQLException exc) {
                     exc.printStackTrace();
@@ -192,7 +192,7 @@ public class User extends JFrame {
                         btnDelete.setEnabled(false);
                         btnUpdate.setEnabled(false);
 
-                        JOptionPane.showMessageDialog(null, "Data berhasil dihapus!");
+                        JOptionPane.showMessageDialog(null, "Akun berhasil dihapus!");
                     }
                 } catch (Exception exc) {
                     exc.printStackTrace();
