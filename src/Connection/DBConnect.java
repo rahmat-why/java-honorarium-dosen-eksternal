@@ -1,5 +1,7 @@
 package Connection;
 import java.sql.*;
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class DBConnect {
     public Connection conn;
     public Statement stat;
@@ -8,18 +10,24 @@ public class DBConnect {
 
     public DBConnect(){
         try{
-            //String url = "jdbc:sqlserver://localhost;database=PRG3_KEL09;encrypt=false;user=sa;password=robby";
-            //String url = "jdbc:sqlserver://localhost;database=PRG2_KEL09;encrypt=false;user=sa;password=polman";
-            String url = "jdbc:sqlserver://10.8.9.99;database=HonorariumDosenEksternal;encrypt=false;user=sa;password=polman";
-            //String url = "jdbc:sqlserver://192.168.43.45;database=HonorariumDosenEksternal;encrypt=false;user=sa;password=polman";
-            conn = DriverManager.getConnection(url);
+            // Load environment variables from the .env file
+            Dotenv dotenv = Dotenv.load();
+
+            // Get the values from the .env file
+            String url = dotenv.get("DB_URL");
+            String user = dotenv.get("DB_USER");
+            String password = dotenv.get("DB_PASSWORD");
+
+            // Establish the connection
+            conn = DriverManager.getConnection(url, user, password);
             stat = conn.createStatement();
-            System.out.println("Connection Berhasil "+stat);
-        }catch (Exception e){
-            System.out.println("Error saat connect Database: "+e);
+            System.out.println("Connection Berhasil " + stat);
+        } catch (Exception e) {
+            System.out.println("Error saat connect Database: " + e);
         }
     }
-    public static  void  main (String[] args){
+
+    public static void main(String[] args){
         DBConnect connect = new DBConnect();
     }
 }

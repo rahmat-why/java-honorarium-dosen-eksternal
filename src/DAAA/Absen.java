@@ -99,7 +99,7 @@ public class Absen extends JFrame{
                     kelas = txtKelas.getText();
                     sks = Integer.parseInt(txtSks.getText());
 
-                    int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data jenis dosen?",
+                    int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menyimpan data absensi?",
                             "Konfirmasi Simpan Data", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         String procedureCall = "{CALL sp_CreateAbsensi(?, ?, ?, ?, ?, ?, ?)}";

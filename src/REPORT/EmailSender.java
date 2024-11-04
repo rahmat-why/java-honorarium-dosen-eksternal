@@ -1,5 +1,7 @@
 package REPORT;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import java.util.Properties;
@@ -12,9 +14,11 @@ import java.io.File;
 import java.util.Random;
 
 public class EmailSender {
+    Dotenv dotenv = Dotenv.load();
+
     // SMTP server configuration
-    private String username = "rahmatwhy00@gmail.com";
-    private String password = "drqzryswhlsgflsl";
+    private String username = dotenv.get("SMTP_USER");
+    private String password = dotenv.get("SMTP_PASSWORD");
 
     String receiver;
     String subject;

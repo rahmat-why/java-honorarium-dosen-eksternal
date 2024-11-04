@@ -152,7 +152,6 @@ public class gajiReport extends JFrame{
                             "\n" +
                             "Salam hormat,\n" +
                             "\n" +
-                            ""+verifyUser.getNama()+"\n" +
                             "Politeknik Astra";
 
                     ComboboxOption selectedJenisDosen = (ComboboxOption) cbIdDosen.getSelectedItem();
